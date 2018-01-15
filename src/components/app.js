@@ -33,8 +33,6 @@ class App extends React.Component {
       intervalTime,
       restTime,
       sets,
-      currentInterval,
-      remainingSets,
       targetIntervals,
       totalTime
     } = this.state;
@@ -79,8 +77,8 @@ class App extends React.Component {
       } else {
         if (resting) {
           workoutUpdate.resting = false;
-        } else {
           workoutUpdate.currentInterval = currentInterval + 1;
+        } else {
           workoutUpdate.resting = true;
         }
       }
@@ -124,6 +122,6 @@ class App extends React.Component {
   }
 }
 
-const StyledApp = withStyles(styles)(App);
+// const StyledApp = withStyles(styles)(App);
 
-export default StyledApp;
+export default withStyles(styles)(App);

@@ -6,22 +6,22 @@ import Toolbar from 'material-ui-next/Toolbar';
 import Typography from 'material-ui-next/Typography';
 import Button from 'material-ui-next/Button';
 import IconButton from 'material-ui-next/IconButton';
-import MenuIcon from 'material-ui-icons-next/Menu';
+// import MenuIcon from 'material-ui-icons-next/Menu';
 import CodeIcon from 'material-ui-icons-next/Code';
 
 import { APP_TITLE } from '../constants';
 
 const styles = {
   root: {
-    width: '100%',
+    width: '100%'
   },
   flex: {
-    flex: 1,
+    flex: 1
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20,
-  },
+    marginRight: 20
+  }
 };
 
 function Navbar({ classes }) {
@@ -29,11 +29,15 @@ function Navbar({ classes }) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Button color="contrast">login</Button>        
+          <Button color="contrast">login</Button>
           <Typography type="title" color="inherit" className={classes.flex}>
-            { APP_TITLE }
+            {APP_TITLE}
           </Typography>
-          <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
+          <IconButton
+            className={classes.menuButton}
+            color="contrast"
+            aria-label="Menu"
+          >
             <CodeIcon />
           </IconButton>
         </Toolbar>
@@ -43,7 +47,7 @@ function Navbar({ classes }) {
 }
 
 Navbar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Navbar);

@@ -1,15 +1,13 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
-import Button from 'material-ui-next/Button';
 import Paper from 'material-ui-next/Paper';
-import Delete from 'material-ui-icons-next/Delete';
-import Done from 'material-ui-icons-next/Done';
-import Pause from 'material-ui-icons-next/Pause';
-import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
-import Autorenew from 'material-ui-icons-next/Autorenew';
+// import Delete from 'material-ui-icons-next/Delete';
+// import Done from 'material-ui-icons-next/Done';
 import { withStyles } from 'material-ui-next/styles';
 
 import formatTime from '../utils/formatTime';
+
+import TimerControls from './timerControls';
 
 const styles = theme => ({
   clock: {
@@ -17,23 +15,8 @@ const styles = theme => ({
     padding: '4rem',
     fontSize: '6rem'
   },
-  button: {
-    // margin: theme.spacing.unit,
-    fontSize: '3rem',
-    padding: '2rem',
-    width: '100%'
-    // height: '50%',
-  },
-  icon: {
-    width: '3rem',
-    height: '3rem'
-    // fontSize: '3rem',
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
+  container: {
+    padding: '1rem'
   }
 });
 
@@ -43,7 +26,7 @@ class Clock extends React.Component {
   };
 
   toggleClock = () => {
-    const { done, updateWorkout } = this.props;
+    const { updateWorkout } = this.props;
     const { running } = this.state;
 
     this.setState(state => ({ running: !state.running }));
@@ -76,10 +59,6 @@ class Clock extends React.Component {
     this.props.reset();
   };
 
-  // updateDisplay = () => {
-
-  // }
-
   componentWillUnmount() {
     if (this.interval) {
       clearInterval(this.interval);
@@ -91,47 +70,31 @@ class Clock extends React.Component {
     const { running } = this.state;
 
     return (
-      <Grid container className={classes.demo} justify="center" spacing={16}>
-        <Grid container>
-          <Grid item xs={6}>
-            <h2>{resting ? 'REST' : 'WORK'}</h2>
-            <div className={classes.clock}>{formatTime(elapsedTime)}</div>
+      <Grid
+        container
+        className={classes.container}
+        justify="center"
+        spacing={16}
+      >
+        <Paper className={classes.container}>
+          <h2>{resting ? 'REST' : 'WORK'}</h2>
+          <Grid container>
+            <Grid item xs={6}>
+              <div className={classes.clock}>{formatTime(elapsedTime)}</div>
+            </Grid>
+            <Grid item xs={6}>
+              <h3>Remaining Time</h3>
+              <h2>{formatTime(remainingTime)}</h2>
+              <h3>Remaining Tabatas</h3>
+              <h2>0</h2>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <h3>Remaining Time</h3>
-            <h2>{formatTime(remainingTime)}</h2>
-            <h3>Remaining Tabatas</h3>
-            <h2>0</h2>
-          </Grid>
-        </Grid>
-        <Grid container item>
-          <Grid item xs={6}>
-            <Button
-              className={classes.button}
-              raised
-              color="accent"
-              onClick={this.toggleClock}
-            >
-              {running ? 'PAUSE' : 'GO'}
-              {running ? (
-                <Pause className={[classes.rightIcon, classes.icon]} />
-              ) : (
-                <DirectionsRun className={[classes.rightIcon, classes.icon]} />
-              )}
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              className={classes.button}
-              raised
-              color="primary"
-              onClick={this.resetClock}
-            >
-              RESET
-              <Autorenew className={[classes.rightIcon, classes.icon]} />
-            </Button>
-          </Grid>
-        </Grid>
+          <TimerControls
+            running={running}
+            onReset={this.resetClock}
+            onToggle={this.toggleClock}
+          />
+        </Paper>
       </Grid>
     );
   }
