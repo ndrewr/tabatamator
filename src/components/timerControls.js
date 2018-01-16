@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
 import Button from 'material-ui-next/Button';
-// import Paper from 'material-ui-next/Paper';
 import Pause from 'material-ui-icons-next/Pause';
 import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import Autorenew from 'material-ui-icons-next/Autorenew';
@@ -12,7 +11,8 @@ const styles = theme => ({
     // margin: theme.spacing.unit,
     fontSize: '3rem',
     padding: '2rem',
-    width: '100%'
+    // width: '100%'
+    minWidth: '300px'
     // height: '50%',
   },
   icon: {

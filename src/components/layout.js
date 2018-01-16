@@ -7,11 +7,6 @@ import { APP_TITLE } from '../constants';
 
 import Navbar from './navbar';
 
-// const inlineStyles = {
-//   fontFamily: 'sans-serif',
-//   textAlign: 'center',
-// };
-
 const styles = theme => ({
   root: {
     flexGrow: 1,

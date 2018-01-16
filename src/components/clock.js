@@ -12,11 +12,12 @@ import TimerControls from './timerControls';
 const styles = theme => ({
   clock: {
     // fontFamily: 'sans-serif',
-    padding: '4rem',
-    fontSize: '6rem'
+    // padding: '2rem',
+    fontSize: '7rem'
   },
   container: {
     padding: '1rem'
+    // minWidth:
   }
 });
 
@@ -66,7 +67,15 @@ class Clock extends React.Component {
   }
 
   render() {
-    const { classes, elapsedTime, remainingTime, resting } = this.props;
+    const {
+      classes,
+      currentInterval,
+      targetIntervals,
+      elapsedTime,
+      remainingSets,
+      remainingTime,
+      resting
+    } = this.props;
     const { running } = this.state;
 
     return (
@@ -77,16 +86,19 @@ class Clock extends React.Component {
         spacing={16}
       >
         <Paper className={classes.container}>
-          <h2>{resting ? 'REST' : 'WORK'}</h2>
+          <div style={{ fontSize: '4rem' }}>{resting ? 'REST' : 'WORK'}</div>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
+              <h2>
+                Interval {currentInterval} of {targetIntervals}
+              </h2>
               <div className={classes.clock}>{formatTime(elapsedTime)}</div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <h3>Remaining Time</h3>
               <h2>{formatTime(remainingTime)}</h2>
               <h3>Remaining Tabatas</h3>
-              <h2>0</h2>
+              <h2>{remainingSets}</h2>
             </Grid>
           </Grid>
           <TimerControls
