@@ -1,9 +1,33 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
-import { withStyles } from 'material-ui-next/styles';
+// import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+
+import {
+  withStyles,
+  MuiThemeProvider,
+  createMuiTheme
+} from 'material-ui-next/styles';
 
 import Clock from './clock';
 import Layout from './layout';
+
+// TODO service worker??
+
+const theme = createMuiTheme({
+  typography: {
+    // Use the system font.
+    fontFamily: 'quantico, sans-serif'
+    // '-apple-system,system-ui,BlinkMacSystemFont,' +
+    // '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+    // fontWeightMedium,
+    // body1: {
+    //   fontWeight: fontWeightMedium,
+    // },
+    // button: {
+    //   fontStyle: 'italic',
+    // },
+  }
+});
 
 const DEFAULT_WORKOUT = {
   intervalTime: 20,
@@ -49,7 +73,9 @@ const styles = theme => ({
   global_styles: {
     // fontFamily: 'sans-serif',
     fontFamily: 'quantico'
-  }
+  },
+  zag_bg: zagBackground,
+  heart_bg: heartBackground
 });
 
 class App extends React.Component {
@@ -133,27 +159,31 @@ class App extends React.Component {
       remainingSets
     } = this.state;
     return (
-      <div
-        className={classes.global_styles}
-        style={resting ? heartBackground : zagBackground}
-      >
-        <Layout>
-          <Grid item xs={12}>
-            <Clock
-              done={done}
-              resting={resting}
-              elapsedTime={currentTime}
-              remainingTime={this.getRemainingTime()}
-              reset={this.resetWorkout}
-              updateWorkout={this.updateWorkout}
-              remainingSets={remainingSets}
-              currentInterval={currentInterval}
-              targetIntervals={targetIntervals}
-            />
-            {done && <h1 style={{ fontSize: '5rem' }}>DONE</h1>}
-          </Grid>
-        </Layout>
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <div
+          className={`${classes.global_styles} ${
+            resting ? classes.heart_bg : classes.zag_bg
+          }`}
+          // style={resting ? heartBackground : zagBackground}
+        >
+          <Layout>
+            <Grid item xs={12}>
+              <Clock
+                done={done}
+                resting={resting}
+                elapsedTime={currentTime}
+                remainingTime={this.getRemainingTime()}
+                reset={this.resetWorkout}
+                updateWorkout={this.updateWorkout}
+                remainingSets={remainingSets}
+                currentInterval={currentInterval}
+                targetIntervals={targetIntervals}
+              />
+              {done && <h1 style={{ fontSize: '5rem' }}>DONE</h1>}
+            </Grid>
+          </Layout>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

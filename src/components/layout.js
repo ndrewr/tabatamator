@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
 import { withStyles } from 'material-ui-next/styles';
-import Update from 'material-ui-icons-next/Update';
+// import Update from 'material-ui-icons-next/Update';
 
 import { APP_TITLE } from '../constants';
 
@@ -21,12 +21,6 @@ const styles = theme => ({
   },
   header: {
     padding: '1rem'
-  },
-  logo: {
-    // fontSize: 32,
-    height: 48,
-    width: 48,
-    verticalAlign: 'bottom'
   }
 });
 
@@ -48,11 +42,7 @@ const styles = theme => ({
 const Layout = ({ children, classes }) => (
   <Grid container className={classes.root}>
     <Navbar />
-    <Grid item xs={12} className={classes.header}>
-      <h1>
-        {APP_TITLE} <Update className={classes.logo} />
-      </h1>
-    </Grid>
+    <Grid item xs={12} className={classes.header} />
     {children}
   </Grid>
 );

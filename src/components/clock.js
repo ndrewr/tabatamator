@@ -70,6 +70,7 @@ class Clock extends React.Component {
     const {
       classes,
       currentInterval,
+      done,
       targetIntervals,
       elapsedTime,
       remainingSets,
@@ -77,6 +78,15 @@ class Clock extends React.Component {
       resting
     } = this.props;
     const { running } = this.state;
+
+    let statusMessage = 'START';
+    if (done) {
+      statusMessage = 'DONE';
+    } else {
+      if (elapsedTime) {
+        statusMessage = resting ? 'REST' : 'WORK';
+      }
+    }
 
     return (
       <Grid
@@ -86,7 +96,7 @@ class Clock extends React.Component {
         spacing={16}
       >
         <Paper className={classes.container}>
-          <div style={{ fontSize: '4rem' }}>{resting ? 'REST' : 'WORK'}</div>
+          <div style={{ fontSize: '6rem' }}>{statusMessage}</div>
           <Grid container>
             <Grid item xs={7}>
               <h2>

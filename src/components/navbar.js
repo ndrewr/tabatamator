@@ -8,6 +8,7 @@ import Button from 'material-ui-next/Button';
 import IconButton from 'material-ui-next/IconButton';
 // import MenuIcon from 'material-ui-icons-next/Menu';
 import CodeIcon from 'material-ui-icons-next/Code';
+import Update from 'material-ui-icons-next/Update';
 
 import { APP_TITLE } from '../constants';
 
@@ -21,6 +22,12 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  logo: {
+    // fontSize: 32,
+    height: 48,
+    width: 48,
+    verticalAlign: 'sub'
   }
 };
 
@@ -31,7 +38,9 @@ function Navbar({ classes }) {
         <Toolbar>
           <Button color="contrast">login</Button>
           <Typography type="title" color="inherit" className={classes.flex}>
-            {APP_TITLE}
+            <h1>
+              {APP_TITLE} <Update className={classes.logo} />
+            </h1>
           </Typography>
           <IconButton
             className={classes.menuButton}
