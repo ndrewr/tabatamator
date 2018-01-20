@@ -79,7 +79,7 @@ class Clock extends React.Component {
     } = this.props;
     const { running } = this.state;
 
-    let statusMessage = 'START';
+    let statusMessage = '';
     if (done) {
       statusMessage = 'DONE';
     } else {

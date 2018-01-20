@@ -1,21 +1,51 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
-// import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-
 import {
   withStyles,
   MuiThemeProvider,
   createMuiTheme
 } from 'material-ui-next/styles';
 
+// import Drawer from 'material-ui-next/Drawer';
+// import Divider from 'material-ui-next/Divider';
+// import IconButton from 'material-ui-next/IconButton';
+// import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
+
 import Clock from './clock';
 import Layout from './layout';
 
+import { DEFAULT_WORKOUT, heartBackground, zagBackground } from '../constants';
+
 // TODO service worker??
+
+// // DRAWER
+//  const Sidebar = ({classes, handleDrawerClose}) => (
+//     <Drawer
+//       type="persistent"
+//       classes={{
+//         paper: classes.drawerPaper,
+//       }}
+//       anchor={'left'}
+//       open={true}
+//     >
+//       <div className={classes.drawerInner}>
+//         <div className={classes.drawerHeader}>
+//           <IconButton onClick={this.handleDrawerClose}>
+//             <DirectionsRun />
+//           </IconButton>
+//         </div>
+//         <Divider />
+//         <h4>One</h4>
+//         <h4>Two</h4>
+//         <h4>Three</h4>
+//       </div>
+//     </Drawer>
+//   );
+
+//   ///
 
 const theme = createMuiTheme({
   typography: {
-    // Use the system font.
     fontFamily: 'quantico, sans-serif'
     // '-apple-system,system-ui,BlinkMacSystemFont,' +
     // '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
@@ -29,58 +59,43 @@ const theme = createMuiTheme({
   }
 });
 
-const DEFAULT_WORKOUT = {
-  intervalTime: 20,
-  restTime: 10,
-  targetSets: 2,
-  currentInterval: 1,
-  remainingSets: 2,
-  currentTime: 0,
-  totalTime: 0,
-  targetIntervals: 3,
-  done: false,
-  resting: false
-};
-
-const heartBackground = {
-  background: `
-  radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187,0,51,0) 27%),
-  radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187,0,51,0) 27%),
-  radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221,51,85,0) 46%),
-  radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221,51,85,0) 46%),
-  radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221,51,85,0) 31%),
-
-  radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187,0,51,0) 27%) 50px 50px,
-  radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187,0,51,0) 27%) 50px 50px,
-  radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221,51,85,0) 46%) 50px 50px,
-  radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221,51,85,0) 46%) 50px 50px,
-  radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221,51,85,0) 31%) 50px 50px`,
-  backgroundColor: '#b03',
-  backgroundSize: '100px 100px'
-};
-
-const zagBackground = {
-  background: `
-    linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -50px 0,
-    linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0,
-    linear-gradient(315deg, #ECEDDC 25%, transparent 25%),
-    linear-gradient(45deg, #ECEDDC 25%, transparent 25%)`,
-  backgroundSize: '100px 100px',
-  backgroundColor: '#EC173A'
-};
-
 const styles = theme => ({
   global_styles: {
     // fontFamily: 'sans-serif',
-    fontFamily: 'quantico'
+    fontFamily: 'quantico',
+    height: '100%'
   },
   zag_bg: zagBackground,
   heart_bg: heartBackground
+  // drawerPaper: {
+  //   position: 'relative',
+  //   height: '100%',
+  //   width: 240,
+  // },
+  // drawerHeader: {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'flex-end',
+  //   padding: '0 8px',
+  //   // ...theme.mixins.toolbar,
+  // },
 });
 
 class App extends React.Component {
   // update state to only include mutable values (not one-time presets)
-  state = DEFAULT_WORKOUT;
+  state = {
+    open: false,
+    ...DEFAULT_WORKOUT
+  };
+
+  handleDrawerOpen = () => {
+    this.setState(state => ({ open: !state.open }));
+  };
+
+  handleDrawerClose = () => {
+    console.log('hi');
+    this.setState({ open: false });
+  };
 
   getRemainingTime = () => {
     const {
@@ -155,8 +170,8 @@ class App extends React.Component {
       done,
       resting,
       targetIntervals,
-      targetSets,
-      remainingSets
+      remainingSets,
+      open
     } = this.state;
     return (
       <MuiThemeProvider theme={theme}>
@@ -164,9 +179,12 @@ class App extends React.Component {
           className={`${classes.global_styles} ${
             resting ? classes.heart_bg : classes.zag_bg
           }`}
-          // style={resting ? heartBackground : zagBackground}
         >
-          <Layout>
+          <Layout
+            open={open}
+            closeDrawer={this.handleDrawerClose}
+            openDrawer={this.handleDrawerOpen}
+          >
             <Grid item xs={12}>
               <Clock
                 done={done}
@@ -179,7 +197,6 @@ class App extends React.Component {
                 currentInterval={currentInterval}
                 targetIntervals={targetIntervals}
               />
-              {done && <h1 style={{ fontSize: '5rem' }}>DONE</h1>}
             </Grid>
           </Layout>
         </div>

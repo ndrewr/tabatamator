@@ -1,3 +1,12 @@
+#TABATAMATOR
+
+author: Andrew R Chen
+last update: 1-13-2018
+
+An easy-to-use tabata timer web app. Built with React and the MaterialUI library, for kicks!
+
+===
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

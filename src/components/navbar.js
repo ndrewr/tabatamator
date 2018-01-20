@@ -31,21 +31,20 @@ const styles = {
   }
 };
 
-function Navbar({ classes }) {
+function Navbar({ classes, onMenuClick }) {
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Button color="contrast">login</Button>
-          <Typography type="title" color="inherit" className={classes.flex}>
-            <h1>
-              {APP_TITLE} <Update className={classes.logo} />
-            </h1>
+          <Typography type="display1" color="inherit" className={classes.flex}>
+            {APP_TITLE} <Update className={classes.logo} />
           </Typography>
           <IconButton
             className={classes.menuButton}
             color="contrast"
             aria-label="Menu"
+            onClick={onMenuClick}
           >
             <CodeIcon />
           </IconButton>
