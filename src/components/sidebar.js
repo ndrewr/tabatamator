@@ -14,6 +14,8 @@ import Divider from 'material-ui-next/Divider';
 import IconButton from 'material-ui-next/IconButton';
 import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 
+import { DEFAULT_WORKOUT } from '../constants';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -33,10 +35,10 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar
   },
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
+  // root: {
+  //   display: 'flex',
+  //   flexWrap: 'wrap'
+  // },
   formControl: {
     margin: theme.spacing.unit
   },
@@ -48,79 +50,147 @@ const styles = theme => ({
   }
 });
 
-const Sidebar = ({ classes, open, handleDrawerClose }) => (
-  <Drawer
-    type="persistent"
-    classes={{
-      paper: classes.drawerPaper
-    }}
-    anchor={'left'}
-    open={open}
-  >
-    <div className={classes.drawerInner}>
-      <div className={classes.drawerHeader}>
-        <Typography type="title" color="inherit">
-          Configuration
-        </Typography>
-        <IconButton onClick={handleDrawerClose}>
-          <DirectionsRun />
-        </IconButton>
-      </div>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
-        <Input
-          id="settings-num-sets"
-          value={1}
-          onChange={() => console.log('changed!')}
-          endAdornment={<InputAdornment position="start">sets</InputAdornment>}
-        />
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="settings-num-intervals">Tabatas</InputLabel>
-        <Input
-          id="settings-num-intervals"
-          value={8}
-          onChange={() => console.log('changed!')}
-          endAdornment={
-            <InputAdornment position="start">intervals</InputAdornment>
-          }
-        />
-      </FormControl>
-      <FormControl
-        className={`${classes.formControl} ${classes.withoutLabel}`}
-        aria-describedby="interval-length-seconds"
+// const Sidebar = ({ classes, open, handleDrawerClose, updateSettings }) => (
+// get state values passed down
+class Sidebar extends React.Component {
+  state = {
+    intervalTime: 20,
+    restTime: 10,
+    targetIntervals: 8,
+    remainingSets: 2
+  };
+
+  resetSettings = () => {
+    this.setState({
+      ...DEFAULT_WORKOUT
+    });
+  };
+
+  updateField = fieldName => event => {
+    console.log('new val is ', event.target.value);
+    const value = event.target.value;
+    // if (event.target.value) {
+    this.setState({
+      [fieldName]: value
+    });
+    // }
+  };
+
+  updateSettings = () => {
+    const newSettings = Object.keys(this.state).reduce((settings, key) => {
+      settings[key] = parseInt(this.state[key] || 0);
+      return settings;
+    }, {});
+
+    this.props.updateSettings(newSettings);
+
+    this.setState(newSettings);
+  };
+
+  render() {
+    const { classes, open, handleDrawerClose } = this.props;
+    const {
+      intervalTime,
+      restTime,
+      targetIntervals,
+      remainingSets
+    } = this.state;
+
+    return (
+      <Drawer
+        type="persistent"
+        classes={{
+          paper: classes.drawerPaper
+        }}
+        anchor="right"
+        open={open}
       >
-        <FormHelperText id="intervals-helper-text">
-          Interval length
-        </FormHelperText>
-        <Input
-          id="settings-time-interval"
-          value={20}
-          onChange={() => console.log('changed!')}
-          endAdornment={<InputAdornment position="end">Sec</InputAdornment>}
-        />
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="settings-time-rest">Interval rest time</InputLabel>
-        <Input
-          id="settings-time-rest"
-          value={10}
-          onChange={() => console.log('changed!')}
-          endAdornment={<InputAdornment position="start">Sec</InputAdornment>}
-        />
-      </FormControl>
-      <Divider />
-      <Button className={classes.button} raised color="secondary">
-        RESET
-      </Button>
-      <Button className={classes.button} raised color="primary">
-        CONFIRM
-      </Button>
-      <Typography type="body2" gutterBottom>
-        On CONFIRM current timer will be reset to start
-      </Typography>
-    </div>
-  </Drawer>
-);
+        <div className={classes.drawerInner}>
+          <div className={classes.drawerHeader}>
+            <Typography type="title" color="inherit">
+              Configuration
+            </Typography>
+            <IconButton onClick={handleDrawerClose}>
+              <DirectionsRun />
+            </IconButton>
+          </div>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
+            <Input
+              id="settings-num-sets"
+              value={remainingSets}
+              onChange={this.updateField('remainingSets')}
+              endAdornment={
+                <InputAdornment position="start">sets</InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="settings-num-intervals">
+              Intervals per set
+            </InputLabel>
+            <Input
+              id="settings-num-intervals"
+              value={targetIntervals}
+              onChange={this.updateField('targetIntervals')}
+              endAdornment={
+                <InputAdornment position="start">intervals</InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl
+            className={`${classes.formControl} ${classes.withoutLabel}`}
+            aria-describedby="interval-length-seconds"
+          >
+            <InputLabel htmlFor="intervals-helper-text">
+              Interval length
+            </InputLabel>
+            <Input
+              id="settings-time-interval"
+              value={intervalTime}
+              onChange={this.updateField('intervalTime')}
+              endAdornment={
+                <InputAdornment position="start">Sec</InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="settings-time-rest">
+              Interval rest time
+            </InputLabel>
+            <Input
+              id="settings-time-rest"
+              value={restTime}
+              onChange={this.updateField('restTime')}
+              endAdornment={
+                <InputAdornment position="start">Sec</InputAdornment>
+              }
+            />
+          </FormControl>
+          <Divider />
+          <Button
+            className={classes.button}
+            raised
+            color="secondary"
+            onClick={this.resetSettings}
+          >
+            RESET
+          </Button>
+          <Button
+            className={classes.button}
+            raised
+            color="primary"
+            onClick={this.updateSettings}
+          >
+            CONFIRM
+          </Button>
+          <Typography type="body2" gutterBottom>
+            On CONFIRM current timer will be reset to start
+          </Typography>
+        </div>
+      </Drawer>
+    );
+  }
+}
 
 export default withStyles(styles)(Sidebar);

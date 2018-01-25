@@ -17,33 +17,7 @@ import Layout from './layout';
 import { DEFAULT_WORKOUT, heartBackground, zagBackground } from '../constants';
 
 // TODO service worker??
-
-// // DRAWER
-//  const Sidebar = ({classes, handleDrawerClose}) => (
-//     <Drawer
-//       type="persistent"
-//       classes={{
-//         paper: classes.drawerPaper,
-//       }}
-//       anchor={'left'}
-//       open={true}
-//     >
-//       <div className={classes.drawerInner}>
-//         <div className={classes.drawerHeader}>
-//           <IconButton onClick={this.handleDrawerClose}>
-//             <DirectionsRun />
-//           </IconButton>
-//         </div>
-//         <Divider />
-//         <h4>One</h4>
-//         <h4>Two</h4>
-//         <h4>Three</h4>
-//       </div>
-//     </Drawer>
-//   );
-
-//   ///
-
+// TODO check, reject for Internet Explorer
 const theme = createMuiTheme({
   typography: {
     fontFamily: 'quantico, sans-serif'
@@ -67,18 +41,6 @@ const styles = theme => ({
   },
   zag_bg: zagBackground,
   heart_bg: heartBackground
-  // drawerPaper: {
-  //   position: 'relative',
-  //   height: '100%',
-  //   width: 240,
-  // },
-  // drawerHeader: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'flex-end',
-  //   padding: '0 8px',
-  //   // ...theme.mixins.toolbar,
-  // },
 });
 
 class App extends React.Component {
@@ -110,6 +72,13 @@ class App extends React.Component {
       targetIntervals * intervalTime + (targetIntervals - 1) * restTime;
 
     return targetSets * setCompletionTime - totalTime;
+  };
+
+  updateSettings = newSettings => {
+    console.log('updating settings!', newSettings);
+    // this.setState({
+    //   [setting]: value,
+    // })
   };
 
   resetWorkout = () => {
@@ -184,6 +153,7 @@ class App extends React.Component {
             open={open}
             closeDrawer={this.handleDrawerClose}
             openDrawer={this.handleDrawerOpen}
+            updateSettings={this.updateSettings}
           >
             <Grid item xs={12}>
               <Clock

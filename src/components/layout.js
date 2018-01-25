@@ -13,36 +13,29 @@ const styles = theme => ({
     flexGrow: 1,
     textAlign: 'center'
   },
-  // paper: {
-  //   height: 140,
-  //   width: 100
-  // },
   control: {
     padding: theme.spacing.unit * 2
   },
   header: {
     padding: '1rem'
   }
-
-  // drawerPaper: {
-  //   // position: 'relative',
-  //   position: 'absolute',
-  //   height: '100%',
-  //   width: 320,
-  // },
-  // drawerHeader: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'flex-end',
-  //   padding: '0 8px',
-  //   // ...theme.mixins.toolbar,
-  // },
 });
 
-const Layout = ({ children, classes, open, closeDrawer, openDrawer }) => (
+const Layout = ({
+  children,
+  classes,
+  open,
+  closeDrawer,
+  openDrawer,
+  updateSettings
+}) => (
   <Grid container className={classes.root}>
     <Navbar onMenuClick={openDrawer} />
-    <Sidebar open={open} handleDrawerClose={closeDrawer} />
+    <Sidebar
+      open={open}
+      handleDrawerClose={closeDrawer}
+      updateSettings={updateSettings}
+    />
     <Grid item xs={12} className={classes.header} />
     {children}
   </Grid>
