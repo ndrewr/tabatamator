@@ -5,7 +5,7 @@ import Typography from 'material-ui-next/Typography';
 
 import Button from 'material-ui-next/Button';
 import Input, { InputLabel, InputAdornment } from 'material-ui-next/Input';
-import { FormControl, FormHelperText } from 'material-ui-next/Form';
+import { FormControl } from 'material-ui-next/Form';
 
 import { withStyles } from 'material-ui-next/styles';
 
@@ -53,12 +53,23 @@ const styles = theme => ({
 // const Sidebar = ({ classes, open, handleDrawerClose, updateSettings }) => (
 // get state values passed down
 class Sidebar extends React.Component {
-  state = {
-    intervalTime: 20,
-    restTime: 10,
-    targetIntervals: 8,
-    targetSets: 2
-  };
+  constructor(props) {
+    super(props);
+
+    const {
+      intervalTime,
+      restTime,
+      targetIntervals,
+      targetSets
+    } = props.settings;
+
+    this.state = {
+      intervalTime,
+      restTime,
+      targetIntervals,
+      targetSets
+    };
+  }
 
   resetSettings = () => {
     this.setState({
@@ -78,7 +89,7 @@ class Sidebar extends React.Component {
 
   updateSettings = () => {
     const newSettings = Object.keys(this.state).reduce((settings, key) => {
-      settings[key] = parseInt(this.state[key] || 0);
+      settings[key] = parseInt(this.state[key] || 0, 10);
       return settings;
     }, {});
 
@@ -88,7 +99,7 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const { classes, open, handleDrawerClose } = this.props;
+    const { classes, open, settings, handleDrawerClose } = this.props;
     const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
 
     return (

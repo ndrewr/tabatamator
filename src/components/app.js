@@ -6,11 +6,6 @@ import {
   createMuiTheme
 } from 'material-ui-next/styles';
 
-// import Drawer from 'material-ui-next/Drawer';
-// import Divider from 'material-ui-next/Divider';
-// import IconButton from 'material-ui-next/IconButton';
-// import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
-
 import Clock from './clock';
 import Layout from './layout';
 
@@ -47,6 +42,7 @@ class App extends React.Component {
   // update state to only include mutable values (not one-time presets)
   state = {
     open: false,
+    remainingSets: DEFAULT_WORKOUT.targetSets,
     ...DEFAULT_WORKOUT
   };
 
@@ -77,6 +73,7 @@ class App extends React.Component {
   updateSettings = newSettings => {
     console.log('updating settings!', newSettings);
     this.setState({
+      remainingSets: newSettings.targetSets,
       ...newSettings
     });
   };
@@ -138,10 +135,20 @@ class App extends React.Component {
       currentTime,
       done,
       resting,
+      intervalTime,
+      restTime,
       targetIntervals,
       remainingSets,
+      targetSets,
       open
     } = this.state;
+
+    const settings = {
+      intervalTime,
+      restTime,
+      targetIntervals,
+      targetSets
+    };
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -152,6 +159,7 @@ class App extends React.Component {
         >
           <Layout
             open={open}
+            settings={settings}
             closeDrawer={this.handleDrawerClose}
             openDrawer={this.handleDrawerOpen}
             updateSettings={this.updateSettings}

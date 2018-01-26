@@ -7,7 +7,7 @@ export const DEFAULT_WORKOUT = {
   restTime: 10,
   targetSets: 2,
   currentInterval: 1,
-  remainingSets: 2,
+  // remainingSets: 2,
   currentTime: 0,
   totalTime: 0,
   targetIntervals: 3,

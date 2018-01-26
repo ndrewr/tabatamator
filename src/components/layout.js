@@ -25,6 +25,7 @@ const Layout = ({
   children,
   classes,
   open,
+  settings,
   closeDrawer,
   openDrawer,
   updateSettings
@@ -33,6 +34,7 @@ const Layout = ({
     <Navbar onMenuClick={openDrawer} />
     <Sidebar
       open={open}
+      settings={settings}
       handleDrawerClose={closeDrawer}
       updateSettings={updateSettings}
     />
