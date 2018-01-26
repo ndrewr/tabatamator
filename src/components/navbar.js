@@ -32,11 +32,19 @@ const styles = {
 };
 
 function Navbar({ classes, onMenuClick }) {
+  function onClick() {
+    window.open(
+      'https://www.active.com/fitness/articles/what-is-tabata-training'
+    );
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Button color="contrast">login</Button>
+          <Button color="contrast" onClick={onClick}>
+            WHAT
+          </Button>
           <Typography type="display1" color="inherit" className={classes.flex}>
             {APP_TITLE} <Update className={classes.logo} />
           </Typography>

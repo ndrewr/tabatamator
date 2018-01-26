@@ -57,7 +57,7 @@ class Sidebar extends React.Component {
     intervalTime: 20,
     restTime: 10,
     targetIntervals: 8,
-    remainingSets: 2
+    targetSets: 2
   };
 
   resetSettings = () => {
@@ -89,12 +89,7 @@ class Sidebar extends React.Component {
 
   render() {
     const { classes, open, handleDrawerClose } = this.props;
-    const {
-      intervalTime,
-      restTime,
-      targetIntervals,
-      remainingSets
-    } = this.state;
+    const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
 
     return (
       <Drawer
@@ -118,8 +113,8 @@ class Sidebar extends React.Component {
             <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
             <Input
               id="settings-num-sets"
-              value={remainingSets}
-              onChange={this.updateField('remainingSets')}
+              value={targetSets}
+              onChange={this.updateField('targetSets')}
               endAdornment={
                 <InputAdornment position="start">sets</InputAdornment>
               }
@@ -171,7 +166,7 @@ class Sidebar extends React.Component {
           <Button
             className={classes.button}
             raised
-            color="secondary"
+            color="default"
             onClick={this.resetSettings}
           >
             RESET

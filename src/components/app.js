@@ -76,9 +76,9 @@ class App extends React.Component {
 
   updateSettings = newSettings => {
     console.log('updating settings!', newSettings);
-    // this.setState({
-    //   [setting]: value,
-    // })
+    this.setState({
+      ...newSettings
+    });
   };
 
   resetWorkout = () => {
@@ -142,6 +142,7 @@ class App extends React.Component {
       remainingSets,
       open
     } = this.state;
+
     return (
       <MuiThemeProvider theme={theme}>
         <div
