@@ -71,6 +71,7 @@ class Clock extends React.Component {
       classes,
       currentInterval,
       done,
+      pause,
       targetIntervals,
       elapsedTime,
       remainingSets,
@@ -112,7 +113,7 @@ class Clock extends React.Component {
             </Grid>
           </Grid>
           <TimerControls
-            running={running}
+            running={running && !pause}
             onReset={this.resetClock}
             onToggle={this.toggleClock}
           />

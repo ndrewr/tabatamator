@@ -8,11 +8,21 @@ export const DEFAULT_WORKOUT = {
   targetSets: 2,
   currentInterval: 1,
   // remainingSets: 2,
+  // currentTime: 0,
+  // totalTime: 0,
+  targetIntervals: 3
+  // done: false,
+  // resting: false
+};
+
+export const DEFAULT_APP_STATE = {
+  ...DEFAULT_WORKOUT,
+  done: false,
+  resting: false,
+  open: false,
   currentTime: 0,
   totalTime: 0,
-  targetIntervals: 3,
-  done: false,
-  resting: false
+  remainingSets: DEFAULT_WORKOUT.targetSets
 };
 
 // background CSS gradient patterns

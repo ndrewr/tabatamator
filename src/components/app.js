@@ -9,7 +9,12 @@ import {
 import Clock from './clock';
 import Layout from './layout';
 
-import { DEFAULT_WORKOUT, heartBackground, zagBackground } from '../constants';
+import {
+  DEFAULT_WORKOUT,
+  DEFAULT_APP_STATE,
+  heartBackground,
+  zagBackground
+} from '../constants';
 
 // TODO service worker??
 // TODO check, reject for Internet Explorer
@@ -41,9 +46,13 @@ const styles = theme => ({
 class App extends React.Component {
   // update state to only include mutable values (not one-time presets)
   state = {
-    open: false,
-    remainingSets: DEFAULT_WORKOUT.targetSets,
-    ...DEFAULT_WORKOUT
+    // done: false,
+    // resting: false,
+    // open: false,
+    // currentTime: 0,
+    // totalTime: 0,
+    // remainingSets: DEFAULT_WORKOUT.targetSets,
+    ...DEFAULT_APP_STATE
   };
 
   handleDrawerOpen = () => {
@@ -74,16 +83,23 @@ class App extends React.Component {
     console.log('updating settings!', newSettings);
     this.setState({
       remainingSets: newSettings.targetSets,
+      currentTime: 0,
+      totalTime: 0,
       ...newSettings
     });
   };
 
   resetWorkout = () => {
-    this.setState(DEFAULT_WORKOUT);
+    this.setState({
+      currentTime: 0,
+      totalTime: 0,
+      remainingSets: this.state.targetSets
+    });
   };
 
   updateWorkout = () => {
     const {
+      open,
       resting,
       currentInterval,
       currentTime,
@@ -97,6 +113,11 @@ class App extends React.Component {
     const workoutUpdate = {
       done: false
     };
+
+    // if sidebar is open, timer pauses
+    if (open) {
+      return;
+    }
 
     if (currentTime === (resting ? restTime : intervalTime)) {
       // update interval count, reset currentTime
@@ -167,6 +188,7 @@ class App extends React.Component {
             <Grid item xs={12}>
               <Clock
                 done={done}
+                pause={open}
                 resting={resting}
                 elapsedTime={currentTime}
                 remainingTime={this.getRemainingTime()}

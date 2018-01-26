@@ -98,8 +98,12 @@ class Sidebar extends React.Component {
     this.setState(newSettings);
   };
 
+  componentWillUpdate() {
+    // if settings have been reset from parent...
+  }
+
   render() {
-    const { classes, open, settings, handleDrawerClose } = this.props;
+    const { classes, open, handleDrawerClose } = this.props;
     const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
 
     return (
