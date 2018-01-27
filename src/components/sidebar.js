@@ -17,36 +17,42 @@ import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import { DEFAULT_WORKOUT } from '../constants';
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: 'center'
-  },
-  drawerPaper: {
+  // root: {
+  //   flexGrow: 1,
+  //   textAlign: 'center'
+  // },
+  drawer__paper: {
     // position: 'relative',
     position: 'absolute',
     height: '100%',
     width: 320,
-    padding: 20
+    padding: 40,
+    paddingTop: 20
   },
-  drawerHeader: {
+  drawer__header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar
   },
-  // root: {
-  //   display: 'flex',
-  //   flexWrap: 'wrap'
-  // },
-  formControl: {
-    margin: theme.spacing.unit
+  form__control: {
+    margin: theme.spacing.unit,
+    width: '100%'
+  },
+  form__input: {
+    fontSize: '36px'
   },
   withoutLabel: {
     marginTop: theme.spacing.unit * 3
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    width: '45%',
+    fontSize: '1.2rem'
+  },
+  sidebar__divider: {
+    margin: theme.spacing.unit * 2
   }
 });
 
@@ -110,13 +116,13 @@ class Sidebar extends React.Component {
       <Drawer
         type="persistent"
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawer__paper
         }}
         anchor="right"
         open={open}
       >
         <div className={classes.drawerInner}>
-          <div className={classes.drawerHeader}>
+          <div className={classes.drawer__header}>
             <Typography type="title" color="inherit">
               Configuration
             </Typography>
@@ -124,9 +130,10 @@ class Sidebar extends React.Component {
               <DirectionsRun />
             </IconButton>
           </div>
-          <FormControl className={classes.formControl}>
+          <FormControl className={classes.form__control}>
             <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
             <Input
+              className={classes.form__input}
               id="settings-num-sets"
               value={targetSets}
               onChange={this.updateField('targetSets')}
@@ -135,11 +142,12 @@ class Sidebar extends React.Component {
               }
             />
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={classes.form__control}>
             <InputLabel htmlFor="settings-num-intervals">
               Intervals per set
             </InputLabel>
             <Input
+              className={classes.form__input}
               id="settings-num-intervals"
               value={targetIntervals}
               onChange={this.updateField('targetIntervals')}
@@ -149,13 +157,14 @@ class Sidebar extends React.Component {
             />
           </FormControl>
           <FormControl
-            className={`${classes.formControl} ${classes.withoutLabel}`}
+            className={`${classes.form__control} ${classes.withoutLabel}`}
             aria-describedby="interval-length-seconds"
           >
             <InputLabel htmlFor="intervals-helper-text">
               Interval length
             </InputLabel>
             <Input
+              className={classes.form__input}
               id="settings-time-interval"
               value={intervalTime}
               onChange={this.updateField('intervalTime')}
@@ -164,11 +173,12 @@ class Sidebar extends React.Component {
               }
             />
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={classes.form__control}>
             <InputLabel htmlFor="settings-time-rest">
               Interval rest time
             </InputLabel>
             <Input
+              className={classes.form__input}
               id="settings-time-rest"
               value={restTime}
               onChange={this.updateField('restTime')}
@@ -177,7 +187,7 @@ class Sidebar extends React.Component {
               }
             />
           </FormControl>
-          <Divider />
+          <Divider className={classes.sidebar__divider} />
           <Button
             className={classes.button}
             raised

@@ -1,8 +1,7 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
 import Paper from 'material-ui-next/Paper';
-// import Delete from 'material-ui-icons-next/Delete';
-// import Done from 'material-ui-icons-next/Done';
+import Typography from 'material-ui-next/Typography';
 import { withStyles } from 'material-ui-next/styles';
 
 import formatTime from '../utils/formatTime';
@@ -80,13 +79,20 @@ class Clock extends React.Component {
     } = this.props;
     const { running } = this.state;
 
-    let statusMessage = '';
+    let statusMessage = '----';
     if (done) {
       statusMessage = 'DONE';
     } else {
       if (elapsedTime) {
-        statusMessage = resting ? 'REST' : 'WORK';
+        if (pause || !running) {
+          statusMessage = 'PAUSED';
+        } else {
+          statusMessage = resting ? 'REST' : 'WORK';
+        }
       }
+      // else {
+      //   statusMessage = 'START!';
+      // }
     }
 
     return (
@@ -99,17 +105,38 @@ class Clock extends React.Component {
         <Paper className={classes.container}>
           <div style={{ fontSize: '6rem' }}>{statusMessage}</div>
           <Grid container>
-            <Grid item xs={7}>
+            <Grid item xs={12} sm={7}>
               <h2>
                 Interval {currentInterval} of {targetIntervals}
               </h2>
               <div className={classes.clock}>{formatTime(elapsedTime)}</div>
             </Grid>
-            <Grid item xs={5}>
-              <h3>Remaining Time</h3>
-              <h2>{formatTime(remainingTime)}</h2>
-              <h3>Remaining Tabatas</h3>
-              <h2>{remainingSets}</h2>
+            <Grid container item xs={12} sm={5}>
+              <Grid item xs={12}>
+                <Typography
+                  type="title"
+                  color="inherit"
+                  style={{ fontWeight: 'bold' }}
+                >
+                  Remaining
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={12}>
+                <Typography type="title" color="inherit">
+                  Time
+                </Typography>
+                <Typography type="display2" color="inherit">
+                  {formatTime(remainingTime)}
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={12}>
+                <Typography type="title" color="inherit">
+                  Tabatas
+                </Typography>
+                <Typography type="display2" color="inherit">
+                  {remainingSets}
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
           <TimerControls

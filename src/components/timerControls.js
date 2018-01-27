@@ -31,7 +31,7 @@ const styles = theme => ({
 const TimerControls = ({ classes, running, onReset, onToggle }) => {
   return (
     <Grid container item>
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={6}>
         <Button
           className={classes.button}
           raised
@@ -46,7 +46,7 @@ const TimerControls = ({ classes, running, onReset, onToggle }) => {
           )}
         </Button>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={6}>
         <Button
           className={classes.button}
           raised
