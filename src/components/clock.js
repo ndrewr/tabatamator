@@ -8,14 +8,22 @@ import formatTime from '../utils/formatTime';
 
 import TimerControls from './timerControls';
 
+import { GREY2 } from '../constants';
+
 const styles = theme => ({
-  clock: {
+  clock_display: {
     // fontFamily: 'sans-serif',
     // padding: '2rem',
     fontSize: '7rem'
   },
+  clock: {
+    padding: '1rem',
+    backgroundColor: GREY2
+  },
   container: {
-    padding: '1rem'
+    marginTop: '1px',
+    padding: 0
+    // padding: '1rem',
     // minWidth:
   }
 });
@@ -102,14 +110,16 @@ class Clock extends React.Component {
         justify="center"
         spacing={16}
       >
-        <Paper className={classes.container}>
+        <Paper className={classes.clock}>
           <div style={{ fontSize: '6rem' }}>{statusMessage}</div>
           <Grid container>
             <Grid item xs={12} sm={7}>
               <h2>
                 Interval {currentInterval} of {targetIntervals}
               </h2>
-              <div className={classes.clock}>{formatTime(elapsedTime)}</div>
+              <div className={classes.clock_display}>
+                {formatTime(elapsedTime)}
+              </div>
             </Grid>
             <Grid container item xs={12} sm={5}>
               <Grid item xs={12}>

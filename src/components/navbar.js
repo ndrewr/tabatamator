@@ -10,11 +10,14 @@ import IconButton from 'material-ui-next/IconButton';
 import CodeIcon from 'material-ui-icons-next/Code';
 import Update from 'material-ui-icons-next/Update';
 
-import { APP_TITLE } from '../constants';
+import { APP_TITLE, BLUE, RED, YELLOW } from '../constants';
 
 const styles = {
   root: {
     width: '100%'
+  },
+  appbar: {
+    backgroundColor: YELLOW
   },
   flex: {
     flex: 1
@@ -40,7 +43,7 @@ function Navbar({ classes, onMenuClick }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.appbar} position="static">
         <Toolbar>
           <Button color="contrast" onClick={onClick}>
             WHAT

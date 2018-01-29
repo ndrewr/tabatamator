@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import Grid from 'material-ui-next/Grid';
 import {
   withStyles,
@@ -39,8 +40,10 @@ const styles = theme => ({
     fontFamily: 'quantico',
     height: '100%'
   },
-  zag_bg: zagBackground,
-  heart_bg: heartBackground
+  // zag_bg: zagBackground,
+  // heart_bg: heartBackground
+  zag_bg: '',
+  heart_bg: ''
 });
 
 class App extends React.Component {
@@ -161,6 +164,7 @@ class App extends React.Component {
       targetIntervals,
       remainingSets,
       targetSets,
+      totalTime,
       open
     } = this.state;
 
@@ -171,12 +175,19 @@ class App extends React.Component {
       targetSets
     };
 
+    // className={`${classes.global_styles} ${
+    //   resting ? classes.heart_bg : classes.zag_bg
+    // }`}
     return (
       <MuiThemeProvider theme={theme}>
         <div
-          className={`${classes.global_styles} ${
-            resting ? classes.heart_bg : classes.zag_bg
-          }`}
+          className={classnames(
+            'app',
+            classes.global_styles,
+            'gplay',
+            resting ? 'blue' : 'red',
+            !totalTime && 'grey2'
+          )}
         >
           <Layout
             open={open}
@@ -185,20 +196,18 @@ class App extends React.Component {
             openDrawer={this.handleDrawerOpen}
             updateSettings={this.updateSettings}
           >
-            <Grid item xs={12}>
-              <Clock
-                done={done}
-                pause={open}
-                resting={resting}
-                elapsedTime={currentTime}
-                remainingTime={this.getRemainingTime()}
-                reset={this.resetWorkout}
-                updateWorkout={this.updateWorkout}
-                remainingSets={remainingSets}
-                currentInterval={currentInterval}
-                targetIntervals={targetIntervals}
-              />
-            </Grid>
+            <Clock
+              done={done}
+              pause={open}
+              resting={resting}
+              elapsedTime={currentTime}
+              remainingTime={this.getRemainingTime()}
+              reset={this.resetWorkout}
+              updateWorkout={this.updateWorkout}
+              remainingSets={remainingSets}
+              currentInterval={currentInterval}
+              targetIntervals={targetIntervals}
+            />
           </Layout>
         </div>
       </MuiThemeProvider>

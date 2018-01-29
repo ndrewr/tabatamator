@@ -38,7 +38,6 @@ const Layout = ({
       handleDrawerClose={closeDrawer}
       updateSettings={updateSettings}
     />
-    <Grid item xs={12} className={classes.header} />
     {children}
   </Grid>
 );

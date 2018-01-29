@@ -73,3 +73,10 @@ export const arrowBackground = {
   backgroundolor: '#92baac',
   backgroundSize: '128px 128px'
 };
+
+// Theme colors
+export const RED = '#fe4a49';
+export const YELLOW = '#fed766';
+export const BLUE = '#009fb7';
+export const GREY1 = '#e6e6ea';
+export const GREY2 = '#f4f4f8';
