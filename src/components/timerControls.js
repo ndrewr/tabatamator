@@ -7,9 +7,12 @@ import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import Autorenew from 'material-ui-icons-next/Autorenew';
 import { withStyles } from 'material-ui-next/styles';
 
-import { RED, YELLOW, GREY1 } from '../constants';
+import { BLUE, RED, YELLOW, GREY1 } from '../constants';
 
 const styles = theme => ({
+  container: {
+    marginTop: '1rem'
+  },
   button: {
     // margin: theme.spacing.unit,
     fontSize: '3rem',
@@ -22,7 +25,7 @@ const styles = theme => ({
     backgroundColor: RED
   },
   button__yellow: {
-    backgroundColor: YELLOW
+    backgroundColor: BLUE
   },
   icon: {
     width: '3rem',
@@ -39,7 +42,7 @@ const styles = theme => ({
 
 const TimerControls = ({ classes, running, onReset, onToggle }) => {
   return (
-    <Grid container item>
+    <Grid className={classes.container} container item>
       <Grid item xs={12} sm={6}>
         <Button
           className={classnames(classes.button, classes.button__red)}

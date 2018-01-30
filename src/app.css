@@ -109,16 +109,26 @@ body,
 }
 
 .subtleGrey {
-  background-color: #ff8700;
+  /*background-color: #ff8700;*/
   background-image: url('https://www.transparenttextures.com/patterns/subtle-grey.png');
 }
 
 .tinyGrid {
-  background-color: #ff8700;
+  /*background-color: #ff8700;*/
   background-image: url('https://www.transparenttextures.com/patterns/tiny-grid.png');
 }
 
 .psNeutral {
-  background-color: #ff8700;
+  /*background-color: #ff8700;*/
   background-image: url('https://www.transparenttextures.com/patterns/ps-neutral.png');
+}
+
+.shine {
+  /*background-color: #004f8c;*/
+  background-image: url(http://www.transparenttextures.com/patterns/shine-caro.png);
+}
+
+.grey1 header,
+.grey2 header {
+  color: #222222;
 }

@@ -184,9 +184,14 @@ class App extends React.Component {
           className={classnames(
             'app',
             classes.global_styles,
-            'gplay',
+            // 'gplay',
+            'subtleGrey',
+            // 'tinyGrid',
+            // 'psNeutral',
+            // 'shine',
             resting ? 'blue' : 'red',
-            !totalTime && 'grey2'
+            !totalTime && 'grey2',
+            done && 'yellow'
           )}
         >
           <Layout

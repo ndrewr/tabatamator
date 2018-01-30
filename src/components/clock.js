@@ -14,14 +14,15 @@ const styles = theme => ({
   clock_display: {
     // fontFamily: 'sans-serif',
     // padding: '2rem',
-    fontSize: '7rem'
+    minWidth: '400px',
+    fontSize: '6.5rem'
   },
   clock: {
     padding: '1rem',
     backgroundColor: GREY2
   },
   container: {
-    marginTop: '1px',
+    marginTop: '1rem',
     padding: 0
     // padding: '1rem',
     // minWidth:
@@ -114,9 +115,9 @@ class Clock extends React.Component {
           <div style={{ fontSize: '6rem' }}>{statusMessage}</div>
           <Grid container>
             <Grid item xs={12} sm={7}>
-              <h2>
+              <Typography type="display1" color="inherit">
                 Interval {currentInterval} of {targetIntervals}
-              </h2>
+              </Typography>
               <div className={classes.clock_display}>
                 {formatTime(elapsedTime)}
               </div>
