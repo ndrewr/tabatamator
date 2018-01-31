@@ -1,9 +1,6 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
 import { withStyles } from 'material-ui-next/styles';
-// import Update from 'material-ui-icons-next/Update';
-
-// import { APP_TITLE } from '../constants';
 
 import Navbar from './navbar';
 import Sidebar from './sidebar';

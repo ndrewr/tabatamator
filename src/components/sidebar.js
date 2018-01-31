@@ -21,10 +21,10 @@ const styles = theme => ({
   //   flexGrow: 1,
   //   textAlign: 'center'
   // },
-  drawer__paper: {
+  drawer: {
     // position: 'relative',
-    position: 'absolute',
-    height: '100%',
+    // position: 'absolute',
+    // height: '100%',
     width: 320,
     padding: 40,
     paddingTop: 20
@@ -116,7 +116,7 @@ class Sidebar extends React.Component {
       <Drawer
         type="persistent"
         classes={{
-          paper: classes.drawer__paper
+          paper: classes.drawer
         }}
         anchor="right"
         open={open}

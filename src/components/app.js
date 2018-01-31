@@ -8,7 +8,10 @@ import {
 } from 'material-ui-next/styles';
 
 import Clock from './clock';
-import Layout from './layout';
+// import Layout from './layout';
+
+import Navbar from './navbar';
+import Sidebar from './sidebar';
 
 import {
   DEFAULT_WORKOUT,
@@ -43,18 +46,22 @@ const styles = theme => ({
   // zag_bg: zagBackground,
   // heart_bg: heartBackground
   zag_bg: '',
-  heart_bg: ''
+  heart_bg: '',
+  root: {
+    flexGrow: 1,
+    textAlign: 'center'
+  },
+  control: {
+    padding: theme.spacing.unit * 2
+  },
+  header: {
+    padding: '1rem'
+  }
 });
 
 class App extends React.Component {
   // update state to only include mutable values (not one-time presets)
   state = {
-    // done: false,
-    // resting: false,
-    // open: false,
-    // currentTime: 0,
-    // totalTime: 0,
-    // remainingSets: DEFAULT_WORKOUT.targetSets,
     ...DEFAULT_APP_STATE
   };
 
@@ -175,32 +182,27 @@ class App extends React.Component {
       targetSets
     };
 
-    // className={`${classes.global_styles} ${
-    //   resting ? classes.heart_bg : classes.zag_bg
-    // }`}
     return (
       <MuiThemeProvider theme={theme}>
-        <div
+        <Grid
+          container
+          alignContent="flex-start"
           className={classnames(
             'app',
             classes.global_styles,
+            classes.root,
             // 'gplay',
-            'subtleGrey',
-            // 'tinyGrid',
-            // 'psNeutral',
-            // 'shine',
+            // 'subtleGrey',
+            'tinyGrid',
             resting ? 'blue' : 'red',
             !totalTime && 'grey2',
             done && 'yellow'
           )}
         >
-          <Layout
-            open={open}
-            settings={settings}
-            closeDrawer={this.handleDrawerClose}
-            openDrawer={this.handleDrawerOpen}
-            updateSettings={this.updateSettings}
-          >
+          <Grid item xs={12}>
+            <Navbar onMenuClick={this.handleDrawerOpen} />
+          </Grid>
+          <Grid item xs={12}>
             <Clock
               done={done}
               pause={open}
@@ -213,8 +215,14 @@ class App extends React.Component {
               currentInterval={currentInterval}
               targetIntervals={targetIntervals}
             />
-          </Layout>
-        </div>
+          </Grid>
+          <Sidebar
+            open={open}
+            settings={settings}
+            handleDrawerClose={this.handleDrawerClose}
+            updateSettings={this.updateSettings}
+          />
+        </Grid>
       </MuiThemeProvider>
     );
   }

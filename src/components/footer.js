@@ -48,28 +48,30 @@ function Navbar({ classes, onMenuClick }) {
   }
 
   return (
-    <AppBar className={classes.appbar} position="static">
-      <Toolbar>
-        <Button
-          className={classes.appbar_button}
-          color="contrast"
-          onClick={onClick}
-        >
-          WHAT
-        </Button>
-        <Typography type="display1" color="inherit" className={classes.flex}>
-          {APP_TITLE} <Update className={classes.logo} />
-        </Typography>
-        <IconButton
-          className={classes.appbar_button}
-          color="contrast"
-          aria-label="Menu"
-          onClick={onMenuClick}
-        >
-          <CodeIcon />
-        </IconButton>
-      </Toolbar>
-    </AppBar>
+    <div className={classes.root}>
+      <AppBar className={classes.appbar} position="static">
+        <Toolbar>
+          <Button
+            className={classes.appbar_button}
+            color="contrast"
+            onClick={onClick}
+          >
+            WHAT
+          </Button>
+          <Typography type="display1" color="inherit" className={classes.flex}>
+            {APP_TITLE} <Update className={classes.logo} />
+          </Typography>
+          <IconButton
+            className={classes.appbar_button}
+            color="contrast"
+            aria-label="Menu"
+            onClick={onMenuClick}
+          >
+            <CodeIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
 
