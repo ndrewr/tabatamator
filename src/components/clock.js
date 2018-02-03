@@ -8,6 +8,8 @@ import formatTime from '../utils/formatTime';
 
 import TimerControls from './timerControls';
 
+import { LinearProgress } from 'material-ui-next/Progress';
+
 import { GREY2 } from '../constants';
 
 const styles = theme => ({
@@ -84,7 +86,8 @@ class Clock extends React.Component {
       elapsedTime,
       remainingSets,
       remainingTime,
-      resting
+      resting,
+      progress
     } = this.props;
     const { running } = this.state;
 
@@ -112,6 +115,7 @@ class Clock extends React.Component {
         spacing={16}
       >
         <Paper className={classes.clock}>
+          <LinearProgress mode="determinate" value={progress} />
           <div style={{ fontSize: '6rem' }}>{statusMessage}</div>
           <Grid container>
             <Grid item xs={12} sm={7}>

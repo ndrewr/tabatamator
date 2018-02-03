@@ -17,14 +17,7 @@ import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import { DEFAULT_WORKOUT } from '../constants';
 
 const styles = theme => ({
-  // root: {
-  //   flexGrow: 1,
-  //   textAlign: 'center'
-  // },
   drawer: {
-    // position: 'relative',
-    // position: 'absolute',
-    // height: '100%',
     width: 320,
     padding: 40,
     paddingTop: 20
@@ -56,8 +49,6 @@ const styles = theme => ({
   }
 });
 
-// const Sidebar = ({ classes, open, handleDrawerClose, updateSettings }) => (
-// get state values passed down
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -77,6 +68,11 @@ class Sidebar extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('component will recieve props!', nextProps);
+    this.setState({ ...nextProps.settings });
+  }
+
   resetSettings = () => {
     this.setState({
       ...DEFAULT_WORKOUT
@@ -84,13 +80,11 @@ class Sidebar extends React.Component {
   };
 
   updateField = fieldName => event => {
-    console.log('new val is ', event.target.value);
     const value = event.target.value;
-    // if (event.target.value) {
+
     this.setState({
       [fieldName]: value
     });
-    // }
   };
 
   updateSettings = () => {
@@ -104,12 +98,8 @@ class Sidebar extends React.Component {
     this.setState(newSettings);
   };
 
-  componentWillUpdate() {
-    // if settings have been reset from parent...
-  }
-
   render() {
-    const { classes, open, handleDrawerClose } = this.props;
+    const { classes, open, handleDrawerClose, saveWorkout } = this.props;
     const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
 
     return (
@@ -207,6 +197,16 @@ class Sidebar extends React.Component {
           <Typography type="body2" gutterBottom>
             On CONFIRM current timer will be reset to start
           </Typography>
+
+          <Divider className={classes.sidebar__divider} />
+          <Button
+            className={classes.button}
+            raised
+            color="default"
+            onClick={() => saveWorkout()}
+          >
+            SAVE WORKOUT
+          </Button>
         </div>
       </Drawer>
     );

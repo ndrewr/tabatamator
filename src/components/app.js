@@ -8,45 +8,23 @@ import {
 } from 'material-ui-next/styles';
 
 import Clock from './clock';
-// import Layout from './layout';
-
 import Navbar from './navbar';
 import Sidebar from './sidebar';
 
-import {
-  DEFAULT_WORKOUT,
-  DEFAULT_APP_STATE,
-  heartBackground,
-  zagBackground
-} from '../constants';
+import { DEFAULT_APP_STATE, APP_THEME } from '../constants';
 
-// TODO service worker??
+import db from '../db';
+
+import { calculateTotalWorkoutTime } from '../utils/helpers';
+
 // TODO check, reject for Internet Explorer
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: 'quantico, sans-serif'
-    // '-apple-system,system-ui,BlinkMacSystemFont,' +
-    // '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
-    // fontWeightMedium,
-    // body1: {
-    //   fontWeight: fontWeightMedium,
-    // },
-    // button: {
-    //   fontStyle: 'italic',
-    // },
-  }
-});
+const theme = createMuiTheme(APP_THEME);
 
 const styles = theme => ({
   global_styles: {
-    // fontFamily: 'sans-serif',
-    fontFamily: 'quantico',
+    fontFamily: 'quantico, sans-serif',
     height: '100%'
   },
-  // zag_bg: zagBackground,
-  // heart_bg: heartBackground
-  zag_bg: '',
-  heart_bg: '',
   root: {
     flexGrow: 1,
     textAlign: 'center'
@@ -60,41 +38,62 @@ const styles = theme => ({
 });
 
 class App extends React.Component {
-  // update state to only include mutable values (not one-time presets)
   state = {
     ...DEFAULT_APP_STATE
   };
+
+  componentDidMount() {
+    // check for previous saved workout
+    const savedWorkout = db.getItem('workout1');
+    const intitialState = { ...DEFAULT_APP_STATE };
+
+    if (savedWorkout) {
+      let parsedData = JSON.parse(savedWorkout);
+      Object.assign(intitialState, {
+        ...parsedData,
+        remainingSets: parsedData.targetSets
+      });
+    }
+
+    this.setState({
+      ...intitialState,
+      loading: false
+    });
+  }
 
   handleDrawerOpen = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
   handleDrawerClose = () => {
-    console.log('hi');
     this.setState({ open: false });
   };
 
-  getRemainingTime = () => {
-    const {
+  saveWorkout = (workoutNumber = 1) => {
+    // currently only supports one saved workout
+    const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
+
+    // save the workout to storage
+    const workoutSettings = {
       intervalTime,
       restTime,
       targetSets,
-      targetIntervals,
-      totalTime
-    } = this.state;
+      targetIntervals
+    };
 
-    const setCompletionTime =
-      targetIntervals * intervalTime + (targetIntervals - 1) * restTime;
+    // const key = `workout${workoutNumber}`
+    // console.log('lets save this wkout: ', workoutSettings, key)
 
-    return targetSets * setCompletionTime - totalTime;
+    db.setItem(`workout${workoutNumber}`, JSON.stringify(workoutSettings));
   };
 
   updateSettings = newSettings => {
-    console.log('updating settings!', newSettings);
+    // console.log('updating settings!', newSettings);
     this.setState({
       remainingSets: newSettings.targetSets,
       currentTime: 0,
       totalTime: 0,
+      targetTime: calculateTotalWorkoutTime(newSettings),
       ...newSettings
     });
   };
@@ -166,13 +165,17 @@ class App extends React.Component {
       currentTime,
       done,
       resting,
+
+      loading,
+
       intervalTime,
       restTime,
       targetIntervals,
       remainingSets,
       targetSets,
       totalTime,
-      open
+      open,
+      targetTime
     } = this.state;
 
     const settings = {
@@ -181,6 +184,8 @@ class App extends React.Component {
       targetIntervals,
       targetSets
     };
+
+    const remainingTime = calculateTotalWorkoutTime(this.state) - totalTime;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -202,24 +207,32 @@ class App extends React.Component {
           <Grid item xs={12}>
             <Navbar onMenuClick={this.handleDrawerOpen} />
           </Grid>
-          <Grid item xs={12}>
-            <Clock
-              done={done}
-              pause={open}
-              resting={resting}
-              elapsedTime={currentTime}
-              remainingTime={this.getRemainingTime()}
-              reset={this.resetWorkout}
-              updateWorkout={this.updateWorkout}
-              remainingSets={remainingSets}
-              currentInterval={currentInterval}
-              targetIntervals={targetIntervals}
-            />
-          </Grid>
+          {loading ? (
+            <Grid item xs={12}>
+              LOADING
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <Clock
+                done={done}
+                pause={open}
+                resting={resting}
+                currentInterval={currentInterval}
+                elapsedTime={currentTime}
+                progress={totalTime ? totalTime / targetTime * 100 : 0}
+                remainingSets={remainingSets}
+                remainingTime={remainingTime}
+                targetIntervals={targetIntervals}
+                reset={this.resetWorkout}
+                updateWorkout={this.updateWorkout}
+              />
+            </Grid>
+          )}
           <Sidebar
             open={open}
             settings={settings}
             handleDrawerClose={this.handleDrawerClose}
+            saveWorkout={this.saveWorkout}
             updateSettings={this.updateSettings}
           />
         </Grid>

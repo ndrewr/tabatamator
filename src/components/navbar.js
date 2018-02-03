@@ -10,7 +10,7 @@ import IconButton from 'material-ui-next/IconButton';
 import CodeIcon from 'material-ui-icons-next/Code';
 import Update from 'material-ui-icons-next/Update';
 
-import { APP_TITLE, BLUE, RED, YELLOW } from '../constants';
+import { APP_TITLE } from '../constants';
 
 const styles = {
   root: {

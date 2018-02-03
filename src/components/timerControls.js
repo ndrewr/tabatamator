@@ -7,7 +7,12 @@ import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import Autorenew from 'material-ui-icons-next/Autorenew';
 import { withStyles } from 'material-ui-next/styles';
 
-import { BLUE, RED, YELLOW, GREY1 } from '../constants';
+import {
+  BLUE,
+  RED
+  // YELLOW,
+  // GREY1
+} from '../constants';
 
 const styles = theme => ({
   container: {
