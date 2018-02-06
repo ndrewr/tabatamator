@@ -43,22 +43,32 @@ class App extends React.Component {
   };
 
   componentDidMount() {
+    const intitialState = { ...DEFAULT_APP_STATE, loading: false };
+
     // check for previous saved workout
-    const savedWorkout = db.getItem('workout1');
-    const intitialState = { ...DEFAULT_APP_STATE };
+    const savedWorkout = db
+      .getItem('workout1')
+      .then(saveData => {
+        if (saveData) {
+          let parsedData = JSON.parse(saveData);
+          Object.assign(intitialState, {
+            ...parsedData,
+            remainingSets: parsedData.targetSets
+          });
+        }
 
-    if (savedWorkout) {
-      let parsedData = JSON.parse(savedWorkout);
-      Object.assign(intitialState, {
-        ...parsedData,
-        remainingSets: parsedData.targetSets
+        this.setState({
+          ...intitialState
+        });
+      })
+      .catch(err => {
+        console.log('Error loading data...', err);
+
+        // use defaults
+        this.setState({
+          ...intitialState
+        });
       });
-    }
-
-    this.setState({
-      ...intitialState,
-      loading: false
-    });
   }
 
   handleDrawerOpen = () => {
@@ -69,11 +79,9 @@ class App extends React.Component {
     this.setState({ open: false });
   };
 
+  // currently only supports one saved workout
   saveWorkout = (workoutNumber = 1) => {
-    // currently only supports one saved workout
     const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
-
-    // save the workout to storage
     const workoutSettings = {
       intervalTime,
       restTime,
@@ -81,10 +89,14 @@ class App extends React.Component {
       targetIntervals
     };
 
-    // const key = `workout${workoutNumber}`
-    // console.log('lets save this wkout: ', workoutSettings, key)
+    // fun way to one-line the above
+    // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
 
-    db.setItem(`workout${workoutNumber}`, JSON.stringify(workoutSettings));
+    // save the workout to storage
+    return db.setItem(
+      `workout${workoutNumber}`,
+      JSON.stringify(workoutSettings)
+    );
   };
 
   updateSettings = newSettings => {

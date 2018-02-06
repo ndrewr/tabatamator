@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 // import Grid from 'material-ui-next/Grid';
 
 import Typography from 'material-ui-next/Typography';
@@ -14,7 +15,17 @@ import Divider from 'material-ui-next/Divider';
 import IconButton from 'material-ui-next/IconButton';
 import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 
+import Popover from 'material-ui-next/Popover';
+
 import { DEFAULT_WORKOUT } from '../constants';
+
+const Alert = ({ classes, open, msg = 'HELLO WORLD' }) => (
+  <div
+    className={classnames(classes.alert, open ? classes.alert__visible : '')}
+  >
+    {msg}
+  </div>
+);
 
 const styles = theme => ({
   drawer: {
@@ -46,6 +57,17 @@ const styles = theme => ({
   },
   sidebar__divider: {
     margin: theme.spacing.unit * 2
+  },
+
+  alert: {
+    height: '40px',
+    width: '100%',
+    backgroundColor: 'black',
+    color: 'white',
+    opacity: 0
+  },
+  alert__visible: {
+    opacity: 1
   }
 });
 
@@ -64,12 +86,13 @@ class Sidebar extends React.Component {
       intervalTime,
       restTime,
       targetIntervals,
-      targetSets
+      targetSets,
+
+      showAlert: false
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('component will recieve props!', nextProps);
     this.setState({ ...nextProps.settings });
   }
 
@@ -77,6 +100,21 @@ class Sidebar extends React.Component {
     this.setState({
       ...DEFAULT_WORKOUT
     });
+  };
+
+  saveWorkout = () => {
+    this.setState({ showAlert: true });
+
+    this.props
+      .saveWorkout()
+      .then(savedWorkout => {
+        setTimeout(() => {
+          this.setState({ showAlert: false });
+        }, 3000);
+      })
+      .catch(err => {
+        console.log('There was a problem saving the workout :(');
+      });
   };
 
   updateField = fieldName => event => {
@@ -100,7 +138,13 @@ class Sidebar extends React.Component {
 
   render() {
     const { classes, open, handleDrawerClose, saveWorkout } = this.props;
-    const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
+    const {
+      intervalTime,
+      restTime,
+      showAlert,
+      targetIntervals,
+      targetSets
+    } = this.state;
 
     return (
       <Drawer
@@ -203,11 +247,13 @@ class Sidebar extends React.Component {
             className={classes.button}
             raised
             color="default"
-            onClick={() => saveWorkout()}
+            onClick={this.saveWorkout}
           >
             SAVE WORKOUT
           </Button>
         </div>
+
+        <Alert classes={classes} open={showAlert} />
       </Drawer>
     );
   }
