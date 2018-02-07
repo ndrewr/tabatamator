@@ -46,7 +46,7 @@ class App extends React.Component {
     const intitialState = { ...DEFAULT_APP_STATE, loading: false };
 
     // check for previous saved workout
-    const savedWorkout = db
+    db
       .getItem('workout1')
       .then(saveData => {
         if (saveData) {
@@ -62,9 +62,10 @@ class App extends React.Component {
         });
       })
       .catch(err => {
+        // TODO handle error state
         console.log('Error loading data...', err);
-
-        // use defaults
+      })
+      .finally(() => {
         this.setState({
           ...intitialState
         });
@@ -81,6 +82,8 @@ class App extends React.Component {
 
   // currently only supports one saved workout
   saveWorkout = (workoutNumber = 1) => {
+    // fun way to one-line the below assignment
+    // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
     const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
     const workoutSettings = {
       intervalTime,
@@ -88,9 +91,6 @@ class App extends React.Component {
       targetSets,
       targetIntervals
     };
-
-    // fun way to one-line the above
-    // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
 
     // save the workout to storage
     return db.setItem(
@@ -100,7 +100,6 @@ class App extends React.Component {
   };
 
   updateSettings = newSettings => {
-    // console.log('updating settings!', newSettings);
     this.setState({
       remainingSets: newSettings.targetSets,
       currentTime: 0,

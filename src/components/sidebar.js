@@ -15,7 +15,7 @@ import Divider from 'material-ui-next/Divider';
 import IconButton from 'material-ui-next/IconButton';
 import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 
-import Popover from 'material-ui-next/Popover';
+// import Popover from 'material-ui-next/Popover';
 
 import { DEFAULT_WORKOUT } from '../constants';
 
@@ -62,6 +62,7 @@ const styles = theme => ({
   alert: {
     height: '40px',
     width: '100%',
+    padding: '.5rem',
     backgroundColor: 'black',
     color: 'white',
     opacity: 0
@@ -137,7 +138,7 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const { classes, open, handleDrawerClose, saveWorkout } = this.props;
+    const { classes, open, handleDrawerClose } = this.props;
     const {
       intervalTime,
       restTime,

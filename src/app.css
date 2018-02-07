@@ -133,3 +133,9 @@ body,
 .grey2 header {
   color: #222222;
 }
+
+.alert__visible {
+}
+
+.alert__hide {
+}
