@@ -14,8 +14,6 @@ import { GREY2 } from '../constants';
 
 const styles = theme => ({
   clock_display: {
-    // fontFamily: 'sans-serif',
-    // padding: '2rem',
     minWidth: '400px',
     fontSize: '6.5rem'
   },
@@ -26,8 +24,6 @@ const styles = theme => ({
   container: {
     marginTop: '1rem',
     padding: 0
-    // padding: '1rem',
-    // minWidth:
   }
 });
 

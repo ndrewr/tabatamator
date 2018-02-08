@@ -1,7 +1,6 @@
 import { Howl } from 'howler';
 
 const sound = new Howl({
-  // src: 'https://fitlb.com/sounds/fight-bell-all.ogg',
   src: '/workout_sounds.ogg',
   sprite: {
     one: [5500, 1000],

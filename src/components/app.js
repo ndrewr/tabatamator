@@ -12,9 +12,8 @@ import Navbar from './navbar';
 import Sidebar from './sidebar';
 
 import { DEFAULT_APP_STATE, APP_THEME } from '../constants';
-
 import db from '../db';
-import sound from './soundPlayer';
+import sound from '../soundPlayer';
 
 import { calculateTotalWorkoutTime } from '../utils/helpers';
 
@@ -47,17 +46,6 @@ class App extends React.Component {
     const intitialState = { ...DEFAULT_APP_STATE, loading: false };
 
     // check for previous saved workout
-    // db
-    //   .getItem('workout1')
-    //   .then(saveData => {
-    //     if (saveData) {
-    //       let parsedData = JSON.parse(saveData);
-    //       Object.assign(intitialState, {
-    //         ...parsedData,
-    //         remainingSets: parsedData.targetSets
-    //       });
-    //     }
-    //   })
     this.loadSavedWorkout()
       .then(saveData => {
         if (saveData) {
@@ -124,12 +112,13 @@ class App extends React.Component {
   resetWorkout = () => {
     this.setState({
       currentTime: 0,
-      totalTime: 0,
-      remainingSets: this.state.targetSets
+      done: false,
+      remainingSets: this.state.targetSets,
+      totalTime: 0
     });
   };
 
-  updateWorkout = () => {
+  workoutStatus = () => {
     const {
       open,
       resting,
@@ -138,46 +127,69 @@ class App extends React.Component {
       intervalTime,
       restTime,
       targetIntervals,
-      remainingSets,
-      totalTime
+      remainingSets
     } = this.state;
-
-    const workoutUpdate = {
-      done: false
-    };
+    const targetTime = resting ? restTime : intervalTime;
 
     // if sidebar is open, timer pauses
     if (open) {
-      return;
+      return 'PAUSE';
     }
 
-    if (currentTime === (resting ? restTime : intervalTime)) {
+    if (currentTime === targetTime) {
       // update interval count, reset currentTime
-      workoutUpdate.currentTime = 0;
-
-      sound.play('horn2');
-
       if (currentInterval === targetIntervals) {
         if (remainingSets > 1) {
-          workoutUpdate.currentInterval = 1;
           // resting between sets?
+          return 'NEW_SET';
         } else {
           // we are DONE! Display congrats to User
-          workoutUpdate.done = true;
+          return 'FINISH';
         }
-
-        workoutUpdate.remainingSets = remainingSets - 1;
       } else {
         if (resting) {
-          workoutUpdate.resting = false;
-          workoutUpdate.currentInterval = currentInterval + 1;
+          return 'NEW_INTERVAL';
         } else {
-          workoutUpdate.resting = true;
+          return 'REST';
         }
       }
     } else {
-      workoutUpdate.currentTime = currentTime + 1;
-      workoutUpdate.totalTime = totalTime + 1;
+      return 'WORK';
+    }
+  };
+
+  updateWorkout = () => {
+    const { done, currentInterval, currentTime, totalTime } = this.state;
+    const workoutUpdate = {};
+
+    if (done) {
+      workoutUpdate.done = false;
+    }
+
+    switch (this.workoutStatus()) {
+      case 'WORK':
+        workoutUpdate.currentTime = currentTime + 1;
+        workoutUpdate.totalTime = totalTime + 1;
+        break;
+      case 'REST':
+        workoutUpdate.currentTime = 0;
+        workoutUpdate.resting = true;
+        break;
+      case 'NEW_INTERVAL':
+        workoutUpdate.currentTime = 0;
+        workoutUpdate.resting = false;
+        workoutUpdate.currentInterval = currentInterval + 1;
+        break;
+      case 'NEW_SET':
+        workoutUpdate.currentTime = 0;
+        workoutUpdate.currentInterval = 1;
+        break;
+      case 'PAUSE':
+        return;
+      default:
+        // FINISHED
+        workoutUpdate.done = true;
+        sound.play('finish');
     }
 
     this.setState(workoutUpdate);
@@ -189,17 +201,15 @@ class App extends React.Component {
       currentInterval,
       currentTime,
       done,
-      resting,
-
       loading,
-
+      open,
+      resting,
       intervalTime,
       restTime,
       targetIntervals,
       remainingSets,
       targetSets,
       totalTime,
-      open,
       targetTime
     } = this.state;
 

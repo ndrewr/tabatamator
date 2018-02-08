@@ -103,16 +103,10 @@ class Sidebar extends React.Component {
     // this.setState({ showAlert: 'Workout saved!' });
     this.showAlert('Workout saved.');
 
-    this.props
-      .saveWorkout()
-      // .then(savedWorkout => {
-      //   setTimeout(() => {
-      //     this.setState({ showAlert: '' });
-      //   }, 3000);
-      // })
-      .catch(err => {
-        console.log('There was a problem saving the workout :(');
-      });
+    this.props.saveWorkout().catch(err => {
+      this.showAlert('Problem saving workout.');
+      console.log('There was a problem saving the workout :(');
+    });
   };
 
   updateField = fieldName => event => {
