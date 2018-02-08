@@ -103,6 +103,19 @@ class Sidebar extends React.Component {
     });
   };
 
+  loadWorkout = () => {
+    this.props
+      .loadWorkout()
+      .then(saveData => {
+        this.setState({
+          ...saveData
+        });
+      })
+      .catch(error => {
+        console.log('Error loading saved workout...', error);
+      });
+  };
+
   saveWorkout = () => {
     this.setState({ showAlert: true });
 
@@ -251,6 +264,14 @@ class Sidebar extends React.Component {
             onClick={this.saveWorkout}
           >
             SAVE WORKOUT
+          </Button>
+          <Button
+            className={classes.button}
+            raised
+            color="default"
+            onClick={this.loadWorkout}
+          >
+            LOAD WORKOUT
           </Button>
         </div>
 

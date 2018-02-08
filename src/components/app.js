@@ -14,6 +14,7 @@ import Sidebar from './sidebar';
 import { DEFAULT_APP_STATE, APP_THEME } from '../constants';
 
 import db from '../db';
+import sound from './soundPlayer';
 
 import { calculateTotalWorkoutTime } from '../utils/helpers';
 
@@ -46,20 +47,25 @@ class App extends React.Component {
     const intitialState = { ...DEFAULT_APP_STATE, loading: false };
 
     // check for previous saved workout
-    db
-      .getItem('workout1')
+    // db
+    //   .getItem('workout1')
+    //   .then(saveData => {
+    //     if (saveData) {
+    //       let parsedData = JSON.parse(saveData);
+    //       Object.assign(intitialState, {
+    //         ...parsedData,
+    //         remainingSets: parsedData.targetSets
+    //       });
+    //     }
+    //   })
+    this.loadSavedWorkout()
       .then(saveData => {
         if (saveData) {
-          let parsedData = JSON.parse(saveData);
           Object.assign(intitialState, {
-            ...parsedData,
-            remainingSets: parsedData.targetSets
+            ...saveData,
+            remainingSets: saveData.targetSets
           });
         }
-
-        this.setState({
-          ...intitialState
-        });
       })
       .catch(err => {
         // TODO handle error state
@@ -71,6 +77,12 @@ class App extends React.Component {
         });
       });
   }
+
+  loadSavedWorkout = () => {
+    return db.getItem('workout1').then(saveData => {
+      return saveData ? JSON.parse(saveData) : null;
+    });
+  };
 
   handleDrawerOpen = () => {
     this.setState(state => ({ open: !state.open }));
@@ -142,6 +154,8 @@ class App extends React.Component {
     if (currentTime === (resting ? restTime : intervalTime)) {
       // update interval count, reset currentTime
       workoutUpdate.currentTime = 0;
+
+      sound.play('horn2');
 
       if (currentInterval === targetIntervals) {
         if (remainingSets > 1) {
@@ -243,6 +257,7 @@ class App extends React.Component {
             open={open}
             settings={settings}
             handleDrawerClose={this.handleDrawerClose}
+            loadWorkout={this.loadSavedWorkout}
             saveWorkout={this.saveWorkout}
             updateSettings={this.updateSettings}
           />
