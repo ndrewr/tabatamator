@@ -1,31 +1,18 @@
 import React from 'react';
-import classnames from 'classnames';
-// import Grid from 'material-ui-next/Grid';
-
-import Typography from 'material-ui-next/Typography';
 
 import Button from 'material-ui-next/Button';
+import Divider from 'material-ui-next/Divider';
+import Drawer from 'material-ui-next/Drawer';
+import IconButton from 'material-ui-next/IconButton';
 import Input, { InputLabel, InputAdornment } from 'material-ui-next/Input';
 import { FormControl } from 'material-ui-next/Form';
-
+import Typography from 'material-ui-next/Typography';
+import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import { withStyles } from 'material-ui-next/styles';
 
-import Drawer from 'material-ui-next/Drawer';
-import Divider from 'material-ui-next/Divider';
-import IconButton from 'material-ui-next/IconButton';
-import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
-
-// import Popover from 'material-ui-next/Popover';
+import Alert from './alert';
 
 import { DEFAULT_WORKOUT } from '../constants';
-
-const Alert = ({ classes, open, msg = 'HELLO WORLD' }) => (
-  <div
-    className={classnames(classes.alert, open ? classes.alert__visible : '')}
-  >
-    {msg}
-  </div>
-);
 
 const styles = theme => ({
   drawer: {
@@ -41,7 +28,7 @@ const styles = theme => ({
     ...theme.mixins.toolbar
   },
   form__control: {
-    margin: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
     width: '100%'
   },
   form__input: {
@@ -57,18 +44,6 @@ const styles = theme => ({
   },
   sidebar__divider: {
     margin: theme.spacing.unit * 2
-  },
-
-  alert: {
-    height: '40px',
-    width: '100%',
-    padding: '.5rem',
-    backgroundColor: 'black',
-    color: 'white',
-    opacity: 0
-  },
-  alert__visible: {
-    opacity: 1
   }
 });
 
@@ -88,8 +63,7 @@ class Sidebar extends React.Component {
       restTime,
       targetIntervals,
       targetSets,
-
-      showAlert: false
+      showAlert: ''
     };
   }
 
@@ -103,29 +77,39 @@ class Sidebar extends React.Component {
     });
   };
 
+  showAlert = (msg = '') => {
+    this.setState({ showAlert: msg });
+    setTimeout(() => {
+      this.setState({ showAlert: '' });
+    }, 3000);
+  };
+
   loadWorkout = () => {
     this.props
       .loadWorkout()
       .then(saveData => {
+        this.showAlert('Workout loaded.');
         this.setState({
           ...saveData
         });
       })
       .catch(error => {
+        this.showAlert('Problem loading workout.');
         console.log('Error loading saved workout...', error);
       });
   };
 
   saveWorkout = () => {
-    this.setState({ showAlert: true });
+    // this.setState({ showAlert: 'Workout saved!' });
+    this.showAlert('Workout saved.');
 
     this.props
       .saveWorkout()
-      .then(savedWorkout => {
-        setTimeout(() => {
-          this.setState({ showAlert: false });
-        }, 3000);
-      })
+      // .then(savedWorkout => {
+      //   setTimeout(() => {
+      //     this.setState({ showAlert: '' });
+      //   }, 3000);
+      // })
       .catch(err => {
         console.log('There was a problem saving the workout :(');
       });
@@ -275,7 +259,7 @@ class Sidebar extends React.Component {
           </Button>
         </div>
 
-        <Alert classes={classes} open={showAlert} />
+        <Alert text={showAlert} />
       </Drawer>
     );
   }
