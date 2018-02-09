@@ -51,7 +51,9 @@ class App extends React.Component {
         if (saveData) {
           Object.assign(intitialState, {
             ...saveData,
-            remainingSets: saveData.targetSets
+            remainingSets: saveData.targetSets,
+
+            currentTime: saveData.intervalTime
           });
         }
       })
@@ -102,7 +104,8 @@ class App extends React.Component {
   updateSettings = newSettings => {
     this.setState({
       remainingSets: newSettings.targetSets,
-      currentTime: 0,
+      // currentTime: 0,
+      currentTime: newSettings.intervalTime,
       totalTime: 0,
       targetTime: calculateTotalWorkoutTime(newSettings),
       ...newSettings
@@ -111,11 +114,23 @@ class App extends React.Component {
 
   resetWorkout = () => {
     this.setState({
-      currentTime: 0,
+      currentInterval: 1,
+      // currentTime: 0,
+      currentTime: this.state.intervalTime,
       done: false,
       remainingSets: this.state.targetSets,
       totalTime: 0
     });
+  };
+
+  playSound = () => {
+    const { currentTime, intervalTime, restTime } = this.state;
+    const status = this.workoutStatus();
+
+    if ('FINISH') {
+      sound.play('finish');
+    } else if ('WORK') {
+    }
   };
 
   workoutStatus = () => {
@@ -136,22 +151,12 @@ class App extends React.Component {
       return 'PAUSE';
     }
 
-    if (currentTime === targetTime) {
-      // update interval count, reset currentTime
+    // if (currentTime === targetTime) {
+    if (currentTime === 0) {
       if (currentInterval === targetIntervals) {
-        if (remainingSets > 1) {
-          // resting between sets?
-          return 'NEW_SET';
-        } else {
-          // we are DONE! Display congrats to User
-          return 'FINISH';
-        }
+        return remainingSets > 1 ? 'NEW_SET' : 'FINISH';
       } else {
-        if (resting) {
-          return 'NEW_INTERVAL';
-        } else {
-          return 'REST';
-        }
+        return resting ? 'NEW_INTERVAL' : 'REST';
       }
     } else {
       return 'WORK';
@@ -159,7 +164,15 @@ class App extends React.Component {
   };
 
   updateWorkout = () => {
-    const { done, currentInterval, currentTime, totalTime } = this.state;
+    const {
+      done,
+      currentInterval,
+      currentTime,
+      intervalTime,
+      restTime,
+      remainingSets,
+      totalTime
+    } = this.state;
     const workoutUpdate = {};
 
     if (done) {
@@ -168,28 +181,38 @@ class App extends React.Component {
 
     switch (this.workoutStatus()) {
       case 'WORK':
-        workoutUpdate.currentTime = currentTime + 1;
+        // workoutUpdate.currentTime = currentTime + 1;
+        workoutUpdate.currentTime = currentTime - 1;
+
         workoutUpdate.totalTime = totalTime + 1;
         break;
       case 'REST':
-        workoutUpdate.currentTime = 0;
+        // workoutUpdate.currentTime = 0;
+        workoutUpdate.currentTime = restTime;
+
         workoutUpdate.resting = true;
         break;
       case 'NEW_INTERVAL':
-        workoutUpdate.currentTime = 0;
+        // workoutUpdate.currentTime = 0;
+        workoutUpdate.currentTime = intervalTime;
+
         workoutUpdate.resting = false;
         workoutUpdate.currentInterval = currentInterval + 1;
         break;
       case 'NEW_SET':
-        workoutUpdate.currentTime = 0;
+        // workoutUpdate.currentTime = 0;
+        workoutUpdate.currentTime = intervalTime;
+
+        workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.currentInterval = 1;
         break;
       case 'PAUSE':
         return;
       default:
         // FINISHED
+        workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.done = true;
-        sound.play('finish');
+      // sound.play('finish');
     }
 
     this.setState(workoutUpdate);
@@ -231,9 +254,8 @@ class App extends React.Component {
             'app',
             classes.global_styles,
             classes.root,
-            // 'gplay',
             // 'subtleGrey',
-            'tinyGrid',
+            done ? 'gplay' : 'tinyGrid',
             resting ? 'blue' : 'red',
             !totalTime && 'grey2',
             done && 'yellow'

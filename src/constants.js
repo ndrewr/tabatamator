@@ -20,7 +20,8 @@ export const DEFAULT_APP_STATE = {
   loading: true,
   loadedPreset: null,
 
-  currentTime: 0,
+  // currentTime: 0,
+  currentTime: DEFAULT_WORKOUT.intervalTime,
   totalTime: 0,
   remainingSets: DEFAULT_WORKOUT.targetSets,
   targetTime: calculateTotalWorkoutTime(DEFAULT_WORKOUT)
