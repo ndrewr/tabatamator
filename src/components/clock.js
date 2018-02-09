@@ -1,16 +1,14 @@
 import React from 'react';
 import Grid from 'material-ui-next/Grid';
 import Paper from 'material-ui-next/Paper';
+import { LinearProgress } from 'material-ui-next/Progress';
 import Typography from 'material-ui-next/Typography';
 import { withStyles } from 'material-ui-next/styles';
 
-import formatTime from '../utils/formatTime';
-
 import TimerControls from './timerControls';
 
-import { LinearProgress } from 'material-ui-next/Progress';
-
 import { GREY2 } from '../constants';
+import formatTime from '../utils/formatTime';
 
 const styles = theme => ({
   clock_display: {
@@ -28,33 +26,27 @@ const styles = theme => ({
 });
 
 class Clock extends React.Component {
-  state = {
-    running: false
-  };
-
   toggleClock = () => {
-    const { updateWorkout } = this.props;
-    const { running } = this.state;
-
-    this.setState(state => ({ running: !state.running }));
+    const { done, running, updateWorkout } = this.props;
 
     if (running) {
-      // this.resetClock()
       this.pauseClock();
       return;
     }
 
+    this.props.toggleClock(true);
+
     this.interval = setInterval(() => {
       updateWorkout();
 
-      if (this.props.done) {
+      if (done) {
         this.pauseClock();
       }
     }, 1000);
   };
 
   pauseClock = () => {
-    this.setState(state => ({ running: false }));
+    this.props.toggleClock(false);
 
     if (this.interval) {
       clearInterval(this.interval);
@@ -77,30 +69,29 @@ class Clock extends React.Component {
       classes,
       currentInterval,
       done,
-      pause,
+      // pause,
       targetIntervals,
-      elapsedTime,
+      currentTime,
       remainingSets,
       remainingTime,
       resting,
+      running,
       progress
     } = this.props;
-    const { running } = this.state;
 
     let statusMessage = '----';
     if (done) {
       statusMessage = 'DONE';
     } else {
-      if (elapsedTime) {
-        if (pause || !running) {
+      if (progress) {
+        if (!running) {
           statusMessage = 'PAUSED';
         } else {
           statusMessage = resting ? 'REST' : 'WORK';
         }
+      } else {
+        statusMessage = 'START!';
       }
-      // else {
-      //   statusMessage = 'START!';
-      // }
     }
 
     return (
@@ -119,7 +110,7 @@ class Clock extends React.Component {
                 Interval {currentInterval} of {targetIntervals}
               </Typography>
               <div className={classes.clock_display}>
-                {formatTime(elapsedTime)}
+                {formatTime(currentTime)}
               </div>
             </Grid>
             <Grid container item xs={12} sm={5}>
@@ -151,7 +142,7 @@ class Clock extends React.Component {
             </Grid>
           </Grid>
           <TimerControls
-            running={running && !pause}
+            running={running}
             onReset={this.resetClock}
             onToggle={this.toggleClock}
           />

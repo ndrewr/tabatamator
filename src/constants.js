@@ -16,6 +16,9 @@ export const DEFAULT_APP_STATE = {
   resting: false,
   open: false,
 
+  // pause: true,
+  running: false,
+
   currentInterval: 1,
   loading: true,
   loadedPreset: null,

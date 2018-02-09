@@ -75,11 +75,17 @@ class App extends React.Component {
   };
 
   handleDrawerOpen = () => {
-    this.setState(state => ({ open: !state.open }));
+    this.setState(state => ({
+      open: true,
+      running: false
+    }));
   };
 
   handleDrawerClose = () => {
-    this.setState({ open: false });
+    this.setState({
+      open: false,
+      running: true // TODO : what if clock already paused when opening drawer??
+    });
   };
 
   // currently only supports one saved workout
@@ -103,8 +109,11 @@ class App extends React.Component {
 
   updateSettings = newSettings => {
     this.setState({
+      open: false,
+
+      running: false,
+
       remainingSets: newSettings.targetSets,
-      // currentTime: 0,
       currentTime: newSettings.intervalTime,
       totalTime: 0,
       targetTime: calculateTotalWorkoutTime(newSettings),
@@ -115,22 +124,28 @@ class App extends React.Component {
   resetWorkout = () => {
     this.setState({
       currentInterval: 1,
-      // currentTime: 0,
       currentTime: this.state.intervalTime,
       done: false,
       remainingSets: this.state.targetSets,
-      totalTime: 0
+      totalTime: 0,
+
+      running: false
     });
   };
 
   playSound = () => {
-    const { currentTime, intervalTime, restTime } = this.state;
+    // const { currentTime, intervalTime, restTime } = this.state;
     const status = this.workoutStatus();
 
     if ('FINISH') {
       sound.play('finish');
     } else if ('WORK') {
+      // sound.play(currentTime)
     }
+  };
+
+  toggleClock = run => {
+    this.setState({ running: run });
   };
 
   workoutStatus = () => {
@@ -181,28 +196,20 @@ class App extends React.Component {
 
     switch (this.workoutStatus()) {
       case 'WORK':
-        // workoutUpdate.currentTime = currentTime + 1;
         workoutUpdate.currentTime = currentTime - 1;
-
         workoutUpdate.totalTime = totalTime + 1;
         break;
       case 'REST':
-        // workoutUpdate.currentTime = 0;
         workoutUpdate.currentTime = restTime;
-
         workoutUpdate.resting = true;
         break;
       case 'NEW_INTERVAL':
-        // workoutUpdate.currentTime = 0;
         workoutUpdate.currentTime = intervalTime;
-
         workoutUpdate.resting = false;
         workoutUpdate.currentInterval = currentInterval + 1;
         break;
       case 'NEW_SET':
-        // workoutUpdate.currentTime = 0;
         workoutUpdate.currentTime = intervalTime;
-
         workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.currentInterval = 1;
         break;
@@ -233,7 +240,9 @@ class App extends React.Component {
       remainingSets,
       targetSets,
       totalTime,
-      targetTime
+      targetTime,
+
+      running
     } = this.state;
 
     const settings = {
@@ -272,10 +281,11 @@ class App extends React.Component {
             <Grid item xs={12}>
               <Clock
                 done={done}
-                pause={open}
+                running={running}
+                toggleClock={this.toggleClock}
                 resting={resting}
                 currentInterval={currentInterval}
-                elapsedTime={currentTime}
+                currentTime={currentTime}
                 progress={totalTime ? totalTime / targetTime * 100 : 0}
                 remainingSets={remainingSets}
                 remainingTime={remainingTime}
