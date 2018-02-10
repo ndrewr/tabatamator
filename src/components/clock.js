@@ -26,16 +26,10 @@ const styles = theme => ({
 });
 
 class Clock extends React.Component {
-  toggleClock = () => {
-    const { done, running, updateWorkout } = this.props;
-
-    if (running) {
-      this.pauseClock();
-      return;
-    }
+  startClock = () => {
+    const { done, updateWorkout } = this.props;
 
     this.props.toggleClock(true);
-
     this.interval = setInterval(() => {
       updateWorkout();
 
@@ -50,6 +44,7 @@ class Clock extends React.Component {
 
     if (this.interval) {
       clearInterval(this.interval);
+      this.interval = null;
     }
   };
 
@@ -64,12 +59,18 @@ class Clock extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.running && !this.props.running && !this.interval) {
+      // if clock was paused before opening sidebar, restart clock
+      this.startClock();
+    }
+  }
+
   render() {
     const {
       classes,
       currentInterval,
       done,
-      // pause,
       targetIntervals,
       currentTime,
       remainingSets,
@@ -144,7 +145,7 @@ class Clock extends React.Component {
           <TimerControls
             running={running}
             onReset={this.resetClock}
-            onToggle={this.toggleClock}
+            onToggle={running ? this.pauseClock : this.startClock}
           />
         </Paper>
       </Grid>

@@ -81,10 +81,11 @@ class App extends React.Component {
     }));
   };
 
+  // I want the drawer close to start the clock if paused
   handleDrawerClose = () => {
     this.setState({
       open: false,
-      running: true // TODO : what if clock already paused when opening drawer??
+      running: this.state.totalTime && true
     });
   };
 
