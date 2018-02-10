@@ -27,13 +27,19 @@ const styles = theme => ({
 
 class Clock extends React.Component {
   startClock = () => {
-    const { done, updateWorkout } = this.props;
+    const { done, running, updateWorkout } = this.props;
 
     this.props.toggleClock(true);
+
+    // TODO: how can I clear this interval beforehand if User changes wkout settings from sidebar?
+    // if (this.interval) {
+    //   clearInterval(this.interval)
+    // }
+
     this.interval = setInterval(() => {
       updateWorkout();
 
-      if (done) {
+      if (done || !this.props.running) {
         this.pauseClock();
       }
     }, 1000);
@@ -60,8 +66,14 @@ class Clock extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(
+      'compare: ',
+      nextProps.running,
+      this.props.running,
+      this.interval
+    );
     if (nextProps.running && !this.props.running && !this.interval) {
-      // if clock was paused before opening sidebar, restart clock
+      console.log('special case: restart the clock??');
       this.startClock();
     }
   }
@@ -71,6 +83,7 @@ class Clock extends React.Component {
       classes,
       currentInterval,
       done,
+      // pause,
       targetIntervals,
       currentTime,
       remainingSets,

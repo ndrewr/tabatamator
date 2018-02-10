@@ -83,6 +83,7 @@ class App extends React.Component {
 
   // I want the drawer close to start the clock if paused
   handleDrawerClose = () => {
+    console.log('closing sidebar');
     this.setState({
       open: false,
       running: this.state.totalTime && true
@@ -134,14 +135,15 @@ class App extends React.Component {
     });
   };
 
-  playSound = () => {
-    // const { currentTime, intervalTime, restTime } = this.state;
-    const status = this.workoutStatus();
+  playSound = workoutStatus => {
+    const { currentTime, intervalTime, restTime } = this.state;
+    // const status = this.workoutStatus();
 
-    if ('FINISH') {
+    if (workoutStatus === 'FINISH') {
       sound.play('finish');
     } else if ('WORK') {
       // sound.play(currentTime)
+      sound.play((currentTime - 1).toString());
     }
   };
 
@@ -156,6 +158,7 @@ class App extends React.Component {
       currentInterval,
       currentTime,
       intervalTime,
+      running,
       restTime,
       targetIntervals,
       remainingSets
@@ -163,7 +166,7 @@ class App extends React.Component {
     const targetTime = resting ? restTime : intervalTime;
 
     // if sidebar is open, timer pauses
-    if (open) {
+    if (open || !running) {
       return 'PAUSE';
     }
 
@@ -195,7 +198,8 @@ class App extends React.Component {
       workoutUpdate.done = false;
     }
 
-    switch (this.workoutStatus()) {
+    const workoutStatus = this.workoutStatus();
+    switch (workoutStatus) {
       case 'WORK':
         workoutUpdate.currentTime = currentTime - 1;
         workoutUpdate.totalTime = totalTime + 1;
@@ -220,8 +224,9 @@ class App extends React.Component {
         // FINISHED
         workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.done = true;
-      // sound.play('finish');
     }
+
+    this.playSound(workoutStatus);
 
     this.setState(workoutUpdate);
   };
