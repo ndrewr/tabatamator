@@ -136,14 +136,18 @@ class App extends React.Component {
   };
 
   playSound = workoutStatus => {
-    const { currentTime, intervalTime, restTime } = this.state;
+    const { currentTime, intervalTime, restTime, resting } = this.state;
     // const status = this.workoutStatus();
 
     if (workoutStatus === 'FINISH') {
       sound.play('finish');
-    } else if ('WORK') {
-      // sound.play(currentTime)
-      sound.play((currentTime - 1).toString());
+    } else if (workoutStatus === 'WORK') {
+      const nextSecond = currentTime - 1;
+      if (nextSecond === 0) {
+        sound.play(resting ? 'bell' : 'horn');
+      } else {
+        sound.play(nextSecond.toString());
+      }
     }
   };
 
@@ -224,6 +228,7 @@ class App extends React.Component {
         // FINISHED
         workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.done = true;
+        workoutUpdate.running = false;
     }
 
     this.playSound(workoutStatus);
