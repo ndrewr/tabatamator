@@ -12,78 +12,6 @@ body,
   transition: background-color, 0.4s;
 }
 
-/* REDS */
-
-.color-primary-0 {
-  color: #ff3100;
-} /* Main Primary color */
-.color-primary-1 {
-  color: #ff8163;
-}
-.color-primary-2 {
-  color: #ff5f39;
-}
-.color-primary-3 {
-  color: #c52600;
-}
-.color-primary-4 {
-  color: #9b1e00;
-}
-
-/* ORANGES */
-
-.color-secondary-1-0 {
-  color: #ff8700;
-} /* Main Secondary color (1) */
-.color-secondary-1-1 {
-  color: #ffb663;
-}
-.color-secondary-1-2 {
-  color: #ffa239;
-}
-.color-secondary-1-3 {
-  color: #c56800;
-}
-.color-secondary-1-4 {
-  color: #9b5200;
-}
-
-/* BLUES */
-
-.color-secondary-2-0 {
-  color: #0772a1;
-} /* Main Secondary color (2) */
-.color-secondary-2-1 {
-  color: #4d98b8;
-}
-.color-secondary-2-2 {
-  color: #2b81a6;
-}
-.color-secondary-2-3 {
-  color: #05587c;
-}
-.color-secondary-2-4 {
-  color: #034562;
-}
-
-/* GREENS */
-
-.color-complement-0 {
-  color: #00b74a;
-} /* Main Complement color */
-.color-complement-1 {
-  color: #4ec980;
-}
-.color-complement-2 {
-  color: #2abc65;
-}
-.color-complement-3 {
-  color: #008e39;
-}
-.color-complement-4 {
-  color: #006f2d;
-}
-
 /* THEME COLORS */
 /*https://coolors.co/export/png/fe4a49-fed766-009fb7-e6e6ea-f4f4f8*/
 .red {
@@ -102,40 +30,20 @@ body,
   background-color: #f4f4f8;
 }
 
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
-.gplay {
-  /*background-color: #ff8700;*/
-  /*background-color: #f4f4f8;*/
-  background-image: url('https://www.transparenttextures.com/patterns/gplay.png');
-}
-
-.subtleGrey {
-  /*background-color: #ff8700;*/
-  background-image: url('https://www.transparenttextures.com/patterns/subtle-grey.png');
-}
-
-.tinyGrid {
-  /*background-color: #ff8700;*/
-  background-image: url('https://www.transparenttextures.com/patterns/tiny-grid.png');
-}
-
-.psNeutral {
-  /*background-color: #ff8700;*/
-  background-image: url('https://www.transparenttextures.com/patterns/ps-neutral.png');
-}
-
-.shine {
-  /*background-color: #004f8c;*/
-  background-image: url(http://www.transparenttextures.com/patterns/shine-caro.png);
-}
-
 .grey1 header,
 .grey2 header {
   color: #222222;
 }
 
-.alert__visible {
+/*Background textures*/
+.gplay {
+  background-image: url('/gplay.png');
 }
 
-.alert__hide {
+/*.subtleGrey {
+  background-image: url('https://www.transparenttextures.com/patterns/subtle-grey.png');
+}*/
+
+.tinyGrid {
+  background-image: url('/tiny-grid.png');
 }

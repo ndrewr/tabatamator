@@ -1,39 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui-next/styles';
+
 import AppBar from 'material-ui-next/AppBar';
+import Button from 'material-ui-next/Button';
 import Toolbar from 'material-ui-next/Toolbar';
 import Typography from 'material-ui-next/Typography';
-import Button from 'material-ui-next/Button';
-import IconButton from 'material-ui-next/IconButton';
-// import MenuIcon from 'material-ui-icons-next/Menu';
 import CodeIcon from 'material-ui-icons-next/Code';
-import Update from 'material-ui-icons-next/Update';
+import IconButton from 'material-ui-next/IconButton';
+import { withStyles } from 'material-ui-next/styles';
 
 import { APP_TITLE } from '../constants';
 
 const styles = {
-  root: {
-    width: '100%'
-  },
   appbar: {
     padding: '1rem',
-    // backgroundColor: YELLOW
     backgroundColor: 'transparent',
     boxShadow: 'none'
   },
   appbar_button: {
     color: 'inherit'
   },
-  flex: {
-    flex: 1
+  app_title: {
+    flex: 1,
+    fontFamily: 'baloo chettan, quantico, sans-serif'
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20
   },
   logo: {
-    // fontSize: 32,
     height: 48,
     width: 48,
     verticalAlign: 'sub'
@@ -57,8 +52,12 @@ function Navbar({ classes, onMenuClick }) {
         >
           WHAT
         </Button>
-        <Typography type="display1" color="inherit" className={classes.flex}>
-          {APP_TITLE} <Update className={classes.logo} />
+        <Typography
+          type="display2"
+          color="inherit"
+          className={classes.app_title}
+        >
+          {APP_TITLE}
         </Typography>
         <IconButton
           className={classes.appbar_button}

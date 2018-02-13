@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Grid from 'material-ui-next/Grid';
@@ -10,34 +11,7 @@ import { withStyles } from 'material-ui-next/styles';
 
 import { BLUE, RED } from '../constants';
 
-const styles = theme => ({
-  container: {
-    marginTop: '1rem'
-  },
-  button: {
-    fontSize: '3rem',
-    padding: '2rem',
-    width: '90%'
-  },
-  button__red: {
-    backgroundColor: RED
-  },
-  button__yellow: {
-    backgroundColor: BLUE
-  },
-  icon: {
-    width: '3rem',
-    height: '3rem'
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  }
-});
-
-const TimerControls = ({ classes, running, onReset, onToggle }) => {
+const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
   return (
     <Grid className={classes.container} container item>
       <Grid item xs={12} sm={6}>
@@ -47,7 +21,7 @@ const TimerControls = ({ classes, running, onReset, onToggle }) => {
           color="accent"
           onClick={onToggle}
         >
-          {running ? 'PAUSE' : 'GO'}
+          {done ? 'AGAIN' : running ? 'PAUSE' : 'GO'}
           {running ? (
             <Pause className={classes.icon} />
           ) : (
@@ -69,5 +43,34 @@ const TimerControls = ({ classes, running, onReset, onToggle }) => {
     </Grid>
   );
 };
+
+TimerControls.propTypes = {
+  classes: PropTypes.object,
+  done: PropTypes.bool,
+  running: PropTypes.bool,
+  onReset: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired
+};
+
+const styles = theme => ({
+  container: {
+    marginTop: '1rem'
+  },
+  button: {
+    fontSize: '3rem',
+    padding: '2rem',
+    width: '90%'
+  },
+  button__red: {
+    backgroundColor: RED
+  },
+  button__yellow: {
+    backgroundColor: BLUE
+  },
+  icon: {
+    width: '3rem',
+    height: '3rem'
+  }
+});
 
 export default withStyles(styles)(TimerControls);

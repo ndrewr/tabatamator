@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from 'material-ui-next/Button';
 import Divider from 'material-ui-next/Divider';
@@ -13,39 +14,6 @@ import { withStyles } from 'material-ui-next/styles';
 import Alert from './alert';
 
 import { DEFAULT_WORKOUT } from '../constants';
-
-const styles = theme => ({
-  drawer: {
-    width: 320,
-    padding: 40,
-    paddingTop: 20
-  },
-  drawer__header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar
-  },
-  form__control: {
-    marginBottom: theme.spacing.unit,
-    width: '100%'
-  },
-  form__input: {
-    fontSize: '36px'
-  },
-  withoutLabel: {
-    marginTop: theme.spacing.unit * 3
-  },
-  button: {
-    margin: theme.spacing.unit,
-    width: '45%',
-    fontSize: '1.2rem'
-  },
-  sidebar__divider: {
-    margin: theme.spacing.unit * 2
-  }
-});
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -88,32 +56,31 @@ class Sidebar extends React.Component {
     this.props
       .loadWorkout()
       .then(saveData => {
-        this.showAlert('Workout loaded.');
+        this.showAlert('Workout loaded. Confirm and begin!');
         this.setState({
           ...saveData
         });
       })
       .catch(error => {
         this.showAlert('Problem loading workout.');
-        console.log('Error loading saved workout...', error);
+        // console.log('Error loading saved workout...', error);
       });
   };
 
   saveWorkout = () => {
-    // this.setState({ showAlert: 'Workout saved!' });
-    this.showAlert('Workout saved.');
-
-    this.props.saveWorkout().catch(err => {
-      this.showAlert('Problem saving workout.');
-      console.log('There was a problem saving the workout :(');
-    });
+    // this.showAlert('Workout saved as default.');
+    this.props
+      .saveWorkout()
+      .then(resp => this.showAlert('Workout saved as default.'))
+      .catch(err => {
+        this.showAlert('Problem saving workout.');
+        // console.log('There was a problem saving the workout :(');
+      });
   };
 
   updateField = fieldName => event => {
-    const value = event.target.value;
-
     this.setState({
-      [fieldName]: value
+      [fieldName]: event.target.value
     });
   };
 
@@ -258,5 +225,53 @@ class Sidebar extends React.Component {
     );
   }
 }
+
+Sidebar.propTypes = {
+  classes: PropTypes.object,
+  handleDrawerClose: PropTypes.func,
+  open: PropTypes.bool,
+  settings: PropTypes.shape({
+    intervalTime: PropTypes.number,
+    restTime: PropTypes.number,
+    targetIntervals: PropTypes.number,
+    targetSets: PropTypes.number
+  }),
+  loadWorkout: PropTypes.func,
+  saveWorkout: PropTypes.func,
+  updateSettings: PropTypes.func
+};
+
+const styles = theme => ({
+  drawer: {
+    width: 320,
+    padding: 40,
+    paddingTop: 20
+  },
+  drawer__header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar
+  },
+  form__control: {
+    marginBottom: theme.spacing.unit,
+    width: '100%'
+  },
+  form__input: {
+    fontSize: '36px'
+  },
+  withoutLabel: {
+    marginTop: theme.spacing.unit * 3
+  },
+  button: {
+    margin: theme.spacing.unit,
+    width: '45%',
+    fontSize: '1.2rem'
+  },
+  sidebar__divider: {
+    margin: theme.spacing.unit * 2
+  }
+});
 
 export default withStyles(styles)(Sidebar);

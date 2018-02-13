@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
 import Grid from 'material-ui-next/Grid';
 import {
   withStyles,
@@ -18,25 +20,6 @@ import sound from '../soundPlayer';
 import { calculateTotalWorkoutTime } from '../utils/helpers';
 
 // TODO check, reject for Internet Explorer
-const theme = createMuiTheme(APP_THEME);
-
-const styles = theme => ({
-  global_styles: {
-    fontFamily: 'quantico, sans-serif',
-    height: '100%'
-  },
-  root: {
-    flexGrow: 1,
-    textAlign: 'center'
-  },
-  control: {
-    padding: theme.spacing.unit * 2
-  },
-  header: {
-    padding: '1rem'
-  }
-});
-
 class App extends React.Component {
   state = {
     ...DEFAULT_APP_STATE
@@ -51,15 +34,14 @@ class App extends React.Component {
         if (saveData) {
           Object.assign(intitialState, {
             ...saveData,
-            remainingSets: saveData.targetSets,
-
-            currentTime: saveData.intervalTime
+            currentTime: saveData.intervalTime,
+            remainingSets: saveData.targetSets
           });
         }
       })
       .catch(err => {
         // TODO handle error state
-        console.log('Error loading data...', err);
+        // console.log('Error loading data...', err);
       })
       .finally(() => {
         this.setState({
@@ -81,12 +63,10 @@ class App extends React.Component {
     }));
   };
 
-  // I want the drawer close to start the clock if paused
   handleDrawerClose = () => {
-    console.log('closing sidebar');
     this.setState({
       open: false,
-      running: this.state.totalTime && true
+      running: Boolean(this.state.totalTime)
     });
   };
 
@@ -111,14 +91,12 @@ class App extends React.Component {
 
   updateSettings = newSettings => {
     this.setState({
-      open: false,
-
-      running: false,
-
-      remainingSets: newSettings.targetSets,
       currentTime: newSettings.intervalTime,
-      totalTime: 0,
+      open: false,
+      remainingSets: newSettings.targetSets,
+      running: false,
       targetTime: calculateTotalWorkoutTime(newSettings),
+      totalTime: 0,
       ...newSettings
     });
   };
@@ -129,15 +107,13 @@ class App extends React.Component {
       currentTime: this.state.intervalTime,
       done: false,
       remainingSets: this.state.targetSets,
-      totalTime: 0,
-
-      running: false
+      running: false,
+      totalTime: 0
     });
   };
 
   playSound = workoutStatus => {
-    const { currentTime, intervalTime, restTime, resting } = this.state;
-    // const status = this.workoutStatus();
+    const { currentTime, resting } = this.state;
 
     if (workoutStatus === 'FINISH') {
       sound.play('finish');
@@ -157,24 +133,20 @@ class App extends React.Component {
 
   workoutStatus = () => {
     const {
-      open,
-      resting,
       currentInterval,
       currentTime,
-      intervalTime,
+      open,
       running,
-      restTime,
-      targetIntervals,
-      remainingSets
+      remainingSets,
+      resting,
+      targetIntervals
     } = this.state;
-    const targetTime = resting ? restTime : intervalTime;
 
     // if sidebar is open, timer pauses
     if (open || !running) {
       return 'PAUSE';
     }
 
-    // if (currentTime === targetTime) {
     if (currentTime === 0) {
       if (currentInterval === targetIntervals) {
         return remainingSets > 1 ? 'NEW_SET' : 'FINISH';
@@ -199,7 +171,7 @@ class App extends React.Component {
     const workoutUpdate = {};
 
     if (done) {
-      workoutUpdate.done = false;
+      return this.resetWorkout();
     }
 
     const workoutStatus = this.workoutStatus();
@@ -242,18 +214,17 @@ class App extends React.Component {
       currentInterval,
       currentTime,
       done,
+      intervalTime,
       loading,
       open,
-      resting,
-      intervalTime,
-      restTime,
-      targetIntervals,
       remainingSets,
+      resting,
+      restTime,
+      running,
+      targetIntervals,
       targetSets,
-      totalTime,
       targetTime,
-
-      running
+      totalTime
     } = this.state;
 
     const settings = {
@@ -265,6 +236,8 @@ class App extends React.Component {
 
     const remainingTime = calculateTotalWorkoutTime(this.state) - totalTime;
 
+    const theme = createMuiTheme(APP_THEME);
+
     return (
       <MuiThemeProvider theme={theme}>
         <Grid
@@ -274,7 +247,6 @@ class App extends React.Component {
             'app',
             classes.global_styles,
             classes.root,
-            // 'subtleGrey',
             done ? 'gplay' : 'tinyGrid',
             resting ? 'blue' : 'red',
             !totalTime && 'grey2',
@@ -319,5 +291,26 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object
+};
+
+const styles = theme => ({
+  global_styles: {
+    fontFamily: 'quantico, sans-serif',
+    height: '100%'
+  },
+  root: {
+    flexGrow: 1,
+    textAlign: 'center'
+  },
+  control: {
+    padding: theme.spacing.unit * 2
+  },
+  header: {
+    padding: '1rem'
+  }
+});
 
 export default withStyles(styles)(App);

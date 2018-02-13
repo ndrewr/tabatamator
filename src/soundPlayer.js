@@ -4,9 +4,9 @@ import { Howl } from 'howler';
 const sound = new Howl({
   src: '/workout_sounds.ogg',
   sprite: {
-    1: [5500, 1000],
-    2: [3500, 1000],
-    3: [1500, 1000],
+    1: [5600, 1000],
+    2: [3600, 1000],
+    3: [1600, 1000],
     0: [7500, 2000],
     bell: [7500, 2000],
     horn: [11500, 2000],

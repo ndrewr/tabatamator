@@ -31,15 +31,9 @@ class Clock extends React.Component {
 
     this.props.toggleClock(true);
 
-    // TODO: how can I clear this interval beforehand if User changes wkout settings from sidebar?
-    // if (this.interval) {
-    //   clearInterval(this.interval)
-    // }
-
     this.interval = setInterval(() => {
       updateWorkout();
-
-      if (done || !this.props.running) {
+      if (done || !running) {
         this.pauseClock();
       }
     }, 1000);
@@ -66,12 +60,12 @@ class Clock extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(
-      'compare: ',
-      nextProps.running,
-      this.props.running,
-      this.interval
-    );
+    // console.log(
+    //   'compare: ',
+    //   nextProps.running,
+    //   this.props.running,
+    //   this.interval
+    // );
     if (nextProps.running && !this.props.running && !this.interval) {
       console.log('special case: restart the clock??');
       this.startClock();
@@ -82,15 +76,14 @@ class Clock extends React.Component {
     const {
       classes,
       currentInterval,
-      done,
-      // pause,
-      targetIntervals,
       currentTime,
+      done,
+      progress,
       remainingSets,
       remainingTime,
       resting,
       running,
-      progress
+      targetIntervals
     } = this.props;
 
     let statusMessage = '----';
@@ -156,6 +149,7 @@ class Clock extends React.Component {
             </Grid>
           </Grid>
           <TimerControls
+            done={done}
             running={running}
             onReset={this.resetClock}
             onToggle={running ? this.pauseClock : this.startClock}
