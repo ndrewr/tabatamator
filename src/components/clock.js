@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Grid from 'material-ui-next/Grid';
 import Paper from 'material-ui-next/Paper';
 import { LinearProgress } from 'material-ui-next/Progress';
@@ -9,31 +11,18 @@ import TimerControls from './timerControls';
 
 import { GREY2 } from '../constants';
 import formatTime from '../utils/formatTime';
-
-const styles = theme => ({
-  clock_display: {
-    minWidth: '400px',
-    fontSize: '6.5rem'
-  },
-  clock: {
-    padding: '1rem',
-    backgroundColor: GREY2
-  },
-  container: {
-    marginTop: '1rem',
-    padding: 0
-  }
-});
+import isMobile from '../utils/isMobile';
 
 class Clock extends React.Component {
   startClock = () => {
-    const { done, running, updateWorkout } = this.props;
+    const { done, updateWorkout } = this.props;
 
     this.props.toggleClock(true);
 
     this.interval = setInterval(() => {
       updateWorkout();
-      if (done || !running) {
+      // check *current* value of "running" prop
+      if (done || !this.props.running) {
         this.pauseClock();
       }
     }, 1000);
@@ -67,7 +56,7 @@ class Clock extends React.Component {
     //   this.interval
     // );
     if (nextProps.running && !this.props.running && !this.interval) {
-      console.log('special case: restart the clock??');
+      // console.log('special case: restart the clock??');
       this.startClock();
     }
   }
@@ -110,7 +99,7 @@ class Clock extends React.Component {
       >
         <Paper className={classes.clock}>
           <LinearProgress mode="determinate" value={progress} />
-          <div style={{ fontSize: '6rem' }}>{statusMessage}</div>
+          <div className={classes.clock_status}>{statusMessage}</div>
           <Grid container>
             <Grid item xs={12} sm={7}>
               <Typography type="display1" color="inherit">
@@ -159,5 +148,39 @@ class Clock extends React.Component {
     );
   }
 }
+
+Clock.propTypes = {
+  done: PropTypes.bool,
+  currentInterval: PropTypes.number,
+  currentTime: PropTypes.number,
+  progress: PropTypes.number,
+  remainingSets: PropTypes.number,
+  remainingTime: PropTypes.number,
+  resting: PropTypes.bool,
+  running: PropTypes.bool,
+  targetIntervals: PropTypes.number,
+  reset: PropTypes.func,
+  toggleClock: PropTypes.func,
+  updateWorkout: PropTypes.func
+};
+
+const mobile = isMobile();
+
+const styles = theme => ({
+  container: {
+    marginTop: mobile ? 'inherit' : '1rem',
+    padding: 0
+  },
+  clock_display: {
+    fontSize: '6rem'
+  },
+  clock_status: {
+    fontSize: mobile ? '5.4rem' : '6rem'
+  },
+  clock: {
+    padding: '1rem .75rem',
+    backgroundColor: GREY2
+  }
+});
 
 export default withStyles(styles)(Clock);

@@ -299,7 +299,9 @@ App.propTypes = {
 const styles = theme => ({
   global_styles: {
     fontFamily: 'quantico, sans-serif',
-    height: '100%'
+    height: '100%',
+    width: '100%',
+    boxSizing: 'border-box'
   },
   root: {
     flexGrow: 1,

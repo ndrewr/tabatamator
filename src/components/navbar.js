@@ -1,39 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import AppBar from 'material-ui-next/AppBar';
 import Button from 'material-ui-next/Button';
-import Toolbar from 'material-ui-next/Toolbar';
-import Typography from 'material-ui-next/Typography';
 import CodeIcon from 'material-ui-icons-next/Code';
 import IconButton from 'material-ui-next/IconButton';
+import Toolbar from 'material-ui-next/Toolbar';
+import Typography from 'material-ui-next/Typography';
 import { withStyles } from 'material-ui-next/styles';
 
 import { APP_TITLE } from '../constants';
-
-const styles = {
-  appbar: {
-    padding: '1rem',
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
-  },
-  appbar_button: {
-    color: 'inherit'
-  },
-  app_title: {
-    flex: 1,
-    fontFamily: 'baloo chettan, quantico, sans-serif'
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
-  },
-  logo: {
-    height: 48,
-    width: 48,
-    verticalAlign: 'sub'
-  }
-};
 
 function Navbar({ classes, onMenuClick }) {
   function onClick() {
@@ -43,26 +20,29 @@ function Navbar({ classes, onMenuClick }) {
   }
 
   return (
-    <AppBar className={classes.appbar} position="static">
+    <AppBar id="app_nav" className={classes.appbar} position="static">
       <Toolbar>
         <Button
-          className={classes.appbar_button}
+          className={classnames(
+            classes.appbar_button,
+            classes.appbar_button__left
+          )}
           color="contrast"
           onClick={onClick}
         >
-          WHAT
+          ?
         </Button>
         <Typography
-          type="display2"
+          className={classnames('title', classes.app_title)}
           color="inherit"
-          className={classes.app_title}
+          type="display2"
         >
           {APP_TITLE}
         </Typography>
         <IconButton
           className={classes.appbar_button}
-          color="contrast"
           aria-label="Menu"
+          color="contrast"
           onClick={onMenuClick}
         >
           <CodeIcon />
@@ -73,7 +53,36 @@ function Navbar({ classes, onMenuClick }) {
 }
 
 Navbar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onMenuClick: PropTypes.func.isRequired
+};
+
+const styles = {
+  appbar: {
+    // padding: '1rem',
+    backgroundColor: 'transparent',
+    boxShadow: 'none'
+  },
+  appbar_button: {
+    color: 'inherit'
+  },
+  app_title: {
+    flex: 1,
+    fontFamily: 'baloo chettan, quantico, sans-serif'
+    // fontSize: 'inherit',
+  },
+  appbar_button__left: {
+    minWidth: '40px'
+  }
+  // menuButton: {
+  //   marginLeft: -12,
+  //   marginRight: 20
+  // },
+  // logo: {
+  //   height: 48,
+  //   width: 48,
+  //   verticalAlign: 'sub'
+  // }
 };
 
 export default withStyles(styles)(Navbar);

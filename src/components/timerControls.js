@@ -10,18 +10,21 @@ import Autorenew from 'material-ui-icons-next/Autorenew';
 import { withStyles } from 'material-ui-next/styles';
 
 import { BLUE, RED } from '../constants';
+import isMobile from '../utils/isMobile';
+
+const mobile = isMobile();
 
 const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
   return (
     <Grid className={classes.container} container item>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={6}>
         <Button
           className={classnames(classes.button, classes.button__red)}
           raised
           color="accent"
           onClick={onToggle}
         >
-          {done ? 'AGAIN' : running ? 'PAUSE' : 'GO'}
+          {mobile ? '' : done ? 'AGAIN' : running ? 'PAUSE' : 'GO'}
           {running ? (
             <Pause className={classes.icon} />
           ) : (
@@ -29,14 +32,14 @@ const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
           )}
         </Button>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={6}>
         <Button
           className={classnames(classes.button, classes.button__yellow)}
           raised
           color="primary"
           onClick={onReset}
         >
-          RESET
+          {mobile ? '' : 'RESET'}
           <Autorenew className={classes.icon} />
         </Button>
       </Grid>
@@ -58,7 +61,7 @@ const styles = theme => ({
   },
   button: {
     fontSize: '3rem',
-    padding: '2rem',
+    padding: '1rem 2rem',
     width: '90%'
   },
   button__red: {

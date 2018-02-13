@@ -266,7 +266,7 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    width: '45%',
+    width: '42%',
     fontSize: '1.2rem'
   },
   sidebar__divider: {
