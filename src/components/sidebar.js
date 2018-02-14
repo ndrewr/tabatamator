@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import Button from 'material-ui-next/Button';
 import Divider from 'material-ui-next/Divider';
@@ -8,6 +9,8 @@ import IconButton from 'material-ui-next/IconButton';
 import Input, { InputLabel, InputAdornment } from 'material-ui-next/Input';
 import { FormControl } from 'material-ui-next/Form';
 import Typography from 'material-ui-next/Typography';
+import CloudDownload from 'material-ui-icons-next/CloudDownload';
+import CloudUpload from 'material-ui-icons-next/CloudUpload';
 import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import { withStyles } from 'material-ui-next/styles';
 
@@ -56,7 +59,7 @@ class Sidebar extends React.Component {
     this.props
       .loadWorkout()
       .then(saveData => {
-        this.showAlert('Workout loaded. Confirm and begin!');
+        this.showAlert('Workout loaded. Confirm?');
         this.setState({
           ...saveData
         });
@@ -123,6 +126,7 @@ class Sidebar extends React.Component {
               <DirectionsRun />
             </IconButton>
           </div>
+
           <FormControl className={classes.form__control}>
             <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
             <Input
@@ -198,37 +202,33 @@ class Sidebar extends React.Component {
             CONFIRM
           </Button>
           <Typography type="body2" gutterBottom>
-            On CONFIRM current timer will be reset to start
+            Timer will reset on CONFIRM
           </Typography>
 
-          <Divider className={classes.sidebar__divider} />
-          <Button
-            className={classes.button}
-            raised
-            color="default"
+          <IconButton
+            color="primary"
+            className={classnames(classes.button_icon, classes.button)}
             onClick={this.saveWorkout}
           >
-            SAVE WORKOUT
-          </Button>
-          <Button
-            className={classes.button}
-            raised
-            color="default"
+            <CloudUpload />
+          </IconButton>
+          <IconButton
+            className={classnames(classes.button_icon, classes.button)}
+            color="primary"
             onClick={this.loadWorkout}
           >
-            LOAD WORKOUT
-          </Button>
-        </div>
+            <CloudDownload />
+          </IconButton>
 
-        <Alert text={showAlert} />
+          <Alert text={showAlert} />
+        </div>
       </Drawer>
     );
   }
 }
 
 Sidebar.propTypes = {
-  classes: PropTypes.object,
-  handleDrawerClose: PropTypes.func,
+  classes: PropTypes.object.isRequired,
   open: PropTypes.bool,
   settings: PropTypes.shape({
     intervalTime: PropTypes.number,
@@ -236,9 +236,10 @@ Sidebar.propTypes = {
     targetIntervals: PropTypes.number,
     targetSets: PropTypes.number
   }),
-  loadWorkout: PropTypes.func,
-  saveWorkout: PropTypes.func,
-  updateSettings: PropTypes.func
+  handleDrawerClose: PropTypes.func.isRequired,
+  loadWorkout: PropTypes.func.isRequired,
+  saveWorkout: PropTypes.func.isRequired,
+  updateSettings: PropTypes.func.isRequired
 };
 
 const styles = theme => ({
@@ -268,6 +269,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: '42%',
     fontSize: '1.2rem'
+  },
+  button_icon: {
+    fontSize: '3rem'
   },
   sidebar__divider: {
     margin: theme.spacing.unit * 2

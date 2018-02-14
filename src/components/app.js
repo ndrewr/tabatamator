@@ -293,14 +293,14 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object.isRequired
 };
 
 const styles = theme => ({
   global_styles: {
     fontFamily: 'quantico, sans-serif',
     height: '100%',
-    width: '100%',
+    // width: '100%', // NEED THIS? IS IT MESSING UP GRID??
     boxSizing: 'border-box'
   },
   root: {

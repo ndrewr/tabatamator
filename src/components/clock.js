@@ -49,14 +49,8 @@ class Clock extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(
-    //   'compare: ',
-    //   nextProps.running,
-    //   this.props.running,
-    //   this.interval
-    // );
     if (nextProps.running && !this.props.running && !this.interval) {
-      // console.log('special case: restart the clock??');
+      // special case: prior pause cleared interval so restart the clock
       this.startClock();
     }
   }
@@ -151,17 +145,17 @@ class Clock extends React.Component {
 
 Clock.propTypes = {
   done: PropTypes.bool,
-  currentInterval: PropTypes.number,
-  currentTime: PropTypes.number,
-  progress: PropTypes.number,
-  remainingSets: PropTypes.number,
-  remainingTime: PropTypes.number,
+  currentInterval: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  progress: PropTypes.number.isRequired,
+  remainingSets: PropTypes.number.isRequired,
+  remainingTime: PropTypes.number.isRequired,
   resting: PropTypes.bool,
   running: PropTypes.bool,
-  targetIntervals: PropTypes.number,
-  reset: PropTypes.func,
-  toggleClock: PropTypes.func,
-  updateWorkout: PropTypes.func
+  targetIntervals: PropTypes.number.isRequired,
+  reset: PropTypes.func.isRequired,
+  toggleClock: PropTypes.func.isRequired,
+  updateWorkout: PropTypes.func.isRequired
 };
 
 const mobile = isMobile();

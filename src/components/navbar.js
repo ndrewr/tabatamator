@@ -74,15 +74,6 @@ const styles = {
   appbar_button__left: {
     minWidth: '40px'
   }
-  // menuButton: {
-  //   marginLeft: -12,
-  //   marginRight: 20
-  // },
-  // logo: {
-  //   height: 48,
-  //   width: 48,
-  //   verticalAlign: 'sub'
-  // }
 };
 
 export default withStyles(styles)(Navbar);
