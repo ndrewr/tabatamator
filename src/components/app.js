@@ -254,7 +254,11 @@ class App extends React.Component {
           )}
         >
           <Grid item xs={12}>
-            <Navbar onMenuClick={this.handleDrawerOpen} />
+            <Navbar
+              onMenuClick={
+                open ? this.handleDrawerClose : this.handleDrawerOpen
+              }
+            />
           </Grid>
           {loading ? (
             <Grid item xs={12}>

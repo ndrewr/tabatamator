@@ -21,7 +21,7 @@ function Navbar({ classes, onMenuClick }) {
 
   return (
     <AppBar id="app_nav" className={classes.appbar} position="static">
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <Button
           className={classnames(
             classes.appbar_button,
@@ -59,9 +59,13 @@ Navbar.propTypes = {
 
 const styles = {
   appbar: {
-    // padding: '1rem',
+    alignItems: 'center',
     backgroundColor: 'transparent',
     boxShadow: 'none'
+  },
+  toolbar: {
+    width: '100%',
+    maxWidth: '1200px'
   },
   appbar_button: {
     color: 'inherit'

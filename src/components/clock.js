@@ -69,7 +69,7 @@ class Clock extends React.Component {
       targetIntervals
     } = this.props;
 
-    let statusMessage = '----';
+    let statusMessage = 'START';
     if (done) {
       statusMessage = 'DONE';
     } else {
@@ -80,7 +80,7 @@ class Clock extends React.Component {
           statusMessage = resting ? 'REST' : 'WORK';
         }
       } else {
-        statusMessage = 'START!';
+        // statusMessage = 'START!';
       }
     }
 
