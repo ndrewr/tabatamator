@@ -74,12 +74,22 @@ class App extends React.Component {
   saveWorkout = (workoutNumber = 1) => {
     // fun way to one-line the below assignment
     // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
-    const { intervalTime, restTime, targetIntervals, targetSets } = this.state;
+    const {
+      intervalTime,
+      restTime,
+      targetIntervals,
+      targetSets,
+      setRestTime,
+      warmupTime
+    } = this.state;
     const workoutSettings = {
       intervalTime,
       restTime,
       targetSets,
-      targetIntervals
+      targetIntervals,
+
+      setRestTime,
+      warmupTime
     };
 
     // save the workout to storage
@@ -90,25 +100,35 @@ class App extends React.Component {
   };
 
   updateSettings = newSettings => {
+    // TODO : if warmup Time is 0 set app state to start from interval directly
     this.setState({
-      currentTime: newSettings.intervalTime,
+      currentTime: newSettings.warmupTime,
+      // currentTime: newSettings.intervalTime,
       open: false,
       remainingSets: newSettings.targetSets,
       running: false,
       targetTime: calculateTotalWorkoutTime(newSettings),
       totalTime: 0,
-      ...newSettings
+      ...newSettings,
+
+      resting: true,
+      currentInterval: 0
     });
   };
 
   resetWorkout = () => {
     this.setState({
-      currentInterval: 1,
-      currentTime: this.state.intervalTime,
+      // currentInterval: 1,
+      // currentTime: this.state.intervalTime,
+      currentInterval: 0,
+      currentTime: this.state.warmupTime,
+
       done: false,
       remainingSets: this.state.targetSets,
       running: false,
-      totalTime: 0
+      totalTime: 0,
+
+      resting: true
     });
   };
 
@@ -139,13 +159,21 @@ class App extends React.Component {
       running,
       remainingSets,
       resting,
-      targetIntervals
+      targetIntervals,
+
+      setRestTime,
+      warmupTime,
+      totalTime
     } = this.state;
 
     // if sidebar is open, timer pauses
     if (open || !running) {
       return 'PAUSE';
     }
+
+    // if (totalTime === 0) {
+    //   return 'WARMUP'
+    // }
 
     if (currentTime === 0) {
       if (currentInterval === targetIntervals) {
@@ -166,7 +194,10 @@ class App extends React.Component {
       intervalTime,
       restTime,
       remainingSets,
-      totalTime
+      totalTime,
+
+      setRestTime,
+      warmupTime
     } = this.state;
     const workoutUpdate = {};
 
@@ -176,6 +207,12 @@ class App extends React.Component {
 
     const workoutStatus = this.workoutStatus();
     switch (workoutStatus) {
+      case 'WARMUP':
+        workoutUpdate.currentTime = warmupTime;
+        // workoutUpdate.currentTime = currentTime - 1;
+        // workoutUpdate.totalTime = totalTime + 1;
+        workoutUpdate.resting = true;
+        break;
       case 'WORK':
         workoutUpdate.currentTime = currentTime - 1;
         workoutUpdate.totalTime = totalTime + 1;
@@ -190,9 +227,12 @@ class App extends React.Component {
         workoutUpdate.currentInterval = currentInterval + 1;
         break;
       case 'NEW_SET':
-        workoutUpdate.currentTime = intervalTime;
+        // workoutUpdate.currentTime = intervalTime;
+        workoutUpdate.currentTime = setRestTime;
+        workoutUpdate.resting = true;
+
         workoutUpdate.remainingSets = remainingSets - 1;
-        workoutUpdate.currentInterval = 1;
+        workoutUpdate.currentInterval = 0;
         break;
       case 'PAUSE':
         return;
@@ -224,14 +264,20 @@ class App extends React.Component {
       targetIntervals,
       targetSets,
       targetTime,
-      totalTime
+      totalTime,
+
+      setRestTime,
+      warmupTime
     } = this.state;
 
     const settings = {
       intervalTime,
       restTime,
       targetIntervals,
-      targetSets
+      targetSets,
+
+      setRestTime,
+      warmupTime
     };
 
     const remainingTime = calculateTotalWorkoutTime(this.state) - totalTime;

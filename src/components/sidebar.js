@@ -26,7 +26,10 @@ class Sidebar extends React.Component {
       intervalTime,
       restTime,
       targetIntervals,
-      targetSets
+      targetSets,
+
+      setRestTime,
+      warmupTime
     } = props.settings;
 
     this.state = {
@@ -34,7 +37,10 @@ class Sidebar extends React.Component {
       restTime,
       targetIntervals,
       targetSets,
-      showAlert: ''
+      showAlert: '',
+
+      setRestTime,
+      warmupTime
     };
   }
 
@@ -105,7 +111,10 @@ class Sidebar extends React.Component {
       restTime,
       showAlert,
       targetIntervals,
-      targetSets
+      targetSets,
+
+      setRestTime,
+      warmupTime
     } = this.state;
 
     return (
@@ -184,6 +193,34 @@ class Sidebar extends React.Component {
               }
             />
           </FormControl>
+
+          <FormControl className={classes.form__control}>
+            <InputLabel htmlFor="settings-time-set-rest">
+              Set rest time
+            </InputLabel>
+            <Input
+              className={classes.form__input}
+              id="settings-time-set-rest"
+              value={setRestTime}
+              onChange={this.updateField('setRestTime')}
+              endAdornment={
+                <InputAdornment position="start">Sec</InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl className={classes.form__control}>
+            <InputLabel htmlFor="settings-time-warmup">Warmup time</InputLabel>
+            <Input
+              className={classes.form__input}
+              id="settings-time-warmup"
+              value={warmupTime}
+              onChange={this.updateField('warmupTime')}
+              endAdornment={
+                <InputAdornment position="start">Sec</InputAdornment>
+              }
+            />
+          </FormControl>
+
           <Divider className={classes.sidebar__divider} />
           <Button
             className={classes.button}
@@ -234,7 +271,10 @@ Sidebar.propTypes = {
     intervalTime: PropTypes.number,
     restTime: PropTypes.number,
     targetIntervals: PropTypes.number,
-    targetSets: PropTypes.number
+    targetSets: PropTypes.number,
+
+    setRestTime: PropTypes.number,
+    warmupTime: PropTypes.number
   }),
   handleDrawerClose: PropTypes.func.isRequired,
   loadWorkout: PropTypes.func.isRequired,
