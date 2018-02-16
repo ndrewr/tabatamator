@@ -66,21 +66,24 @@ class Clock extends React.Component {
       remainingTime,
       resting,
       running,
-      targetIntervals
+      targetIntervals,
+      targetSets
     } = this.props;
 
     let statusMessage = 'START';
     if (done) {
       statusMessage = 'DONE';
     } else {
-      if (progress) {
-        if (!running) {
-          statusMessage = 'PAUSED';
-        } else {
-          statusMessage = resting ? 'REST' : 'WORK';
-        }
+      if (currentInterval === 0 && targetSets === remainingSets) {
+        statusMessage = 'WARMUP';
       } else {
-        // statusMessage = 'START!';
+        if (progress) {
+          if (!running) {
+            statusMessage = 'PAUSED';
+          } else {
+            statusMessage = resting ? 'REST' : 'WORK';
+          }
+        }
       }
     }
 
@@ -159,6 +162,7 @@ Clock.propTypes = {
   resting: PropTypes.bool,
   running: PropTypes.bool,
   targetIntervals: PropTypes.number.isRequired,
+  targetSets: PropTypes.number.isRequired,
   reset: PropTypes.func.isRequired,
   toggleClock: PropTypes.func.isRequired,
   updateWorkout: PropTypes.func.isRequired
@@ -176,7 +180,7 @@ const styles = theme => ({
     fontSize: '6rem'
   },
   clock_status: {
-    fontSize: mobile ? '5.4rem' : '6rem'
+    fontSize: mobile ? '4.4rem' : '6rem'
   },
   clock: {
     padding: '1rem .75rem',

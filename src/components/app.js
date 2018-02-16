@@ -275,7 +275,6 @@ class App extends React.Component {
       restTime,
       targetIntervals,
       targetSets,
-
       setRestTime,
       warmupTime
     };
@@ -324,6 +323,7 @@ class App extends React.Component {
                 remainingSets={remainingSets}
                 remainingTime={remainingTime}
                 targetIntervals={targetIntervals}
+                targetSets={targetSets}
                 reset={this.resetWorkout}
                 updateWorkout={this.updateWorkout}
               />
