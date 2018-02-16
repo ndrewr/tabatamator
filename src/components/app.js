@@ -298,6 +298,7 @@ class App extends React.Component {
             !totalTime && 'grey2',
             done && 'yellow'
           )}
+          spacing={0}
         >
           <Grid item xs={12}>
             <Navbar
