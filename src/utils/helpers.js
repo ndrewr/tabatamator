@@ -6,15 +6,6 @@ export function calculateTotalWorkoutTime({
   targetSets,
   warmupTime
 }) {
-  // const {
-  //   intervalTime,
-  //   restTime,
-  //   setRestTime,
-  //   targetIntervals,
-  //   targetSets,
-  //   warmupTime
-  // } = workout;
-
   const setCompletionTime =
     targetIntervals * intervalTime + (targetIntervals - 1) * restTime;
 

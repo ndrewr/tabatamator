@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import Button from 'material-ui-next/Button';
 import Divider from 'material-ui-next/Divider';
 import Drawer from 'material-ui-next/Drawer';
+import Grid from 'material-ui-next/Grid';
 import IconButton from 'material-ui-next/IconButton';
 import Input, { InputLabel, InputAdornment } from 'material-ui-next/Input';
 import { FormControl } from 'material-ui-next/Form';
@@ -77,7 +78,6 @@ class Sidebar extends React.Component {
   };
 
   saveWorkout = () => {
-    // this.showAlert('Workout saved as default.');
     this.props
       .saveWorkout()
       .then(resp => this.showAlert('Workout saved as default.'))
@@ -109,11 +109,10 @@ class Sidebar extends React.Component {
     const {
       intervalTime,
       restTime,
+      setRestTime,
       showAlert,
       targetIntervals,
       targetSets,
-
-      setRestTime,
       warmupTime
     } = this.state;
 
@@ -126,139 +125,154 @@ class Sidebar extends React.Component {
         anchor="right"
         open={open}
       >
-        <div className={classes.drawerInner}>
-          <div className={classes.drawer__header}>
-            <Typography type="title" color="inherit">
-              Configuration
+        <Grid container spacing={16}>
+          <Grid item xs={12}>
+            <div className={classes.drawer__header}>
+              <Typography type="title" color="inherit">
+                Configuration
+              </Typography>
+              <IconButton onClick={handleDrawerClose}>
+                <DirectionsRun />
+              </IconButton>
+            </div>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl className={classes.form__control}>
+              <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
+              <Input
+                className={classes.form__input}
+                id="settings-num-sets"
+                value={targetSets}
+                onChange={this.updateField('targetSets')}
+                endAdornment={
+                  <InputAdornment position="start">sets</InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl className={classes.form__control}>
+              <InputLabel htmlFor="settings-num-intervals">
+                Intervals
+              </InputLabel>
+              <Input
+                className={classes.form__input}
+                id="settings-num-intervals"
+                value={targetIntervals}
+                onChange={this.updateField('targetIntervals')}
+                endAdornment={
+                  <InputAdornment position="start">/set</InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl
+              className={classes.form__control}
+              aria-describedby="interval-length-seconds"
+            >
+              <InputLabel htmlFor="intervals-helper-text">
+                Interval length
+              </InputLabel>
+              <Input
+                className={classes.form__input}
+                id="settings-time-interval"
+                value={intervalTime}
+                onChange={this.updateField('intervalTime')}
+                endAdornment={
+                  <InputAdornment position="start">Sec</InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl className={classes.form__control}>
+              <InputLabel htmlFor="settings-time-rest">
+                Interval rest
+              </InputLabel>
+              <Input
+                className={classes.form__input}
+                id="settings-time-rest"
+                value={restTime}
+                onChange={this.updateField('restTime')}
+                endAdornment={
+                  <InputAdornment position="start">Sec</InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl className={classes.form__control}>
+              <InputLabel htmlFor="settings-time-set-rest">Set rest</InputLabel>
+              <Input
+                className={classes.form__input}
+                id="settings-time-set-rest"
+                value={setRestTime}
+                onChange={this.updateField('setRestTime')}
+                endAdornment={
+                  <InputAdornment position="start">Sec</InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl className={classes.form__control}>
+              <InputLabel htmlFor="settings-time-warmup">Warmup</InputLabel>
+              <Input
+                className={classes.form__input}
+                id="settings-time-warmup"
+                value={warmupTime}
+                onChange={this.updateField('warmupTime')}
+                endAdornment={
+                  <InputAdornment position="start">Sec</InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Divider className={classes.sidebar__divider} />
+            <Button
+              className={classes.button}
+              raised
+              color="default"
+              onClick={this.resetSettings}
+            >
+              RESET
+            </Button>
+            <Button
+              className={classes.button}
+              raised
+              color="primary"
+              onClick={this.updateSettings}
+            >
+              CONFIRM
+            </Button>
+            <Typography type="body2" gutterBottom>
+              Timer will reset on CONFIRM
             </Typography>
-            <IconButton onClick={handleDrawerClose}>
-              <DirectionsRun />
+
+            <IconButton
+              color="primary"
+              className={classnames(classes.button_icon, classes.button)}
+              onClick={this.saveWorkout}
+            >
+              <CloudUpload />
             </IconButton>
-          </div>
+            <IconButton
+              className={classnames(classes.button_icon, classes.button)}
+              color="primary"
+              onClick={this.loadWorkout}
+            >
+              <CloudDownload />
+            </IconButton>
 
-          <FormControl className={classes.form__control}>
-            <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
-            <Input
-              className={classes.form__input}
-              id="settings-num-sets"
-              value={targetSets}
-              onChange={this.updateField('targetSets')}
-              endAdornment={
-                <InputAdornment position="start">sets</InputAdornment>
-              }
-            />
-          </FormControl>
-          <FormControl className={classes.form__control}>
-            <InputLabel htmlFor="settings-num-intervals">
-              Intervals per set
-            </InputLabel>
-            <Input
-              className={classes.form__input}
-              id="settings-num-intervals"
-              value={targetIntervals}
-              onChange={this.updateField('targetIntervals')}
-              endAdornment={
-                <InputAdornment position="start">intervals</InputAdornment>
-              }
-            />
-          </FormControl>
-          <FormControl
-            className={`${classes.form__control} ${classes.withoutLabel}`}
-            aria-describedby="interval-length-seconds"
-          >
-            <InputLabel htmlFor="intervals-helper-text">
-              Interval length
-            </InputLabel>
-            <Input
-              className={classes.form__input}
-              id="settings-time-interval"
-              value={intervalTime}
-              onChange={this.updateField('intervalTime')}
-              endAdornment={
-                <InputAdornment position="start">Sec</InputAdornment>
-              }
-            />
-          </FormControl>
-          <FormControl className={classes.form__control}>
-            <InputLabel htmlFor="settings-time-rest">
-              Interval rest time
-            </InputLabel>
-            <Input
-              className={classes.form__input}
-              id="settings-time-rest"
-              value={restTime}
-              onChange={this.updateField('restTime')}
-              endAdornment={
-                <InputAdornment position="start">Sec</InputAdornment>
-              }
-            />
-          </FormControl>
-
-          <FormControl className={classes.form__control}>
-            <InputLabel htmlFor="settings-time-set-rest">
-              Set rest time
-            </InputLabel>
-            <Input
-              className={classes.form__input}
-              id="settings-time-set-rest"
-              value={setRestTime}
-              onChange={this.updateField('setRestTime')}
-              endAdornment={
-                <InputAdornment position="start">Sec</InputAdornment>
-              }
-            />
-          </FormControl>
-          <FormControl className={classes.form__control}>
-            <InputLabel htmlFor="settings-time-warmup">Warmup time</InputLabel>
-            <Input
-              className={classes.form__input}
-              id="settings-time-warmup"
-              value={warmupTime}
-              onChange={this.updateField('warmupTime')}
-              endAdornment={
-                <InputAdornment position="start">Sec</InputAdornment>
-              }
-            />
-          </FormControl>
-
-          <Divider className={classes.sidebar__divider} />
-          <Button
-            className={classes.button}
-            raised
-            color="default"
-            onClick={this.resetSettings}
-          >
-            RESET
-          </Button>
-          <Button
-            className={classes.button}
-            raised
-            color="primary"
-            onClick={this.updateSettings}
-          >
-            CONFIRM
-          </Button>
-          <Typography type="body2" gutterBottom>
-            Timer will reset on CONFIRM
-          </Typography>
-
-          <IconButton
-            color="primary"
-            className={classnames(classes.button_icon, classes.button)}
-            onClick={this.saveWorkout}
-          >
-            <CloudUpload />
-          </IconButton>
-          <IconButton
-            className={classnames(classes.button_icon, classes.button)}
-            color="primary"
-            onClick={this.loadWorkout}
-          >
-            <CloudDownload />
-          </IconButton>
-
-          <Alert text={showAlert} />
-        </div>
+            <Alert text={showAlert} />
+          </Grid>
+        </Grid>
       </Drawer>
     );
   }
@@ -302,9 +316,9 @@ const styles = theme => ({
   form__input: {
     fontSize: '36px'
   },
-  withoutLabel: {
-    marginTop: theme.spacing.unit * 3
-  },
+  // withoutLabel: {
+  //   marginTop: theme.spacing.unit * 3
+  // },
   button: {
     margin: theme.spacing.unit,
     width: '42%',

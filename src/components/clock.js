@@ -184,7 +184,8 @@ const styles = theme => ({
   },
   clock: {
     padding: '1rem .75rem',
-    backgroundColor: GREY2
+    // backgroundColor: GREY2,
+    backgroundColor: 'rgba(244, 244, 248, 0.7)'
   }
 });
 

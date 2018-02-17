@@ -159,11 +159,11 @@ class App extends React.Component {
       running,
       remainingSets,
       resting,
-      targetIntervals,
+      targetIntervals
 
-      setRestTime,
-      warmupTime,
-      totalTime
+      // setRestTime,
+      // warmupTime,
+      // totalTime
     } = this.state;
 
     // if sidebar is open, timer pauses
@@ -196,8 +196,8 @@ class App extends React.Component {
       remainingSets,
       totalTime,
 
-      setRestTime,
-      warmupTime
+      setRestTime
+      // warmupTime
     } = this.state;
     const workoutUpdate = {};
 
@@ -207,12 +207,12 @@ class App extends React.Component {
 
     const workoutStatus = this.workoutStatus();
     switch (workoutStatus) {
-      case 'WARMUP':
-        workoutUpdate.currentTime = warmupTime;
-        // workoutUpdate.currentTime = currentTime - 1;
-        // workoutUpdate.totalTime = totalTime + 1;
-        workoutUpdate.resting = true;
-        break;
+      // case 'WARMUP':
+      // workoutUpdate.currentTime = warmupTime;
+      // workoutUpdate.currentTime = currentTime - 1;
+      // workoutUpdate.totalTime = totalTime + 1;
+      // workoutUpdate.resting = true;
+      // break;
       case 'WORK':
         workoutUpdate.currentTime = currentTime - 1;
         workoutUpdate.totalTime = totalTime + 1;
