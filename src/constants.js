@@ -6,17 +6,14 @@ export const APP_TITLE = 'Tabatamator';
 export const DEFAULT_WORKOUT = {
   intervalTime: 20,
   restTime: 10,
+  setRestTime: 120,
   targetSets: 2,
   targetIntervals: 3,
-
-  setRestTime: 120,
   warmupTime: 60
 };
 
 export const DEFAULT_APP_STATE = {
   ...DEFAULT_WORKOUT,
-  // currentInterval: 1,
-  // currentTime: DEFAULT_WORKOUT.intervalTime,
   currentInterval: 0,
   currentTime: DEFAULT_WORKOUT.warmupTime,
   done: false,
@@ -24,7 +21,6 @@ export const DEFAULT_APP_STATE = {
   loading: true,
   open: false,
   remainingSets: DEFAULT_WORKOUT.targetSets,
-  // resting: false,
   resting: true,
   running: false,
   targetTime: calculateTotalWorkoutTime(DEFAULT_WORKOUT),
@@ -56,14 +52,5 @@ export const APP_THEME = {
   // },
   typography: {
     fontFamily: 'quantico, sans-serif'
-    // '-apple-system,system-ui,BlinkMacSystemFont,' +
-    // '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
-    // fontWeightMedium,
-    // body1: {
-    //   fontWeight: fontWeightMedium,
-    // },
-    // button: {
-    //   fontStyle: 'italic',
-    // },
   }
 };
