@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Grid from 'material-ui-next/Grid';
+import Schedule from 'material-ui-icons-next/Schedule';
+import Typography from 'material-ui-next/Typography';
 import {
   withStyles,
   MuiThemeProvider,
@@ -85,10 +87,9 @@ class App extends React.Component {
     const workoutSettings = {
       intervalTime,
       restTime,
+      setRestTime,
       targetSets,
       targetIntervals,
-
-      setRestTime,
       warmupTime
     };
 
@@ -102,33 +103,27 @@ class App extends React.Component {
   updateSettings = newSettings => {
     // TODO : if warmup Time is 0 set app state to start from interval directly
     this.setState({
+      currentInterval: 0,
       currentTime: newSettings.warmupTime,
-      // currentTime: newSettings.intervalTime,
       open: false,
       remainingSets: newSettings.targetSets,
+      resting: true,
       running: false,
       targetTime: calculateTotalWorkoutTime(newSettings),
       totalTime: 0,
-      ...newSettings,
-
-      resting: true,
-      currentInterval: 0
+      ...newSettings
     });
   };
 
   resetWorkout = () => {
     this.setState({
-      // currentInterval: 1,
-      // currentTime: this.state.intervalTime,
       currentInterval: 0,
       currentTime: this.state.warmupTime,
-
       done: false,
       remainingSets: this.state.targetSets,
+      resting: true,
       running: false,
-      totalTime: 0,
-
-      resting: true
+      totalTime: 0
     });
   };
 
@@ -160,20 +155,12 @@ class App extends React.Component {
       remainingSets,
       resting,
       targetIntervals
-
-      // setRestTime,
-      // warmupTime,
-      // totalTime
     } = this.state;
 
     // if sidebar is open, timer pauses
     if (open || !running) {
       return 'PAUSE';
     }
-
-    // if (totalTime === 0) {
-    //   return 'WARMUP'
-    // }
 
     if (currentTime === 0) {
       if (currentInterval === targetIntervals) {
@@ -194,10 +181,8 @@ class App extends React.Component {
       intervalTime,
       restTime,
       remainingSets,
-      totalTime,
-
-      setRestTime
-      // warmupTime
+      setRestTime,
+      totalTime
     } = this.state;
     const workoutUpdate = {};
 
@@ -207,12 +192,6 @@ class App extends React.Component {
 
     const workoutStatus = this.workoutStatus();
     switch (workoutStatus) {
-      // case 'WARMUP':
-      // workoutUpdate.currentTime = warmupTime;
-      // workoutUpdate.currentTime = currentTime - 1;
-      // workoutUpdate.totalTime = totalTime + 1;
-      // workoutUpdate.resting = true;
-      // break;
       case 'WORK':
         workoutUpdate.currentTime = currentTime - 1;
         workoutUpdate.totalTime = totalTime + 1;
@@ -227,10 +206,8 @@ class App extends React.Component {
         workoutUpdate.currentInterval = currentInterval + 1;
         break;
       case 'NEW_SET':
-        // workoutUpdate.currentTime = intervalTime;
         workoutUpdate.currentTime = setRestTime;
         workoutUpdate.resting = true;
-
         workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.currentInterval = 0;
         break;
@@ -261,12 +238,11 @@ class App extends React.Component {
       resting,
       restTime,
       running,
+      setRestTime,
       targetIntervals,
       targetSets,
       targetTime,
       totalTime,
-
-      setRestTime,
       warmupTime
     } = this.state;
 
@@ -308,7 +284,9 @@ class App extends React.Component {
           </Grid>
           {loading ? (
             <Grid item xs={12}>
-              LOADING
+              <Typography type="display2" color="inherit">
+                LOADING <Schedule style={{ width: '2rem', height: '2rem' }} />
+              </Typography>
             </Grid>
           ) : (
             <Grid item xs={12}>
@@ -351,7 +329,6 @@ const styles = theme => ({
   global_styles: {
     fontFamily: 'quantico, sans-serif',
     height: '100%',
-    // width: '100%', // NEED THIS? IS IT MESSING UP GRID??
     boxSizing: 'border-box'
   },
   root: {

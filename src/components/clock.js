@@ -9,7 +9,6 @@ import { withStyles } from 'material-ui-next/styles';
 
 import TimerControls from './timerControls';
 
-import { GREY2 } from '../constants';
 import formatTime from '../utils/formatTime';
 import isMobile from '../utils/isMobile';
 
@@ -177,14 +176,13 @@ const styles = theme => ({
     width: ''
   },
   clock_display: {
-    fontSize: '6rem'
+    fontSize: mobile ? '5rem' : '6rem'
   },
   clock_status: {
-    fontSize: mobile ? '4.4rem' : '6rem'
+    fontSize: mobile ? '4rem' : '6rem'
   },
   clock: {
     padding: '1rem .75rem',
-    // backgroundColor: GREY2,
     backgroundColor: 'rgba(244, 244, 248, 0.7)'
   }
 });

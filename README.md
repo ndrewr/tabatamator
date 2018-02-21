@@ -27,5 +27,5 @@ yarn start
 ##Libraries
 - React.js
 - MaterialUI (next)
-- LocalForage
+- LocalForage.js
 - Howler.js

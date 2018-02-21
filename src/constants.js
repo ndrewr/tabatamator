@@ -7,8 +7,8 @@ export const DEFAULT_WORKOUT = {
   intervalTime: 20,
   restTime: 10,
   setRestTime: 120,
-  targetSets: 2,
-  targetIntervals: 3,
+  targetSets: 1,
+  targetIntervals: 8,
   warmupTime: 60
 };
 

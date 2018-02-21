@@ -7,8 +7,6 @@ import Divider from 'material-ui-next/Divider';
 import Drawer from 'material-ui-next/Drawer';
 import Grid from 'material-ui-next/Grid';
 import IconButton from 'material-ui-next/IconButton';
-import Input, { InputLabel, InputAdornment } from 'material-ui-next/Input';
-import { FormControl } from 'material-ui-next/Form';
 import Typography from 'material-ui-next/Typography';
 import CloudDownload from 'material-ui-icons-next/CloudDownload';
 import CloudUpload from 'material-ui-icons-next/CloudUpload';
@@ -16,6 +14,7 @@ import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
 import { withStyles } from 'material-ui-next/styles';
 
 import Alert from './alert';
+import InputField from './inputField';
 
 import { DEFAULT_WORKOUT } from '../constants';
 
@@ -26,21 +25,19 @@ class Sidebar extends React.Component {
     const {
       intervalTime,
       restTime,
+      setRestTime,
       targetIntervals,
       targetSets,
-
-      setRestTime,
       warmupTime
     } = props.settings;
 
     this.state = {
       intervalTime,
       restTime,
+      setRestTime,
+      showAlert: '',
       targetIntervals,
       targetSets,
-      showAlert: '',
-
-      setRestTime,
       warmupTime
     };
   }
@@ -87,9 +84,18 @@ class Sidebar extends React.Component {
       });
   };
 
+  validInput = value => {
+    // return isNumber and inRange
+    return Number.isInteger(value) && /^\d{1,3}$/.test(value);
+  };
+
   updateField = fieldName => event => {
+    // restrict to three digits
     this.setState({
-      [fieldName]: event.target.value
+      [fieldName]:
+        event.target.value.length < 4
+          ? event.target.value
+          : this.state[fieldName]
     });
   };
 
@@ -138,99 +144,60 @@ class Sidebar extends React.Component {
           </Grid>
 
           <Grid item xs={6}>
-            <FormControl className={classes.form__control}>
-              <InputLabel htmlFor="settings-num-sets">Tabatas</InputLabel>
-              <Input
-                className={classes.form__input}
-                id="settings-num-sets"
-                value={targetSets}
-                onChange={this.updateField('targetSets')}
-                endAdornment={
-                  <InputAdornment position="start">sets</InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputField
+              name={'targetSets'}
+              label={'Tabatas'}
+              units={'sets'}
+              value={String(targetSets)}
+              updateField={this.updateField('targetSets')}
+            />
           </Grid>
           <Grid item xs={6}>
-            <FormControl className={classes.form__control}>
-              <InputLabel htmlFor="settings-num-intervals">
-                Intervals
-              </InputLabel>
-              <Input
-                className={classes.form__input}
-                id="settings-num-intervals"
-                value={targetIntervals}
-                onChange={this.updateField('targetIntervals')}
-                endAdornment={
-                  <InputAdornment position="start">/set</InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputField
+              name={'targetIntervals'}
+              label={'Intervals'}
+              units={'/set'}
+              value={String(targetIntervals)}
+              updateField={this.updateField('targetIntervals')}
+            />
           </Grid>
 
           <Grid item xs={6}>
-            <FormControl
-              className={classes.form__control}
-              aria-describedby="interval-length-seconds"
-            >
-              <InputLabel htmlFor="intervals-helper-text">
-                Interval length
-              </InputLabel>
-              <Input
-                className={classes.form__input}
-                id="settings-time-interval"
-                value={intervalTime}
-                onChange={this.updateField('intervalTime')}
-                endAdornment={
-                  <InputAdornment position="start">Sec</InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputField
+              name={'intervalTime'}
+              label={'Interval length'}
+              units={'Sec'}
+              value={String(intervalTime)}
+              updateField={this.updateField('intervalTime')}
+            />
           </Grid>
           <Grid item xs={6}>
-            <FormControl className={classes.form__control}>
-              <InputLabel htmlFor="settings-time-rest">
-                Interval rest
-              </InputLabel>
-              <Input
-                className={classes.form__input}
-                id="settings-time-rest"
-                value={restTime}
-                onChange={this.updateField('restTime')}
-                endAdornment={
-                  <InputAdornment position="start">Sec</InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputField
+              name={'restTime'}
+              label={'Interval rest'}
+              units={'Sec'}
+              value={String(restTime)}
+              updateField={this.updateField('restTime')}
+            />
           </Grid>
 
           <Grid item xs={6}>
-            <FormControl className={classes.form__control}>
-              <InputLabel htmlFor="settings-time-set-rest">Set rest</InputLabel>
-              <Input
-                className={classes.form__input}
-                id="settings-time-set-rest"
-                value={setRestTime}
-                onChange={this.updateField('setRestTime')}
-                endAdornment={
-                  <InputAdornment position="start">Sec</InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputField
+              name={'setRestTime'}
+              label={'Set rest'}
+              units={'Sec'}
+              value={String(setRestTime)}
+              updateField={this.updateField('setRestTime')}
+            />
           </Grid>
           <Grid item xs={6}>
-            <FormControl className={classes.form__control}>
-              <InputLabel htmlFor="settings-time-warmup">Warmup</InputLabel>
-              <Input
-                className={classes.form__input}
-                id="settings-time-warmup"
-                value={warmupTime}
-                onChange={this.updateField('warmupTime')}
-                endAdornment={
-                  <InputAdornment position="start">Sec</InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputField
+              name={'warmupTime'}
+              label={'Warmup'}
+              units={'Sec'}
+              value={String(warmupTime)}
+              updateField={this.updateField('warmupTime')}
+            />
           </Grid>
 
           <Grid item xs={12}>
@@ -284,10 +251,9 @@ Sidebar.propTypes = {
   settings: PropTypes.shape({
     intervalTime: PropTypes.number,
     restTime: PropTypes.number,
+    setRestTime: PropTypes.number,
     targetIntervals: PropTypes.number,
     targetSets: PropTypes.number,
-
-    setRestTime: PropTypes.number,
     warmupTime: PropTypes.number
   }),
   handleDrawerClose: PropTypes.func.isRequired,
@@ -298,8 +264,8 @@ Sidebar.propTypes = {
 
 const styles = theme => ({
   drawer: {
-    width: 320,
-    padding: 40,
+    width: 340,
+    padding: 30,
     paddingTop: 20
   },
   drawer__header: {
@@ -309,16 +275,6 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar
   },
-  form__control: {
-    marginBottom: theme.spacing.unit,
-    width: '100%'
-  },
-  form__input: {
-    fontSize: '36px'
-  },
-  // withoutLabel: {
-  //   marginTop: theme.spacing.unit * 3
-  // },
   button: {
     margin: theme.spacing.unit,
     width: '42%',

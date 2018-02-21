@@ -60,9 +60,9 @@ const styles = theme => ({
     marginTop: '1rem'
   },
   button: {
-    fontSize: '3rem',
-    padding: '1rem 2rem',
-    width: '90%'
+    fontSize: mobile ? '2.4rem' : '3rem',
+    padding: mobile ? '.75rem 1.5rem' : '1rem 2rem',
+    width: '80%'
   },
   button__red: {
     backgroundColor: RED
