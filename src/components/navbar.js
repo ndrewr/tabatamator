@@ -12,11 +12,12 @@ import { withStyles } from 'material-ui-next/styles';
 
 import { APP_TITLE } from '../constants';
 
-function Navbar({ classes, onMenuClick }) {
+function Navbar({ classes, onHelpClick, onMenuClick }) {
   function onClick() {
-    window.open(
-      'https://www.active.com/fitness/articles/what-is-tabata-training'
-    );
+    onHelpClick();
+    // window.open(
+    //   'https://www.active.com/fitness/articles/what-is-tabata-training'
+    // );
   }
 
   return (

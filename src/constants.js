@@ -20,6 +20,9 @@ export const DEFAULT_APP_STATE = {
   loadedPreset: null,
   loading: true,
   open: false,
+
+  showHelp: false,
+
   remainingSets: DEFAULT_WORKOUT.targetSets,
   resting: true,
   running: false,

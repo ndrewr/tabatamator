@@ -15,6 +15,8 @@ import Clock from './clock';
 import Navbar from './navbar';
 import Sidebar from './sidebar';
 
+import HelpModal from './helpModal';
+
 import { DEFAULT_APP_STATE, APP_THEME } from '../constants';
 import db from '../db';
 import sound from '../soundPlayer';
@@ -68,6 +70,20 @@ class App extends React.Component {
   handleDrawerClose = () => {
     this.setState({
       open: false,
+      running: Boolean(this.state.totalTime)
+    });
+  };
+
+  handleHelpOpen = () => {
+    this.setState(state => ({
+      showHelp: true,
+      running: false
+    }));
+  };
+
+  handleHelpClose = () => {
+    this.setState({
+      showHelp: false,
       running: Boolean(this.state.totalTime)
     });
   };
@@ -275,11 +291,16 @@ class App extends React.Component {
           )}
           spacing={0}
         >
+          <HelpModal
+            open={this.state.showHelp}
+            handleClose={this.handleHelpClose}
+          />
           <Grid item xs={12}>
             <Navbar
               onMenuClick={
                 open ? this.handleDrawerClose : this.handleDrawerOpen
               }
+              onHelpClick={this.handleHelpOpen}
             />
           </Grid>
           {loading ? (
