@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import classnames from 'classnames';
 
-// import Typography from 'material-ui-next/Typography';
-import NavNextIcon from 'material-ui-icons-next/NavigateNext';
 import { withStyles } from 'material-ui-next/styles';
 
 import { BLUE } from '../constants';

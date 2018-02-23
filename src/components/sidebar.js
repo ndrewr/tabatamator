@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+// import classnames from 'classnames';
 
 import Button from 'material-ui-next/Button';
 import Divider from 'material-ui-next/Divider';
@@ -228,12 +228,30 @@ class Sidebar extends React.Component {
               raised
               color="primary"
               variant="fab"
-              onClick={this.updateSettings}
+              onClick={this.saveWorkout}
             >
-              <CloudUpload style={{ display: 'block' }} />
-              <span>SAVE</span>
+              save <CloudUpload style={{ marginLeft: '.5rem' }} />
             </Button>
 
+            <Button
+              className={classes.button}
+              style={{ flexDirection: 'column' }}
+              raised
+              color="primary"
+              variant="fab"
+              onClick={this.loadWorkout}
+            >
+              load <CloudDownload style={{ marginLeft: '.5rem' }} />
+            </Button>
+
+            <Alert text={showAlert} />
+          </Grid>
+        </Grid>
+      </Drawer>
+    );
+  }
+}
+/*
             <IconButton
               color="primary"
               className={classnames(classes.button_icon, classes.button)}
@@ -248,14 +266,7 @@ class Sidebar extends React.Component {
             >
               <CloudDownload />
             </IconButton>
-
-            <Alert text={showAlert} />
-          </Grid>
-        </Grid>
-      </Drawer>
-    );
-  }
-}
+*/
 
 Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -292,9 +303,9 @@ const styles = theme => ({
     width: '42%',
     fontSize: '1.2rem'
   },
-  button_icon: {
-    fontSize: '3rem'
-  },
+  // button_icon: {
+  //   fontSize: '3rem'
+  // },
   sidebar__divider: {
     margin: theme.spacing.unit * 2
   }
