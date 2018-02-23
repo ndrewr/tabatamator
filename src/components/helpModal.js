@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import classnames from 'classnames';
 
-import Dialog, { DialogTitle, DialogContent } from 'material-ui-next/Dialog';
-// import Grid from 'material-ui-next/Grid';
+import Dialog, {
+  DialogTitle,
+  DialogContent,
+  DialogContentText
+} from 'material-ui-next/Dialog';
+import AlarmOn from 'material-ui-icons-next/AlarmOn';
+import FitnessIcon from 'material-ui-icons-next/FitnessCenter';
 import Typography from 'material-ui-next/Typography';
 import { withStyles } from 'material-ui-next/styles';
 
+import Link from './link';
+
+import { APP_TITLE } from '../constants';
+
 const HelpModal = ({ classes, open, handleClose }) => {
-  // show links with Tabata workout info
-  // show link and icon for github
-  // brief description how-to-use
-  console.log('create modal!');
   return (
     <Dialog
       className={classes.container}
@@ -19,32 +23,51 @@ const HelpModal = ({ classes, open, handleClose }) => {
       onClose={handleClose}
       aria-labelledby="help-window"
     >
-      <DialogTitle id="tabatamator-help-window">About Tabatamator</DialogTitle>
+      <DialogTitle id="tabatamator-help-window" disableTypography>
+        <Typography type="title" className={classes.modal_title}>
+          About {APP_TITLE}
+        </Typography>
+      </DialogTitle>
       <DialogContent>
-        <Typography type="headline" color="inherit">
-          <a href="">Info on the Tabata workout protocol</a>
+        <Typography type="headline" gutterBottom>
+          <Link
+            text="Info on the Tabata workout protocol"
+            url="https://breakingmuscle.com/fitness/the-tabata-revolution-explained-what-why-and-how-to-tabata"
+          />
         </Typography>
-        <Typography type="headline" color="inherit">
-          <a href="">Tabata vs HIIT training</a>
+        <Typography type="headline" gutterBottom>
+          <Link
+            text="Tabata vs HIIT training"
+            url="https://grokker.com/fitness/interval-training-hiit/tips/tabata-vs-hiit"
+          />
         </Typography>
-        <Typography type="body2" color="inherit">
-          <p>
-            The default tabata workout consists of sets of eight 20-second
-            intense workout intervals broken up with 10-second rest intervals.
-          </p>
-          <p>
-            Workouts can be customised via the configuration menu accessible by
-            tapping the left menu button.
-          </p>
-          <p>
-            A favorite custom workout can be saved or loaded with the
-            "cloud-upload" and "cloud download" buttons, respectively.\n A
-            favorite workout will load automatically the next time you open
-            Tabatamator.
-          </p>
+        <Typography align="center" type="display1" gutterBottom>
+          <AlarmOn />
+        </Typography>
+        <DialogContentText className={classes.modal_text}>
+          The default tabata protocol consists of sets of eight 20-second
+          intense workout intervals broken up with 10-second rest intervals.
+        </DialogContentText>
+
+        <DialogContentText className={classes.modal_text}>
+          Workouts can be customised via the configuration menu accessible by
+          tapping the right menu button.
+        </DialogContentText>
+
+        <DialogContentText className={classes.modal_text}>
+          A favorite custom workout can be saved or loaded with the
+          "cloud-upload" and "cloud download" buttons, respectively. A favorite
+          workout will load automatically the next time you open Tabatamator.
+        </DialogContentText>
+
+        <Typography align="center" type="display1" gutterBottom>
+          <FitnessIcon />
         </Typography>
         <Typography type="subheading" color="inherit">
-          <a href="#">Tabatamator was created by Andrew R</a>
+          <Link
+            text="Tabatamator was created by Andrew R"
+            url="https://github.com/uncleoptimus/tabatamator"
+          />
         </Typography>
       </DialogContent>
     </Dialog>
@@ -54,9 +77,23 @@ const HelpModal = ({ classes, open, handleClose }) => {
 const styles = {
   container: {
     padding: '2rem'
+  },
+  modal_text: {
+    marginBottom: '1rem'
+  },
+  modal_title: {
+    fontFamily: 'baloo chettan, quantico, sans-serif'
   }
+  // modal_link: {
+  //   textDecoration: 'none',
+  //   color: BLUE,
+  // }
 };
 
-HelpModal.propTypes = {};
+HelpModal.propTypes = {
+  classes: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(HelpModal);

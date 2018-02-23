@@ -222,6 +222,18 @@ class Sidebar extends React.Component {
               Timer will reset on CONFIRM
             </Typography>
 
+            <Button
+              className={classes.button}
+              style={{ flexDirection: 'column' }}
+              raised
+              color="primary"
+              variant="fab"
+              onClick={this.updateSettings}
+            >
+              <CloudUpload style={{ display: 'block' }} />
+              <span>SAVE</span>
+            </Button>
+
             <IconButton
               color="primary"
               className={classnames(classes.button_icon, classes.button)}
