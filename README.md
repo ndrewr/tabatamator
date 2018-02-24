@@ -1,11 +1,11 @@
-#TABATAMATOR
+# TABATAMATOR
 
 author: Andrew R Chen
-last update: 2-19-2018
+last update: 2-23-2018
 
 An easy-to-use, mobile-centric tabata workout timer web app. Made with React and the MaterialUI library.
 
-##Usage
+## Usage
 Live at [https://tabatamator.surge.sh](https://tabatamator.surge.sh).
 
 A default tabata workout consists of a set of eight 20-second intensive workout intervals.
@@ -18,7 +18,7 @@ saved workout can be re-loaded by tapping the "cloud download" button. The favor
 up automatically each time the User returns to Tabatamator.
 
 
-##More about Tabata training
+## More about Tabata training
 [self.com/story/tabata-is-the-4-minute-fat-burning-workout-you-need-to-try](https://www.self.com/story/tabata-is-the-4-minute-fat-burning-workout-you-need-to-try)
 
 [breakingmuscle.com/fitness/the-tabata-revolution-explained-what-why-and-how-to-tabata](https://breakingmuscle.com/fitness/the-tabata-revolution-explained-what-why-and-how-to-tabata)
@@ -26,7 +26,7 @@ up automatically each time the User returns to Tabatamator.
 [grokker.com/fitness/interval-training-hiit/tips/tabata-vs-hiit](https://grokker.com/fitness/interval-training-hiit/tips/tabata-vs-hiit)
 
 
-##Install and Run
+## Install and Run
 
 ```sh
 npm install
@@ -39,7 +39,7 @@ npm start
 yarn start
 ```
 
-##Libraries
+## Libraries
 - React.js
 - MaterialUI (next)
 - LocalForage.js

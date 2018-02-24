@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import classnames from 'classnames';
 
 import Button from 'material-ui-next/Button';
 import Divider from 'material-ui-next/Divider';
@@ -251,22 +250,6 @@ class Sidebar extends React.Component {
     );
   }
 }
-/*
-            <IconButton
-              color="primary"
-              className={classnames(classes.button_icon, classes.button)}
-              onClick={this.saveWorkout}
-            >
-              <CloudUpload />
-            </IconButton>
-            <IconButton
-              className={classnames(classes.button_icon, classes.button)}
-              color="primary"
-              onClick={this.loadWorkout}
-            >
-              <CloudDownload />
-            </IconButton>
-*/
 
 Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -303,9 +286,6 @@ const styles = theme => ({
     width: '42%',
     fontSize: '1.2rem'
   },
-  // button_icon: {
-  //   fontSize: '3rem'
-  // },
   sidebar__divider: {
     margin: theme.spacing.unit * 2
   }

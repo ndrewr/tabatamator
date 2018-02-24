@@ -22,6 +22,7 @@ const HelpModal = ({ classes, open, handleClose }) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="help-window"
+      PaperProps={{ style: { margin: '22px' } }}
     >
       <DialogTitle id="tabatamator-help-window" disableTypography>
         <Typography type="title" className={classes.modal_title}>
@@ -31,7 +32,7 @@ const HelpModal = ({ classes, open, handleClose }) => {
       <DialogContent>
         <Typography type="headline" gutterBottom>
           <Link
-            text="Info on the Tabata workout protocol"
+            text="Tabata workout protocol"
             url="https://breakingmuscle.com/fitness/the-tabata-revolution-explained-what-why-and-how-to-tabata"
           />
         </Typography>
@@ -84,10 +85,6 @@ const styles = {
   modal_title: {
     fontFamily: 'baloo chettan, quantico, sans-serif'
   }
-  // modal_link: {
-  //   textDecoration: 'none',
-  //   color: BLUE,
-  // }
 };
 
 HelpModal.propTypes = {
