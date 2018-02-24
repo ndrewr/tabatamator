@@ -133,7 +133,7 @@ class Sidebar extends React.Component {
         <Grid container spacing={16}>
           <Grid item xs={12}>
             <div className={classes.drawer__header}>
-              <Typography type="title" color="inherit">
+              <Typography variant="title" color="inherit">
                 Configuration
               </Typography>
               <IconButton onClick={handleDrawerClose}>
@@ -200,10 +200,9 @@ class Sidebar extends React.Component {
           </Grid>
 
           <Grid item xs={12}>
-            <Divider className={classes.sidebar__divider} />
             <Button
               className={classes.button}
-              raised
+              variant="raised"
               color="default"
               onClick={this.resetSettings}
             >
@@ -211,22 +210,23 @@ class Sidebar extends React.Component {
             </Button>
             <Button
               className={classes.button}
-              raised
+              variant="raised"
               color="primary"
               onClick={this.updateSettings}
             >
               CONFIRM
             </Button>
-            <Typography type="body2" gutterBottom>
+            <Typography variant="body2" align="center" gutterBottom>
               Timer will reset on CONFIRM
             </Typography>
+
+            <Divider className={classes.sidebar__divider} />
 
             <Button
               className={classes.button}
               style={{ flexDirection: 'column' }}
-              raised
               color="primary"
-              variant="fab"
+              variant="raised"
               onClick={this.saveWorkout}
             >
               save <CloudUpload style={{ marginLeft: '.5rem' }} />
@@ -235,9 +235,8 @@ class Sidebar extends React.Component {
             <Button
               className={classes.button}
               style={{ flexDirection: 'column' }}
-              raised
               color="primary"
-              variant="fab"
+              variant="raised"
               onClick={this.loadWorkout}
             >
               load <CloudDownload style={{ marginLeft: '.5rem' }} />

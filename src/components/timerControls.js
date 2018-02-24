@@ -20,8 +20,8 @@ const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
       <Grid item xs={6}>
         <Button
           className={classnames(classes.button, classes.button__red)}
-          raised
-          color="accent"
+          variant="raised"
+          color="secondary"
           onClick={onToggle}
         >
           {mobile ? '' : done ? 'AGAIN' : running ? 'PAUSE' : 'GO'}
@@ -35,7 +35,7 @@ const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
       <Grid item xs={6}>
         <Button
           className={classnames(classes.button, classes.button__yellow)}
-          raised
+          variant="raised"
           color="primary"
           onClick={onReset}
         >

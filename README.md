@@ -39,6 +39,13 @@ npm start
 yarn start
 ```
 
+### TODOS
+- support multiple saved workouts
+- add social sharing icons
+- polish UI
+- replace audio w/ custom
+
+
 ## Libraries
 - React.js
 - MaterialUI (next)

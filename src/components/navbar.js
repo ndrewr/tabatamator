@@ -15,9 +15,6 @@ import { APP_TITLE } from '../constants';
 function Navbar({ classes, onHelpClick, onMenuClick }) {
   function onClick() {
     onHelpClick();
-    // window.open(
-    //   'https://www.active.com/fitness/articles/what-is-tabata-training'
-    // );
   }
 
   return (
@@ -28,7 +25,7 @@ function Navbar({ classes, onHelpClick, onMenuClick }) {
             classes.appbar_button,
             classes.appbar_button__left
           )}
-          color="contrast"
+          color="secondary"
           onClick={onClick}
         >
           ?
@@ -43,7 +40,7 @@ function Navbar({ classes, onHelpClick, onMenuClick }) {
         <IconButton
           className={classes.appbar_button}
           aria-label="Menu"
-          color="contrast"
+          color="secondary"
           onClick={onMenuClick}
         >
           <CodeIcon />
@@ -74,7 +71,6 @@ const styles = {
   app_title: {
     flex: 1,
     fontFamily: 'baloo chettan, quantico, sans-serif'
-    // fontSize: 'inherit',
   },
   appbar_button__left: {
     minWidth: '40px'

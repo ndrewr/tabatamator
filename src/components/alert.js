@@ -1,5 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
+
+import Typography from 'material-ui-next/Typography';
 import { withStyles } from 'material-ui-next/styles';
 
 const styles = {
@@ -18,11 +20,13 @@ const styles = {
 };
 
 const Alert = ({ classes, text = '' }) => (
-  <div
+  <Typography
+    align="center"
     className={classnames(classes.alert, text ? classes.alert__visible : '')}
+    variant="button"
   >
     {text}
-  </div>
+  </Typography>
 );
 
 export default withStyles(styles)(Alert);

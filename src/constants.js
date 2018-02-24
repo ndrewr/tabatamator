@@ -39,20 +39,20 @@ export const GREY2 = '#f4f4f8';
 
 export const APP_THEME = {
   // build error caused by incl palette key; github issue hints that updating packages mite help
-  // palette: {
-  //   primary: {
-  //     light: '#07D0EF',
-  //     main: '#009fb7',
-  //     dark: '#087687',
-  //     contrastText: '#fff',
-  //   },
-  //   secondary: {
-  //     light: '#F98E8E',
-  //     main: '#fe4a49',
-  //     dark: '#E20909',
-  //     contrastText: '#fff',
-  //   },
-  // },
+  palette: {
+    primary: {
+      light: '#07D0EF',
+      main: '#009fb7',
+      dark: '#087687',
+      contrastText: '#fff'
+    },
+    secondary: {
+      light: '#F98E8E',
+      main: '#fe4a49',
+      dark: '#E20909',
+      contrastText: '#fff'
+    }
+  },
   typography: {
     fontFamily: 'quantico, sans-serif'
   }
