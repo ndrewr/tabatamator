@@ -12,10 +12,9 @@ import {
 } from 'material-ui-next/styles';
 
 import Clock from './clock';
+import HelpModal from './helpModal';
 import Navbar from './navbar';
 import Sidebar from './sidebar';
-
-import HelpModal from './helpModal';
 
 import { DEFAULT_APP_STATE, APP_THEME } from '../constants';
 import db from '../db';
@@ -23,7 +22,6 @@ import sound from '../soundPlayer';
 
 import { calculateTotalWorkoutTime } from '../utils/helpers';
 
-// TODO check, reject for Internet Explorer
 class App extends React.Component {
   state = {
     ...DEFAULT_APP_STATE
@@ -117,7 +115,6 @@ class App extends React.Component {
   };
 
   updateSettings = newSettings => {
-    // TODO : if warmup Time is 0 set app state to start from interval directly
     this.setState({
       currentInterval: 0,
       currentTime: newSettings.warmupTime,

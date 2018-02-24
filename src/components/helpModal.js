@@ -25,24 +25,24 @@ const HelpModal = ({ classes, open, handleClose }) => {
       PaperProps={{ style: { margin: '22px' } }}
     >
       <DialogTitle id="tabatamator-help-window" disableTypography>
-        <Typography type="title" className={classes.modal_title}>
+        <Typography variant="title" className={classes.modal_title}>
           About {APP_TITLE}
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <Typography type="headline" gutterBottom>
+        <Typography variant="title" gutterBottom>
           <Link
-            text="Tabata workout protocol"
+            text="Tabata workout"
             url="https://breakingmuscle.com/fitness/the-tabata-revolution-explained-what-why-and-how-to-tabata"
           />
         </Typography>
-        <Typography type="headline" gutterBottom>
+        <Typography variant="title" gutterBottom>
           <Link
-            text="Tabata vs HIIT training"
+            text="Tabata vs HIIT"
             url="https://grokker.com/fitness/interval-training-hiit/tips/tabata-vs-hiit"
           />
         </Typography>
-        <Typography align="center" type="display1" gutterBottom>
+        <Typography align="center" variant="display1" gutterBottom>
           <AlarmOn />
         </Typography>
         <DialogContentText className={classes.modal_text}>
@@ -61,10 +61,10 @@ const HelpModal = ({ classes, open, handleClose }) => {
           workout will load automatically the next time you open Tabatamator.
         </DialogContentText>
 
-        <Typography align="center" type="display1" gutterBottom>
+        <Typography align="center" variant="display1" gutterBottom>
           <FitnessIcon />
         </Typography>
-        <Typography type="subheading" color="inherit">
+        <Typography variant="subheading" color="inherit">
           <Link
             text="Tabatamator was created by Andrew R"
             url="https://github.com/uncleoptimus/tabatamator"

@@ -44,7 +44,7 @@ yarn start
 - add social sharing icons
 - polish UI
 - replace audio w/ custom
-
+- browser check, e.g. reject IE
 
 ## Libraries
 - React.js

@@ -95,44 +95,36 @@ class Clock extends React.Component {
       >
         <Grid item xs={12} sm={10} md={8} lg={7}>
           <Paper className={classes.clock}>
-            <LinearProgress mode="determinate" value={progress} />
+            <LinearProgress
+              color={resting ? 'primary' : 'secondary'}
+              variant="determinate"
+              value={progress}
+            />
             <div className={classes.clock_status}>{statusMessage}</div>
             <Grid container>
               <Grid item xs={12} sm={7}>
-                <Typography type="display1" color="inherit">
+                <Typography variant="display1" color="inherit">
                   Interval {currentInterval} of {targetIntervals}
                 </Typography>
-                <Typography
-                  type="display3"
-                  color="inherit"
-                  className={classes.clock_display}
-                >
+                <Typography type="display3" className={classes.clock_display}>
                   {formatTime(currentTime)}
                 </Typography>
               </Grid>
               <Grid container item xs={12} sm={5}>
                 <Grid item xs={12}>
-                  <Typography
-                    type="title"
-                    color="inherit"
-                    style={{ fontWeight: 'bold' }}
-                  >
+                  <Typography variant="title" style={{ fontWeight: 'bold' }}>
                     Remaining
                   </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12}>
-                  <Typography type="title" color="inherit">
-                    Time
-                  </Typography>
-                  <Typography type="display2" color="inherit">
+                  <Typography variant="title">Time</Typography>
+                  <Typography variant="display2" color="inherit">
                     {formatTime(remainingTime)}
                   </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12}>
-                  <Typography type="title" color="inherit">
-                    Tabatas
-                  </Typography>
-                  <Typography type="display2" color="inherit">
+                  <Typography variant="title">Tabatas</Typography>
+                  <Typography variant="display2" color="inherit">
                     {remainingSets}
                   </Typography>
                 </Grid>

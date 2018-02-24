@@ -20,12 +20,10 @@ export const DEFAULT_APP_STATE = {
   loadedPreset: null,
   loading: true,
   open: false,
-
-  showHelp: false,
-
   remainingSets: DEFAULT_WORKOUT.targetSets,
   resting: true,
   running: false,
+  showHelp: false,
   targetTime: calculateTotalWorkoutTime(DEFAULT_WORKOUT),
   totalTime: 0
 };
@@ -38,7 +36,6 @@ export const GREY1 = '#e6e6ea';
 export const GREY2 = '#f4f4f8';
 
 export const APP_THEME = {
-  // build error caused by incl palette key; github issue hints that updating packages mite help
   palette: {
     primary: {
       light: '#07D0EF',

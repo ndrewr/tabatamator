@@ -21,26 +21,26 @@ function Navbar({ classes, onHelpClick, onMenuClick }) {
     <AppBar id="app_nav" className={classes.appbar} position="static">
       <Toolbar className={classes.toolbar}>
         <Button
+          aria-label="Help Info"
           className={classnames(
             classes.appbar_button,
             classes.appbar_button__left
           )}
-          color="secondary"
           onClick={onClick}
+          size="small"
         >
           ?
         </Button>
         <Typography
           className={classnames('title', classes.app_title)}
           color="inherit"
-          type="display2"
+          variant="display2"
         >
           {APP_TITLE}
         </Typography>
         <IconButton
-          className={classes.appbar_button}
           aria-label="Menu"
-          color="secondary"
+          className={classes.appbar_button}
           onClick={onMenuClick}
         >
           <CodeIcon />
@@ -66,7 +66,8 @@ const styles = {
     maxWidth: '1200px'
   },
   appbar_button: {
-    color: 'inherit'
+    color: 'inherit',
+    fontSize: '1.6rem'
   },
   app_title: {
     flex: 1,
