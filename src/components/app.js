@@ -34,7 +34,6 @@ class App extends React.Component {
     this.loadSavedWorkout()
       .then(saveData => {
         if (saveData) {
-          console.log('saved wkout: ', saveData);
           Object.assign(initialState, {
             ...saveData,
             currentTime: saveData.warmupTime || saveData.intervalTime,
@@ -47,7 +46,6 @@ class App extends React.Component {
         // console.log('Error loading data...', err);
       })
       .finally(() => {
-        console.log('initial state...', initialState);
         this.setState({
           ...initialState
         });
@@ -72,6 +70,12 @@ class App extends React.Component {
       open: false,
       running: Boolean(this.state.totalTime)
     });
+  };
+
+  handleBodyClose = () => {
+    if (this.state.open) {
+      this.handleDrawerClose();
+    }
   };
 
   handleHelpOpen = () => {
@@ -289,6 +293,7 @@ class App extends React.Component {
             done && 'yellow'
           )}
           spacing={0}
+          onClick={this.handleBodyClose}
         >
           <HelpModal
             open={this.state.showHelp}
