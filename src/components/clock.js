@@ -69,6 +69,7 @@ class Clock extends React.Component {
       targetSets
     } = this.props;
 
+    console.log('rendering clock...', currentTime);
     let statusMessage = 'START';
     if (done) {
       statusMessage = 'DONE';

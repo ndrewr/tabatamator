@@ -28,15 +28,16 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const intitialState = { ...DEFAULT_APP_STATE, loading: false };
+    const initialState = { ...DEFAULT_APP_STATE, loading: false };
 
     // check for previous saved workout
     this.loadSavedWorkout()
       .then(saveData => {
         if (saveData) {
-          Object.assign(intitialState, {
+          console.log('saved wkout: ', saveData);
+          Object.assign(initialState, {
             ...saveData,
-            currentTime: saveData.intervalTime,
+            currentTime: saveData.warmupTime || saveData.intervalTime,
             remainingSets: saveData.targetSets
           });
         }
@@ -46,8 +47,9 @@ class App extends React.Component {
         // console.log('Error loading data...', err);
       })
       .finally(() => {
+        console.log('initial state...', initialState);
         this.setState({
-          ...intitialState
+          ...initialState
         });
       });
   }
