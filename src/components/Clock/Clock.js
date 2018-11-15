@@ -69,6 +69,8 @@ class Clock extends React.Component {
       targetSets
     } = this.props;
 
+    // progress = { totalTime?(totalTime / targetTime) * 100 : 0
+
     let statusMessage = "START";
     if (done) {
       statusMessage = "DONE";
