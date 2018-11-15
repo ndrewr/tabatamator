@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
-import Grid from 'material-ui-next/Grid';
-import Schedule from 'material-ui-icons-next/Schedule';
-import Typography from 'material-ui-next/Typography';
+import Grid from "material-ui-next/Grid";
+import Schedule from "material-ui-icons-next/Schedule";
+import Typography from "material-ui-next/Typography";
 import {
   withStyles,
   MuiThemeProvider,
   createMuiTheme
-} from 'material-ui-next/styles';
+} from "material-ui-next/styles";
 
-import Clock from './clock';
-import HelpModal from './helpModal';
-import Navbar from './navbar';
-import Sidebar from './sidebar';
+import Clock from "./Clock";
+import HelpModal from "./helpModal";
+import Navbar from "./navbar";
+import Sidebar from "./sidebar";
 
-import { DEFAULT_APP_STATE, APP_THEME } from '../constants';
-import db from '../db';
-import sound from '../soundPlayer';
+import { DEFAULT_APP_STATE, APP_THEME } from "../constants";
+import db from "../db";
+import sound from "../soundPlayer";
 
-import { calculateTotalWorkoutTime } from '../utils/helpers';
+import { calculateTotalWorkoutTime } from "../utils/helpers";
 
 class App extends React.Component {
   state = {
@@ -53,7 +53,7 @@ class App extends React.Component {
   }
 
   loadSavedWorkout = () => {
-    return db.getItem('workout1').then(saveData => {
+    return db.getItem("workout1").then(saveData => {
       return saveData ? JSON.parse(saveData) : null;
     });
   };
@@ -149,12 +149,12 @@ class App extends React.Component {
   playSound = workoutStatus => {
     const { currentTime, resting } = this.state;
 
-    if (workoutStatus === 'FINISH') {
-      sound.play('finish');
-    } else if (workoutStatus === 'WORK') {
+    if (workoutStatus === "FINISH") {
+      sound.play("finish");
+    } else if (workoutStatus === "WORK") {
       const nextSecond = currentTime - 1;
       if (nextSecond === 0) {
-        sound.play(resting ? 'bell' : 'horn');
+        sound.play(resting ? "bell" : "horn");
       } else {
         sound.play(nextSecond.toString());
       }
@@ -178,17 +178,17 @@ class App extends React.Component {
 
     // if sidebar is open, timer pauses
     if (open || !running) {
-      return 'PAUSE';
+      return "PAUSE";
     }
 
     if (currentTime === 0) {
       if (currentInterval === targetIntervals) {
-        return remainingSets > 1 ? 'NEW_SET' : 'FINISH';
+        return remainingSets > 1 ? "NEW_SET" : "FINISH";
       } else {
-        return resting ? 'NEW_INTERVAL' : 'REST';
+        return resting ? "NEW_INTERVAL" : "REST";
       }
     } else {
-      return 'WORK';
+      return "WORK";
     }
   };
 
@@ -211,26 +211,26 @@ class App extends React.Component {
 
     const workoutStatus = this.workoutStatus();
     switch (workoutStatus) {
-      case 'WORK':
+      case "WORK":
         workoutUpdate.currentTime = currentTime - 1;
         workoutUpdate.totalTime = totalTime + 1;
         break;
-      case 'REST':
+      case "REST":
         workoutUpdate.currentTime = restTime;
         workoutUpdate.resting = true;
         break;
-      case 'NEW_INTERVAL':
+      case "NEW_INTERVAL":
         workoutUpdate.currentTime = intervalTime;
         workoutUpdate.resting = false;
         workoutUpdate.currentInterval = currentInterval + 1;
         break;
-      case 'NEW_SET':
+      case "NEW_SET":
         workoutUpdate.currentTime = setRestTime;
         workoutUpdate.resting = true;
         workoutUpdate.remainingSets = remainingSets - 1;
         workoutUpdate.currentInterval = 0;
         break;
-      case 'PAUSE':
+      case "PAUSE":
         return;
       default:
         // FINISHED
@@ -284,13 +284,13 @@ class App extends React.Component {
           container
           alignContent="flex-start"
           className={classnames(
-            'app',
+            "app",
             classes.global_styles,
             classes.root,
-            done ? 'gplay' : 'tinyGrid',
-            resting ? 'blue' : 'red',
-            !totalTime && 'grey2',
-            done && 'yellow'
+            done ? "gplay" : "tinyGrid",
+            resting ? "blue" : "red",
+            !totalTime && "grey2",
+            done && "yellow"
           )}
           spacing={0}
           onClick={this.handleBodyClose}
@@ -310,7 +310,7 @@ class App extends React.Component {
           {loading ? (
             <Grid item xs={12}>
               <Typography type="display2" color="inherit">
-                LOADING <Schedule style={{ width: '2rem', height: '2rem' }} />
+                LOADING <Schedule style={{ width: "2rem", height: "2rem" }} />
               </Typography>
             </Grid>
           ) : (
@@ -322,7 +322,7 @@ class App extends React.Component {
                 resting={resting}
                 currentInterval={currentInterval}
                 currentTime={currentTime}
-                progress={totalTime ? totalTime / targetTime * 100 : 0}
+                progress={totalTime ? (totalTime / targetTime) * 100 : 0}
                 remainingSets={remainingSets}
                 remainingTime={remainingTime}
                 targetIntervals={targetIntervals}
@@ -352,19 +352,19 @@ App.propTypes = {
 
 const styles = theme => ({
   global_styles: {
-    fontFamily: 'quantico, sans-serif',
-    height: '100%',
-    boxSizing: 'border-box'
+    fontFamily: "quantico, sans-serif",
+    height: "100%",
+    boxSizing: "border-box"
   },
   root: {
     flexGrow: 1,
-    textAlign: 'center'
+    textAlign: "center"
   },
   control: {
     padding: theme.spacing.unit * 2
   },
   header: {
-    padding: '1rem'
+    padding: "1rem"
   }
 });
 

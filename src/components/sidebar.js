@@ -1,21 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Button from 'material-ui-next/Button';
-import Divider from 'material-ui-next/Divider';
-import Drawer from 'material-ui-next/Drawer';
-import Grid from 'material-ui-next/Grid';
-import IconButton from 'material-ui-next/IconButton';
-import Typography from 'material-ui-next/Typography';
-import CloudDownload from 'material-ui-icons-next/CloudDownload';
-import CloudUpload from 'material-ui-icons-next/CloudUpload';
-import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
-import { withStyles } from 'material-ui-next/styles';
+import Button from "material-ui-next/Button";
+import Divider from "material-ui-next/Divider";
+import Drawer from "material-ui-next/Drawer";
+import Grid from "material-ui-next/Grid";
+import IconButton from "material-ui-next/IconButton";
+import Typography from "material-ui-next/Typography";
+import CloudDownload from "material-ui-icons-next/CloudDownload";
+import CloudUpload from "material-ui-icons-next/CloudUpload";
+import DirectionsRun from "material-ui-icons-next/DirectionsRun";
+import { withStyles } from "material-ui-next/styles";
 
-import Alert from './alert';
-import InputField from './inputField';
+import Alert from "./Alert";
+import InputField from "./inputField";
 
-import { DEFAULT_WORKOUT } from '../constants';
+import { DEFAULT_WORKOUT } from "../constants";
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class Sidebar extends React.Component {
       intervalTime,
       restTime,
       setRestTime,
-      showAlert: '',
+      showAlert: "",
       targetIntervals,
       targetSets,
       warmupTime
@@ -51,10 +51,10 @@ class Sidebar extends React.Component {
     });
   };
 
-  showAlert = (msg = '') => {
+  showAlert = (msg = "") => {
     this.setState({ showAlert: msg });
     setTimeout(() => {
-      this.setState({ showAlert: '' });
+      this.setState({ showAlert: "" });
     }, 3000);
   };
 
@@ -62,13 +62,13 @@ class Sidebar extends React.Component {
     this.props
       .loadWorkout()
       .then(saveData => {
-        this.showAlert('Workout loaded. Confirm?');
+        this.showAlert("Workout loaded. Confirm?");
         this.setState({
           ...saveData
         });
       })
       .catch(error => {
-        this.showAlert('Problem loading workout.');
+        this.showAlert("Problem loading workout.");
         // console.log('Error loading saved workout...', error);
       });
   };
@@ -76,9 +76,9 @@ class Sidebar extends React.Component {
   saveWorkout = () => {
     this.props
       .saveWorkout()
-      .then(resp => this.showAlert('Workout saved as default.'))
+      .then(resp => this.showAlert("Workout saved as default."))
       .catch(err => {
-        this.showAlert('Problem saving workout.');
+        this.showAlert("Problem saving workout.");
         // console.log('There was a problem saving the workout :(');
       });
   };
@@ -144,58 +144,58 @@ class Sidebar extends React.Component {
 
           <Grid item xs={6}>
             <InputField
-              name={'targetSets'}
-              label={'Tabatas'}
-              units={'sets'}
+              name={"targetSets"}
+              label={"Tabatas"}
+              units={"sets"}
               value={String(targetSets)}
-              updateField={this.updateField('targetSets')}
+              updateField={this.updateField("targetSets")}
             />
           </Grid>
           <Grid item xs={6}>
             <InputField
-              name={'targetIntervals'}
-              label={'Intervals'}
-              units={'/set'}
+              name={"targetIntervals"}
+              label={"Intervals"}
+              units={"/set"}
               value={String(targetIntervals)}
-              updateField={this.updateField('targetIntervals')}
+              updateField={this.updateField("targetIntervals")}
             />
           </Grid>
 
           <Grid item xs={6}>
             <InputField
-              name={'intervalTime'}
-              label={'Interval length'}
-              units={'Sec'}
+              name={"intervalTime"}
+              label={"Interval length"}
+              units={"Sec"}
               value={String(intervalTime)}
-              updateField={this.updateField('intervalTime')}
+              updateField={this.updateField("intervalTime")}
             />
           </Grid>
           <Grid item xs={6}>
             <InputField
-              name={'restTime'}
-              label={'Interval rest'}
-              units={'Sec'}
+              name={"restTime"}
+              label={"Interval rest"}
+              units={"Sec"}
               value={String(restTime)}
-              updateField={this.updateField('restTime')}
+              updateField={this.updateField("restTime")}
             />
           </Grid>
 
           <Grid item xs={6}>
             <InputField
-              name={'setRestTime'}
-              label={'Set rest'}
-              units={'Sec'}
+              name={"setRestTime"}
+              label={"Set rest"}
+              units={"Sec"}
               value={String(setRestTime)}
-              updateField={this.updateField('setRestTime')}
+              updateField={this.updateField("setRestTime")}
             />
           </Grid>
           <Grid item xs={6}>
             <InputField
-              name={'warmupTime'}
-              label={'Warmup'}
-              units={'Sec'}
+              name={"warmupTime"}
+              label={"Warmup"}
+              units={"Sec"}
               value={String(warmupTime)}
-              updateField={this.updateField('warmupTime')}
+              updateField={this.updateField("warmupTime")}
             />
           </Grid>
 
@@ -224,22 +224,22 @@ class Sidebar extends React.Component {
 
             <Button
               className={classes.button}
-              style={{ flexDirection: 'column' }}
+              style={{ flexDirection: "column" }}
               color="primary"
               variant="raised"
               onClick={this.saveWorkout}
             >
-              save <CloudUpload style={{ marginLeft: '.5rem' }} />
+              save <CloudUpload style={{ marginLeft: ".5rem" }} />
             </Button>
 
             <Button
               className={classes.button}
-              style={{ flexDirection: 'column' }}
+              style={{ flexDirection: "column" }}
               color="primary"
               variant="raised"
               onClick={this.loadWorkout}
             >
-              load <CloudDownload style={{ marginLeft: '.5rem' }} />
+              load <CloudDownload style={{ marginLeft: ".5rem" }} />
             </Button>
 
             <Alert text={showAlert} />
@@ -274,16 +274,16 @@ const styles = theme => ({
     paddingTop: 20
   },
   drawer__header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
     ...theme.mixins.toolbar
   },
   button: {
     margin: theme.spacing.unit,
-    width: '42%',
-    fontSize: '1.2rem'
+    width: "42%",
+    fontSize: "1.2rem"
   },
   sidebar__divider: {
     margin: theme.spacing.unit * 2
