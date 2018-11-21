@@ -3,6 +3,8 @@ import Clock from "./Clock";
 
 import { WorkoutDataContext } from "../../contexts/WorkoutDataContext";
 
+import { calculateTotalWorkoutTime } from "../../utils/helpers";
+
 export default props => {
   return (
     <WorkoutDataContext.Consumer>
@@ -13,13 +15,16 @@ export default props => {
         toggleClock,
         currentInterval,
         currentTime,
-        // progress={ totalTime?(totalTime / targetTime) * 100 : 0}
+        intervalTime,
         remainingSets,
         remainingTime,
+        restTime,
+        setRestTime,
         targetIntervals,
         targetSets,
         totalTime,
         targetTime,
+        warmupTime,
         reset,
         updateWorkout
       }) => (
@@ -32,11 +37,21 @@ export default props => {
           currentTime={currentTime}
           progress={totalTime ? (totalTime / targetTime) * 100 : 0}
           remainingSets={remainingSets}
-          remainingTime={remainingTime}
+          remainingTime={
+            calculateTotalWorkoutTime({
+              intervalTime,
+              restTime,
+              setRestTime,
+              targetIntervals,
+              targetSets,
+              warmupTime
+            }) - totalTime
+          }
           targetIntervals={targetIntervals}
           targetSets={targetSets}
           reset={reset}
           updateWorkout={updateWorkout}
+          {...props}
         />
       )}
     </WorkoutDataContext.Consumer>

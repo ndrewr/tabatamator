@@ -14,111 +14,126 @@ import {
 import Clock from "./Clock";
 import HelpModal from "./helpModal";
 import Navbar from "./navbar";
-import Sidebar from "./sidebar";
+import Sidebar from "./Sidebar";
 
 import { DEFAULT_APP_STATE, APP_THEME } from "../constants";
-import db from "../db";
+
+// import db from "../db";
 import sound from "../soundPlayer";
 
-import { calculateTotalWorkoutTime } from "../utils/helpers";
+import { withWorkoutDataContext } from "../contexts/WorkoutDataContext";
+
+// import { calculateTotalWorkoutTime } from "../utils/helpers";
 
 class App extends React.Component {
   state = {
-    ...DEFAULT_APP_STATE
+    // ...DEFAULT_APP_STATE
+    open: false,
+    showHelp: false
+    // running: false
   };
 
-  componentDidMount() {
-    const initialState = { ...DEFAULT_APP_STATE, loading: false };
+  // componentDidMount() {
+  //   const initialState = { ...DEFAULT_APP_STATE, loading: false };
 
-    // check for previous saved workout
-    this.loadSavedWorkout()
-      .then(saveData => {
-        if (saveData) {
-          Object.assign(initialState, {
-            ...saveData,
-            currentTime: saveData.warmupTime || saveData.intervalTime,
-            remainingSets: saveData.targetSets
-          });
-        }
-      })
-      .catch(err => {
-        // TODO handle error state
-        // console.log('Error loading data...', err);
-      })
-      .finally(() => {
-        this.setState({
-          ...initialState
-        });
-      });
-  }
+  //   // check for previous saved workout
+  //   this.loadSavedWorkout()
+  //     .then(saveData => {
+  //       if (saveData) {
+  //         Object.assign(initialState, {
+  //           ...saveData,
+  //           currentTime: saveData.warmupTime || saveData.intervalTime,
+  //           remainingSets: saveData.targetSets
+  //         });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       // TODO handle error state
+  //       // console.log('Error loading data...', err);
+  //     })
+  //     .finally(() => {
+  //       this.setState({
+  //         ...initialState
+  //       });
+  //     });
+  // }
 
-  loadSavedWorkout = () => {
-    return db.getItem("workout1").then(saveData => {
-      return saveData ? JSON.parse(saveData) : null;
+  // loadSavedWorkout = () => {
+  //   return db.getItem("workout1").then(saveData => {
+  //     return saveData ? JSON.parse(saveData) : null;
+  //   });
+  // };
+
+  handleDrawerOpen = () => {
+    this.props.context.toggleClock(false);
+
+    this.setState({
+      open: true
+      // running: false
     });
   };
 
-  handleDrawerOpen = () => {
-    this.setState(state => ({
-      open: true,
-      running: false
-    }));
-  };
-
   handleDrawerClose = () => {
+    this.props.context.toggleClock(Boolean(this.props.context.totalTime));
+
     this.setState({
-      open: false,
-      running: Boolean(this.state.totalTime)
+      open: false
+      // running: Boolean(this.state.totalTime)
     });
   };
 
   handleBodyClose = () => {
-    if (this.state.open) {
-      this.handleDrawerClose();
-    }
+    // console.log("body click");
+    // if (this.state.open) {
+    //   this.handleDrawerClose();
+    // }
   };
 
   handleHelpOpen = () => {
+    this.props.context.toggleClock(false);
+
     this.setState(state => ({
-      showHelp: true,
-      running: false
+      showHelp: true
+      // running: false
     }));
   };
 
   handleHelpClose = () => {
+    this.props.context.toggleClock(Boolean(this.props.context.totalTime));
+
     this.setState({
-      showHelp: false,
-      running: Boolean(this.state.totalTime)
+      showHelp: false
+      // running: Boolean(this.state.totalTime)
     });
   };
 
-  // currently only supports one saved workout
-  saveWorkout = (workoutNumber = 1) => {
-    // fun way to one-line the below assignment
-    // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
-    const {
-      intervalTime,
-      restTime,
-      targetIntervals,
-      targetSets,
-      setRestTime,
-      warmupTime
-    } = this.state;
-    const workoutSettings = {
-      intervalTime,
-      restTime,
-      setRestTime,
-      targetSets,
-      targetIntervals,
-      warmupTime
-    };
+  // // currently only supports one saved workout
+  // saveWorkout = (workoutNumber = 1) => {
+  //   // fun way to one-line the below assignment
+  //   // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
+  //   const {
+  //     intervalTime,
+  //     restTime,
+  //     targetIntervals,
+  //     targetSets,
+  //     setRestTime,
+  //     warmupTime
+  //   } = this.state;
+  //   const workoutSettings = {
+  //     intervalTime,
+  //     restTime,
+  //     setRestTime,
+  //     targetSets,
+  //     targetIntervals,
+  //     warmupTime
+  //   };
 
-    // save the workout to storage
-    return db.setItem(
-      `workout${workoutNumber}`,
-      JSON.stringify(workoutSettings)
-    );
-  };
+  //   // save the workout to storage
+  //   return db.setItem(
+  //     `workout${workoutNumber}`,
+  //     JSON.stringify(workoutSettings)
+  //   );
+  // };
 
   // updateSettings = newSettings => {
   //   this.setState({
@@ -247,34 +262,23 @@ class App extends React.Component {
   render() {
     const { classes } = this.props;
     const {
-      currentInterval,
-      currentTime,
+      // currentInterval,
+      // currentTime,
       done,
-      intervalTime,
+      // intervalTime,
       loading,
       open,
-      remainingSets,
+      // remainingSets,
       resting,
-      restTime,
-      running,
-      setRestTime,
-      targetIntervals,
-      targetSets,
-      targetTime,
-      totalTime,
-      warmupTime
+      // restTime,
+      // running,
+      // setRestTime,
+      // targetIntervals,
+      // targetSets,
+      // targetTime,
+      totalTime
+      // warmupTime
     } = this.state;
-
-    const settings = {
-      intervalTime,
-      restTime,
-      targetIntervals,
-      targetSets,
-      setRestTime,
-      warmupTime
-    };
-
-    const remainingTime = calculateTotalWorkoutTime(this.state) - totalTime;
 
     const theme = createMuiTheme(APP_THEME);
 
@@ -318,35 +322,12 @@ class App extends React.Component {
               <Clock />
             </Grid>
           )}
-          <Sidebar
-            open={open}
-            settings={settings}
-            handleDrawerClose={this.handleDrawerClose}
-            loadWorkout={this.loadSavedWorkout}
-            saveWorkout={this.saveWorkout}
-            updateSettings={this.updateSettings}
-          />
+          <Sidebar open={open} handleDrawerClose={this.handleDrawerClose} />
         </Grid>
       </MuiThemeProvider>
     );
   }
 }
-
-// <Clock
-//   done={done}
-//   running={running}
-//   toggleClock={this.toggleClock}
-//   resting={resting}
-//   currentInterval={currentInterval}
-//   currentTime={currentTime}
-//   progress={totalTime ? (totalTime / targetTime) * 100 : 0}
-//   remainingSets={remainingSets}
-//   remainingTime={remainingTime}
-//   targetIntervals={targetIntervals}
-//   targetSets={targetSets}
-//   reset={this.resetWorkout}
-//   updateWorkout={this.updateWorkout}
-// />
 
 App.propTypes = {
   classes: PropTypes.object.isRequired
@@ -370,4 +351,5 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(App);
+// export default withStyles(styles)(App);
+export default withStyles(styles)(withWorkoutDataContext(App));

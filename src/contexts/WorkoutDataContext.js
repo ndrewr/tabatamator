@@ -1,12 +1,74 @@
 import React from "react";
 
 import { DEFAULT_APP_STATE, APP_THEME } from "../constants";
+import db from "../db";
+
+import { calculateTotalWorkoutTime } from "../utils/helpers";
 
 export const WorkoutDataContext = React.createContext();
 
 export class WorkoutDataProvider extends React.Component {
   state = {
     ...DEFAULT_APP_STATE
+  };
+
+  componentDidMount() {
+    const initialState = { ...DEFAULT_APP_STATE, loading: false };
+
+    // check for previous saved workout
+    this.loadSavedWorkout()
+      .then(saveData => {
+        if (saveData) {
+          Object.assign(initialState, {
+            ...saveData,
+            currentTime: saveData.warmupTime || saveData.intervalTime,
+            remainingSets: saveData.targetSets
+          });
+        }
+      })
+      .catch(err => {
+        // TODO handle error state
+        // console.log('Error loading data...', err);
+      })
+      .finally(() => {
+        this.setState({
+          ...initialState
+        });
+      });
+  }
+
+  loadSavedWorkout = () => {
+    return db.getItem("workout1").then(saveData => {
+      return saveData ? JSON.parse(saveData) : null;
+    });
+  };
+
+  // currently only supports one saved workout
+  saveWorkout = (workoutNumber = 1) => {
+    // fun way to one-line the below assignment
+    // const workoutSettings = (({ intervalTime, restTime, targetIntervals, targetSets }) => ({ intervalTime, restTime, targetIntervals, targetSets }))(this.state)
+    const {
+      intervalTime,
+      restTime,
+      targetIntervals,
+      targetSets,
+      setRestTime,
+      warmupTime
+    } = this.state;
+    const workoutSettings = {
+      intervalTime,
+      restTime,
+      setRestTime,
+      targetSets,
+      targetIntervals,
+      warmupTime
+    };
+
+    // save the workout to storage
+    return db.setItem(
+      `workout${workoutNumber}`,
+      JSON.stringify(workoutSettings)
+    );
   };
 
   updateSettings = newSettings => {
@@ -123,7 +185,9 @@ export class WorkoutDataProvider extends React.Component {
       <WorkoutDataContext.Provider
         value={{
           ...this.state,
+          loadSavedWorkout: this.loadSavedWorkout,
           reset: this.resetWorkout,
+          saveWorkout: this.saveWorkout,
           toggleClock: this.toggleClock,
           updateSettings: this.updateSettings,
           updateWorkout: this.updateWorkout
@@ -133,4 +197,12 @@ export class WorkoutDataProvider extends React.Component {
       </WorkoutDataContext.Provider>
     );
   }
+}
+
+export function withWorkoutDataContext(Component) {
+  return props => (
+    <WorkoutDataContext.Consumer>
+      {state => <Component {...props} context={state} />}
+    </WorkoutDataContext.Consumer>
+  );
 }
