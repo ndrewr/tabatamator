@@ -16,60 +16,23 @@ import HelpModal from "./helpModal";
 import Navbar from "./navbar";
 import Sidebar from "./Sidebar";
 
-import { DEFAULT_APP_STATE, APP_THEME } from "../constants";
+import { APP_THEME } from "../constants";
 
-// import db from "../db";
 import sound from "../soundPlayer";
 
 import { withWorkoutDataContext } from "../contexts/WorkoutDataContext";
 
-// import { calculateTotalWorkoutTime } from "../utils/helpers";
-
 class App extends React.Component {
   state = {
-    // ...DEFAULT_APP_STATE
     open: false,
     showHelp: false
-    // running: false
   };
-
-  // componentDidMount() {
-  //   const initialState = { ...DEFAULT_APP_STATE, loading: false };
-
-  //   // check for previous saved workout
-  //   this.loadSavedWorkout()
-  //     .then(saveData => {
-  //       if (saveData) {
-  //         Object.assign(initialState, {
-  //           ...saveData,
-  //           currentTime: saveData.warmupTime || saveData.intervalTime,
-  //           remainingSets: saveData.targetSets
-  //         });
-  //       }
-  //     })
-  //     .catch(err => {
-  //       // TODO handle error state
-  //       // console.log('Error loading data...', err);
-  //     })
-  //     .finally(() => {
-  //       this.setState({
-  //         ...initialState
-  //       });
-  //     });
-  // }
-
-  // loadSavedWorkout = () => {
-  //   return db.getItem("workout1").then(saveData => {
-  //     return saveData ? JSON.parse(saveData) : null;
-  //   });
-  // };
 
   handleDrawerOpen = () => {
     this.props.context.toggleClock(false);
 
     this.setState({
       open: true
-      // running: false
     });
   };
 
@@ -78,15 +41,14 @@ class App extends React.Component {
 
     this.setState({
       open: false
-      // running: Boolean(this.state.totalTime)
     });
   };
 
-  handleBodyClose = () => {
-    // console.log("body click");
-    // if (this.state.open) {
-    //   this.handleDrawerClose();
-    // }
+  handleBodyClose = e => {
+    // console.log("body click", e.target.tagName);
+    if (this.state.open && e.target.tagName !== "INPUT") {
+      this.handleDrawerClose();
+    }
   };
 
   handleHelpOpen = () => {
@@ -94,7 +56,6 @@ class App extends React.Component {
 
     this.setState(state => ({
       showHelp: true
-      // running: false
     }));
   };
 
@@ -103,7 +64,6 @@ class App extends React.Component {
 
     this.setState({
       showHelp: false
-      // running: Boolean(this.state.totalTime)
     });
   };
 
@@ -297,7 +257,7 @@ class App extends React.Component {
             done && "yellow"
           )}
           spacing={0}
-          onClick={this.handleBodyClose}
+          onClick={e => this.handleBodyClose(e)}
         >
           <HelpModal
             open={this.state.showHelp}
