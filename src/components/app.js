@@ -220,25 +220,28 @@ class App extends React.Component {
   // };
 
   render() {
-    const { classes } = this.props;
+    const { classes, context } = this.props;
     const {
       // currentInterval,
       // currentTime,
-      done,
+      // done,
       // intervalTime,
       loading,
-      open,
+      open
       // remainingSets,
-      resting,
+      // resting,
       // restTime,
       // running,
       // setRestTime,
       // targetIntervals,
       // targetSets,
       // targetTime,
-      totalTime
+      // totalTime
       // warmupTime
     } = this.state;
+
+    const { done, resting, totalTime } = context;
+    // console.log(context);
 
     const theme = createMuiTheme(APP_THEME);
 
