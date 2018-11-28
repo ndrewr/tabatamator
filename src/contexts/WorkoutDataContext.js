@@ -15,6 +15,8 @@ export class WorkoutDataProvider extends React.Component {
   componentDidMount() {
     const initialState = { ...DEFAULT_APP_STATE, loading: false };
 
+    db.checkStatus();
+
     // check for previous saved workout
     this.loadSavedWorkout()
       .then(saveData => {
@@ -199,6 +201,7 @@ export class WorkoutDataProvider extends React.Component {
   }
 }
 
+// helper to inject context into Class components with the special prop "context"
 export function withWorkoutDataContext(Component) {
   return props => (
     <WorkoutDataContext.Consumer>

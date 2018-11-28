@@ -45,10 +45,12 @@ class Sidebar extends React.Component {
     this.setState({ ...nextProps.settings });
   }
 
-  resetSettings = () => {
+  useDefault = e => {
     this.setState({
       ...DEFAULT_WORKOUT
     });
+
+    this.updateSettings(e);
   };
 
   showAlert = (msg = "") => {
@@ -58,14 +60,19 @@ class Sidebar extends React.Component {
     }, 3000);
   };
 
-  loadWorkout = () => {
+  loadWorkout = e => {
+    e.stopPropagation();
+
     this.props
       .loadWorkout()
       .then(saveData => {
+        console.log("he here is data...", saveData);
         this.showAlert("Workout loaded. Confirm?");
-        this.setState({
-          ...saveData
-        });
+        // this.setState({
+        //   ...saveData
+        // });
+
+        this.updateSettings(saveData);
       })
       .catch(error => {
         this.showAlert("Problem loading workout.");
@@ -73,7 +80,9 @@ class Sidebar extends React.Component {
       });
   };
 
-  saveWorkout = () => {
+  saveWorkout = e => {
+    e.stopPropagation();
+
     this.props
       .saveWorkout()
       .then(resp => this.showAlert("Workout saved as default."))
@@ -98,11 +107,15 @@ class Sidebar extends React.Component {
     });
   };
 
-  updateSettings = () => {
-    const newSettings = Object.keys(this.state).reduce((settings, key) => {
-      settings[key] = parseInt(this.state[key] || 0, 10);
-      return settings;
-    }, {});
+  updateSettings = data => {
+    // e.stopPropagation();
+
+    const newSettings = data
+      ? data
+      : Object.keys(this.state).reduce((settings, key) => {
+          settings[key] = parseInt(this.state[key] || 0, 10);
+          return settings;
+        }, {});
 
     this.props.updateSettings(newSettings);
 
@@ -204,9 +217,9 @@ class Sidebar extends React.Component {
               className={classes.button}
               variant="raised"
               color="default"
-              onClick={this.resetSettings}
+              onClick={this.useDefault}
             >
-              RESET
+              DEFAULT
             </Button>
             <Button
               className={classes.button}
