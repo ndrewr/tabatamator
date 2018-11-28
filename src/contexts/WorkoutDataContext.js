@@ -66,6 +66,8 @@ export class WorkoutDataProvider extends React.Component {
       warmupTime
     };
 
+    console.log("saving workout with...", workoutSettings);
+
     // save the workout to storage
     return db.setItem(
       `workout${workoutNumber}`,

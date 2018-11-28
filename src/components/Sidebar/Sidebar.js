@@ -45,12 +45,8 @@ class Sidebar extends React.Component {
     this.setState({ ...nextProps.settings });
   }
 
-  useDefault = e => {
-    this.setState({
-      ...DEFAULT_WORKOUT
-    });
-
-    this.updateSettings(e);
+  useDefault = () => {
+    this.updateSettings({ ...DEFAULT_WORKOUT });
   };
 
   showAlert = (msg = "") => {
@@ -66,12 +62,7 @@ class Sidebar extends React.Component {
     this.props
       .loadWorkout()
       .then(saveData => {
-        console.log("he here is data...", saveData);
         this.showAlert("Workout loaded. Confirm?");
-        // this.setState({
-        //   ...saveData
-        // });
-
         this.updateSettings(saveData);
       })
       .catch(error => {
@@ -82,6 +73,8 @@ class Sidebar extends React.Component {
 
   saveWorkout = e => {
     e.stopPropagation();
+
+    this.updateSettings();
 
     this.props
       .saveWorkout()
@@ -105,10 +98,15 @@ class Sidebar extends React.Component {
           ? event.target.value
           : this.state[fieldName]
     });
+
+    // What if...app state updates with each field update?
+    // then "Save workout" can work a bit more sensibly
+    // this.updateSettings()
   };
 
   updateSettings = data => {
-    // e.stopPropagation();
+    // Note: event handler is called explicitly below else arg above could be event obj
+    console.log("update settings...do we have data?", data);
 
     const newSettings = data
       ? data
@@ -225,7 +223,7 @@ class Sidebar extends React.Component {
               className={classes.button}
               variant="raised"
               color="primary"
-              onClick={this.updateSettings}
+              onClick={() => this.updateSettings()}
             >
               CONFIRM
             </Button>
