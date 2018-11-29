@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
-import Grid from 'material-ui-next/Grid';
-import Button from 'material-ui-next/Button';
-import Pause from 'material-ui-icons-next/Pause';
-import DirectionsRun from 'material-ui-icons-next/DirectionsRun';
-import Autorenew from 'material-ui-icons-next/Autorenew';
-import { withStyles } from 'material-ui-next/styles';
+import Grid from "material-ui-next/Grid";
+import Button from "material-ui-next/Button";
+import Pause from "material-ui-icons-next/Pause";
+import DirectionsRun from "material-ui-icons-next/DirectionsRun";
+import Autorenew from "material-ui-icons-next/Autorenew";
+import { withStyles } from "material-ui-next/styles";
 
-import { BLUE, RED } from '../constants';
-import isMobile from '../utils/isMobile';
+import { BLUE, RED } from "../../constants";
+import isMobile from "../../utils/isMobile";
 
 const mobile = isMobile();
 
@@ -24,7 +24,7 @@ const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
           color="secondary"
           onClick={onToggle}
         >
-          {mobile ? '' : done ? 'AGAIN' : running ? 'PAUSE' : 'GO'}
+          {mobile ? "" : done ? "AGAIN" : running ? "PAUSE" : "GO"}
           {running ? (
             <Pause className={classes.icon} />
           ) : (
@@ -39,7 +39,7 @@ const TimerControls = ({ classes, done, running, onReset, onToggle }) => {
           color="primary"
           onClick={onReset}
         >
-          {mobile ? '' : 'RESET'}
+          {mobile ? "" : "RESET"}
           <Autorenew className={classes.icon} />
         </Button>
       </Grid>
@@ -57,12 +57,12 @@ TimerControls.propTypes = {
 
 const styles = theme => ({
   container: {
-    marginTop: '1rem'
+    marginTop: "1rem"
   },
   button: {
-    fontSize: mobile ? '2.4rem' : '3rem',
-    padding: mobile ? '.75rem 1.5rem' : '1rem 2rem',
-    width: '80%'
+    fontSize: mobile ? "2.4rem" : "3rem",
+    padding: mobile ? ".75rem 1.5rem" : "1rem 2rem",
+    width: "80%"
   },
   button__red: {
     backgroundColor: RED
@@ -71,8 +71,8 @@ const styles = theme => ({
     backgroundColor: BLUE
   },
   icon: {
-    width: '3rem',
-    height: '3rem'
+    width: "3rem",
+    height: "3rem"
   }
 });
 

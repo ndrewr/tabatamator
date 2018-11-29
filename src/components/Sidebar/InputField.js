@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Input, { InputLabel, InputAdornment } from 'material-ui-next/Input';
-import { FormControl } from 'material-ui-next/Form';
-import { withStyles } from 'material-ui-next/styles';
+import Input, { InputLabel, InputAdornment } from "material-ui-next/Input";
+import { FormControl } from "material-ui-next/Form";
+import { withStyles } from "material-ui-next/styles";
 
 const InputField = ({ classes, name, label, units, value, updateField }) => {
   return (
@@ -33,10 +33,10 @@ InputField.propTypes = {
 const styles = theme => ({
   form__control: {
     marginBottom: theme.spacing.unit,
-    width: '100%'
+    width: "100%"
   },
   form__input: {
-    fontSize: '36px'
+    fontSize: "36px"
   }
 });
 

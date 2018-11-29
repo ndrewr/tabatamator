@@ -12,8 +12,8 @@ import {
 } from "material-ui-next/styles";
 
 import Clock from "./Clock";
-import HelpModal from "./helpModal";
-import Navbar from "./navbar";
+import HelpModal from "./HelpModal";
+import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 import { APP_THEME } from "../constants";

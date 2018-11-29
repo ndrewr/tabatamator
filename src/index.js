@@ -3,7 +3,7 @@ import { render } from "react-dom";
 
 import { WorkoutDataProvider } from "./contexts/WorkoutDataContext";
 
-import App from "./components/app";
+import App from "./components/App";
 import "./app.css";
 
 render(

@@ -13,7 +13,7 @@ import DirectionsRun from "material-ui-icons-next/DirectionsRun";
 import { withStyles } from "material-ui-next/styles";
 
 import Alert from "../Alert";
-import InputField from "../inputField";
+import InputField from "./InputField";
 
 import { DEFAULT_WORKOUT } from "../../constants";
 

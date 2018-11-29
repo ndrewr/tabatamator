@@ -7,7 +7,7 @@ import { LinearProgress } from "material-ui-next/Progress";
 import Typography from "material-ui-next/Typography";
 import { withStyles } from "material-ui-next/styles";
 
-import TimerControls from "../timerControls";
+import TimerControls from "./TimerControls";
 
 import formatTime from "../../utils/formatTime";
 import isMobile from "../../utils/isMobile";

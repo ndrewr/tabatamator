@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { withStyles } from 'material-ui-next/styles';
+import { withStyles } from "material-ui-next/styles";
 
-import { BLUE } from '../constants';
+import { BLUE } from "../../constants";
 
 const Link = ({ classes, text, url }) => {
   return (
@@ -15,7 +15,7 @@ const Link = ({ classes, text, url }) => {
 
 const styles = {
   link_text: {
-    textDecoration: 'none',
+    textDecoration: "none",
     color: BLUE
   }
 };

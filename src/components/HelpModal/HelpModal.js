@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 import Dialog, {
   DialogTitle,
   DialogContent,
   DialogContentText
-} from 'material-ui-next/Dialog';
-import AlarmOn from 'material-ui-icons-next/AlarmOn';
-import FitnessIcon from 'material-ui-icons-next/FitnessCenter';
-import Typography from 'material-ui-next/Typography';
-import { withStyles } from 'material-ui-next/styles';
+} from "material-ui-next/Dialog";
+import AlarmOn from "material-ui-icons-next/AlarmOn";
+import FitnessIcon from "material-ui-icons-next/FitnessCenter";
+import Typography from "material-ui-next/Typography";
+import { withStyles } from "material-ui-next/styles";
 
-import Link from './link';
+import Link from "./Link";
 
-import { APP_TITLE } from '../constants';
+import { APP_TITLE } from "../../constants";
 
 const HelpModal = ({ classes, open, handleClose }) => {
   return (
@@ -22,7 +22,7 @@ const HelpModal = ({ classes, open, handleClose }) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="help-window"
-      PaperProps={{ style: { margin: '22px' } }}
+      PaperProps={{ style: { margin: "22px" } }}
     >
       <DialogTitle id="tabatamator-help-window" disableTypography>
         <Typography variant="title" className={classes.modal_title}>
@@ -77,13 +77,13 @@ const HelpModal = ({ classes, open, handleClose }) => {
 
 const styles = {
   container: {
-    padding: '2rem'
+    padding: "2rem"
   },
   modal_text: {
-    marginBottom: '1rem'
+    marginBottom: "1rem"
   },
   modal_title: {
-    fontFamily: 'baloo chettan, quantico, sans-serif'
+    fontFamily: "baloo chettan, quantico, sans-serif"
   }
 };
 
